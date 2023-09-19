@@ -1,0 +1,206 @@
+D:\6G\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\ArduinoControlGUI.exe.config
+D:\6G\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\ArduinoControlGUI.exe
+D:\6G\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\ArduinoControlGUI.pdb
+D:\6G\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.AssemblyReference.cache
+D:\6G\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.SuggestedBindingRedirects.cache
+D:\6G\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.Form1.resources
+D:\6G\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.Properties.Resources.resources
+D:\6G\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.GenerateResource.cache
+D:\6G\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.CoreCompileInputs.cache
+D:\6G\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.exe
+D:\6G\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.pdb
+E:\Arduino Control\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\ArduinoControlGUI.exe.config
+E:\Arduino Control\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\ArduinoControlGUI.exe
+E:\Arduino Control\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\ArduinoControlGUI.pdb
+E:\Arduino Control\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.AssemblyReference.cache
+E:\Arduino Control\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.SuggestedBindingRedirects.cache
+E:\Arduino Control\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.Form1.resources
+E:\Arduino Control\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.Properties.Resources.resources
+E:\Arduino Control\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.GenerateResource.cache
+E:\Arduino Control\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.CoreCompileInputs.cache
+E:\Arduino Control\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.exe
+E:\Arduino Control\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.pdb
+D:\6G\Arduino Control\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\ArduinoControlGUI.exe.config
+D:\6G\Arduino Control\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\ArduinoControlGUI.exe
+D:\6G\Arduino Control\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\ArduinoControlGUI.pdb
+D:\6G\Arduino Control\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.AssemblyReference.cache
+D:\6G\Arduino Control\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.SuggestedBindingRedirects.cache
+D:\6G\Arduino Control\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.Properties.Resources.resources
+D:\6G\Arduino Control\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.GenerateResource.cache
+D:\6G\Arduino Control\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.CoreCompileInputs.cache
+D:\6G\Arduino Control\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.exe
+D:\6G\Arduino Control\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.pdb
+D:\6G\Arduino Control\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\log4net.dll
+D:\6G\Arduino Control\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.Common.dll
+D:\6G\Arduino Control\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.Facility.dll
+D:\6G\Arduino Control\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketBase.dll
+D:\6G\Arduino Control\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\log4net.xml
+D:\6G\Arduino Control\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.Common.xml
+D:\6G\Arduino Control\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.Facility.xml
+D:\6G\Arduino Control\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketBase.xml
+D:\6G\Arduino Control\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.CopyComplete
+D:\6G\Arduino Control\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketEngine.dll
+D:\6G\Arduino Control\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketService.exe
+D:\6G\Arduino Control\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketEngine.xml
+D:\6G\Arduino Control\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.Form1.resources
+D:\6G\測試用\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\ArduinoControlGUI.exe.config
+D:\6G\測試用\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\ArduinoControlGUI.exe
+D:\6G\測試用\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\ArduinoControlGUI.pdb
+D:\6G\測試用\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\log4net.dll
+D:\6G\測試用\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.Common.dll
+D:\6G\測試用\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.Facility.dll
+D:\6G\測試用\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketBase.dll
+D:\6G\測試用\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketEngine.dll
+D:\6G\測試用\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketService.exe
+D:\6G\測試用\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\log4net.xml
+D:\6G\測試用\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.Common.xml
+D:\6G\測試用\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.Facility.xml
+D:\6G\測試用\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketBase.xml
+D:\6G\測試用\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketEngine.xml
+D:\6G\測試用\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.AssemblyReference.cache
+D:\6G\測試用\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.SuggestedBindingRedirects.cache
+D:\6G\測試用\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.Form1.resources
+D:\6G\測試用\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.Properties.Resources.resources
+D:\6G\測試用\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.GenerateResource.cache
+D:\6G\測試用\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.CoreCompileInputs.cache
+D:\6G\測試用\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.CopyComplete
+D:\6G\測試用\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.exe
+D:\6G\測試用\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.pdb
+C:\Users\Jacob\Desktop\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\ArduinoControlGUI.exe.config
+C:\Users\Jacob\Desktop\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\ArduinoControlGUI.exe
+C:\Users\Jacob\Desktop\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\ArduinoControlGUI.pdb
+C:\Users\Jacob\Desktop\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\log4net.dll
+C:\Users\Jacob\Desktop\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.Common.dll
+C:\Users\Jacob\Desktop\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.Facility.dll
+C:\Users\Jacob\Desktop\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketBase.dll
+C:\Users\Jacob\Desktop\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketEngine.dll
+C:\Users\Jacob\Desktop\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketService.exe
+C:\Users\Jacob\Desktop\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\log4net.xml
+C:\Users\Jacob\Desktop\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.Common.xml
+C:\Users\Jacob\Desktop\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.Facility.xml
+C:\Users\Jacob\Desktop\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketBase.xml
+C:\Users\Jacob\Desktop\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketEngine.xml
+C:\Users\Jacob\Desktop\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.AssemblyReference.cache
+C:\Users\Jacob\Desktop\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.SuggestedBindingRedirects.cache
+C:\Users\Jacob\Desktop\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.Form1.resources
+C:\Users\Jacob\Desktop\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.Properties.Resources.resources
+C:\Users\Jacob\Desktop\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.GenerateResource.cache
+C:\Users\Jacob\Desktop\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.CoreCompileInputs.cache
+C:\Users\Jacob\Desktop\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.CopyComplete
+C:\Users\Jacob\Desktop\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.exe
+C:\Users\Jacob\Desktop\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.pdb
+C:\Users\Jacob\Desktop\RIS_control_V1.2\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\ArduinoControlGUI.exe.config
+C:\Users\Jacob\Desktop\RIS_control_V1.2\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\ArduinoControlGUI.exe
+C:\Users\Jacob\Desktop\RIS_control_V1.2\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\ArduinoControlGUI.pdb
+C:\Users\Jacob\Desktop\RIS_control_V1.2\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\log4net.dll
+C:\Users\Jacob\Desktop\RIS_control_V1.2\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.Common.dll
+C:\Users\Jacob\Desktop\RIS_control_V1.2\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.Facility.dll
+C:\Users\Jacob\Desktop\RIS_control_V1.2\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketBase.dll
+C:\Users\Jacob\Desktop\RIS_control_V1.2\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketEngine.dll
+C:\Users\Jacob\Desktop\RIS_control_V1.2\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketService.exe
+C:\Users\Jacob\Desktop\RIS_control_V1.2\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\log4net.xml
+C:\Users\Jacob\Desktop\RIS_control_V1.2\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.Common.xml
+C:\Users\Jacob\Desktop\RIS_control_V1.2\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.Facility.xml
+C:\Users\Jacob\Desktop\RIS_control_V1.2\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketBase.xml
+C:\Users\Jacob\Desktop\RIS_control_V1.2\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketEngine.xml
+C:\Users\Jacob\Desktop\RIS_control_V1.2\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.AssemblyReference.cache
+C:\Users\Jacob\Desktop\RIS_control_V1.2\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.SuggestedBindingRedirects.cache
+C:\Users\Jacob\Desktop\RIS_control_V1.2\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.Form1.resources
+C:\Users\Jacob\Desktop\RIS_control_V1.2\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.Properties.Resources.resources
+C:\Users\Jacob\Desktop\RIS_control_V1.2\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.GenerateResource.cache
+C:\Users\Jacob\Desktop\RIS_control_V1.2\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.CoreCompileInputs.cache
+C:\Users\Jacob\Desktop\RIS_control_V1.2\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.CopyComplete
+C:\Users\Jacob\Desktop\RIS_control_V1.2\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.exe
+C:\Users\Jacob\Desktop\RIS_control_V1.2\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.pdb
+C:\Users\Jacob\Desktop\RIS_control_V1.4\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\ArduinoControlGUI.exe.config
+C:\Users\Jacob\Desktop\RIS_control_V1.4\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\ArduinoControlGUI.exe
+C:\Users\Jacob\Desktop\RIS_control_V1.4\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\ArduinoControlGUI.pdb
+C:\Users\Jacob\Desktop\RIS_control_V1.4\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\log4net.dll
+C:\Users\Jacob\Desktop\RIS_control_V1.4\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.Common.dll
+C:\Users\Jacob\Desktop\RIS_control_V1.4\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.Facility.dll
+C:\Users\Jacob\Desktop\RIS_control_V1.4\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketBase.dll
+C:\Users\Jacob\Desktop\RIS_control_V1.4\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketEngine.dll
+C:\Users\Jacob\Desktop\RIS_control_V1.4\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketService.exe
+C:\Users\Jacob\Desktop\RIS_control_V1.4\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\log4net.xml
+C:\Users\Jacob\Desktop\RIS_control_V1.4\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.Common.xml
+C:\Users\Jacob\Desktop\RIS_control_V1.4\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.Facility.xml
+C:\Users\Jacob\Desktop\RIS_control_V1.4\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketBase.xml
+C:\Users\Jacob\Desktop\RIS_control_V1.4\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketEngine.xml
+C:\Users\Jacob\Desktop\RIS_control_V1.4\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.AssemblyReference.cache
+C:\Users\Jacob\Desktop\RIS_control_V1.4\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.SuggestedBindingRedirects.cache
+C:\Users\Jacob\Desktop\RIS_control_V1.4\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.Form1.resources
+C:\Users\Jacob\Desktop\RIS_control_V1.4\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.Properties.Resources.resources
+C:\Users\Jacob\Desktop\RIS_control_V1.4\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.GenerateResource.cache
+C:\Users\Jacob\Desktop\RIS_control_V1.4\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.CoreCompileInputs.cache
+C:\Users\Jacob\Desktop\RIS_control_V1.4\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.CopyComplete
+C:\Users\Jacob\Desktop\RIS_control_V1.4\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.exe
+C:\Users\Jacob\Desktop\RIS_control_V1.4\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.pdb
+C:\Users\Jacob\Desktop\RIS_control_V1.5\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\ArduinoControlGUI.exe.config
+C:\Users\Jacob\Desktop\RIS_control_V1.5\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\ArduinoControlGUI.exe
+C:\Users\Jacob\Desktop\RIS_control_V1.5\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\ArduinoControlGUI.pdb
+C:\Users\Jacob\Desktop\RIS_control_V1.5\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\log4net.dll
+C:\Users\Jacob\Desktop\RIS_control_V1.5\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.Common.dll
+C:\Users\Jacob\Desktop\RIS_control_V1.5\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.Facility.dll
+C:\Users\Jacob\Desktop\RIS_control_V1.5\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketBase.dll
+C:\Users\Jacob\Desktop\RIS_control_V1.5\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketEngine.dll
+C:\Users\Jacob\Desktop\RIS_control_V1.5\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketService.exe
+C:\Users\Jacob\Desktop\RIS_control_V1.5\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\log4net.xml
+C:\Users\Jacob\Desktop\RIS_control_V1.5\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.Common.xml
+C:\Users\Jacob\Desktop\RIS_control_V1.5\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.Facility.xml
+C:\Users\Jacob\Desktop\RIS_control_V1.5\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketBase.xml
+C:\Users\Jacob\Desktop\RIS_control_V1.5\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketEngine.xml
+C:\Users\Jacob\Desktop\RIS_control_V1.5\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.AssemblyReference.cache
+C:\Users\Jacob\Desktop\RIS_control_V1.5\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.SuggestedBindingRedirects.cache
+C:\Users\Jacob\Desktop\RIS_control_V1.5\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.Form1.resources
+C:\Users\Jacob\Desktop\RIS_control_V1.5\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.Properties.Resources.resources
+C:\Users\Jacob\Desktop\RIS_control_V1.5\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.GenerateResource.cache
+C:\Users\Jacob\Desktop\RIS_control_V1.5\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.CoreCompileInputs.cache
+C:\Users\Jacob\Desktop\RIS_control_V1.5\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.CopyComplete
+C:\Users\Jacob\Desktop\RIS_control_V1.5\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.exe
+C:\Users\Jacob\Desktop\RIS_control_V1.5\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.pdb
+C:\Users\Jacob\Desktop\RIS_control_V1.6\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\ArduinoControlGUI.exe.config
+C:\Users\Jacob\Desktop\RIS_control_V1.6\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\ArduinoControlGUI.exe
+C:\Users\Jacob\Desktop\RIS_control_V1.6\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\ArduinoControlGUI.pdb
+C:\Users\Jacob\Desktop\RIS_control_V1.6\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\log4net.dll
+C:\Users\Jacob\Desktop\RIS_control_V1.6\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.Common.dll
+C:\Users\Jacob\Desktop\RIS_control_V1.6\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.Facility.dll
+C:\Users\Jacob\Desktop\RIS_control_V1.6\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketBase.dll
+C:\Users\Jacob\Desktop\RIS_control_V1.6\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketEngine.dll
+C:\Users\Jacob\Desktop\RIS_control_V1.6\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketService.exe
+C:\Users\Jacob\Desktop\RIS_control_V1.6\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\log4net.xml
+C:\Users\Jacob\Desktop\RIS_control_V1.6\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.Common.xml
+C:\Users\Jacob\Desktop\RIS_control_V1.6\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.Facility.xml
+C:\Users\Jacob\Desktop\RIS_control_V1.6\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketBase.xml
+C:\Users\Jacob\Desktop\RIS_control_V1.6\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketEngine.xml
+C:\Users\Jacob\Desktop\RIS_control_V1.6\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.AssemblyReference.cache
+C:\Users\Jacob\Desktop\RIS_control_V1.6\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.SuggestedBindingRedirects.cache
+C:\Users\Jacob\Desktop\RIS_control_V1.6\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.Form1.resources
+C:\Users\Jacob\Desktop\RIS_control_V1.6\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.Properties.Resources.resources
+C:\Users\Jacob\Desktop\RIS_control_V1.6\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.GenerateResource.cache
+C:\Users\Jacob\Desktop\RIS_control_V1.6\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.CoreCompileInputs.cache
+C:\Users\Jacob\Desktop\RIS_control_V1.6\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.CopyComplete
+C:\Users\Jacob\Desktop\RIS_control_V1.6\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.exe
+C:\Users\Jacob\Desktop\RIS_control_V1.6\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.pdb
+C:\Users\Jacob\Desktop\6G arduino RIS control\RIS_control_V1.7\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\ArduinoControlGUI.exe.config
+C:\Users\Jacob\Desktop\6G arduino RIS control\RIS_control_V1.7\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\ArduinoControlGUI.exe
+C:\Users\Jacob\Desktop\6G arduino RIS control\RIS_control_V1.7\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\ArduinoControlGUI.pdb
+C:\Users\Jacob\Desktop\6G arduino RIS control\RIS_control_V1.7\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\log4net.dll
+C:\Users\Jacob\Desktop\6G arduino RIS control\RIS_control_V1.7\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.Common.dll
+C:\Users\Jacob\Desktop\6G arduino RIS control\RIS_control_V1.7\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.Facility.dll
+C:\Users\Jacob\Desktop\6G arduino RIS control\RIS_control_V1.7\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketBase.dll
+C:\Users\Jacob\Desktop\6G arduino RIS control\RIS_control_V1.7\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketEngine.dll
+C:\Users\Jacob\Desktop\6G arduino RIS control\RIS_control_V1.7\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketService.exe
+C:\Users\Jacob\Desktop\6G arduino RIS control\RIS_control_V1.7\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\log4net.xml
+C:\Users\Jacob\Desktop\6G arduino RIS control\RIS_control_V1.7\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.Common.xml
+C:\Users\Jacob\Desktop\6G arduino RIS control\RIS_control_V1.7\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.Facility.xml
+C:\Users\Jacob\Desktop\6G arduino RIS control\RIS_control_V1.7\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketBase.xml
+C:\Users\Jacob\Desktop\6G arduino RIS control\RIS_control_V1.7\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\SuperSocket.SocketEngine.xml
+C:\Users\Jacob\Desktop\6G arduino RIS control\RIS_control_V1.7\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.AssemblyReference.cache
+C:\Users\Jacob\Desktop\6G arduino RIS control\RIS_control_V1.7\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.SuggestedBindingRedirects.cache
+C:\Users\Jacob\Desktop\6G arduino RIS control\RIS_control_V1.7\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.Form1.resources
+C:\Users\Jacob\Desktop\6G arduino RIS control\RIS_control_V1.7\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.Properties.Resources.resources
+C:\Users\Jacob\Desktop\6G arduino RIS control\RIS_control_V1.7\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.GenerateResource.cache
+C:\Users\Jacob\Desktop\6G arduino RIS control\RIS_control_V1.7\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.CoreCompileInputs.cache
+C:\Users\Jacob\Desktop\6G arduino RIS control\RIS_control_V1.7\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.csproj.CopyComplete
+C:\Users\Jacob\Desktop\6G arduino RIS control\RIS_control_V1.7\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.exe
+C:\Users\Jacob\Desktop\6G arduino RIS control\RIS_control_V1.7\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.pdb
