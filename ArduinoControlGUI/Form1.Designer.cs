@@ -53,7 +53,6 @@
             this.tb_delayTime = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.lb_findInc = new System.Windows.Forms.ListBox();
             this.label5 = new System.Windows.Forms.Label();
             this.lb_incdegree = new System.Windows.Forms.ListBox();
             this.btn_IPrefresh = new System.Windows.Forms.Button();
@@ -81,6 +80,12 @@
             this.tb_server_ref = new System.Windows.Forms.TextBox();
             this.btn_output = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.tb_server_fre = new System.Windows.Forms.TextBox();
+            this.tb_server_inc = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pb_phase)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_degree)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -89,6 +94,7 @@
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // lb_refdegree
@@ -351,22 +357,6 @@
             this.label6.TabIndex = 20;
             this.label6.Text = "Incidence";
             // 
-            // lb_findInc
-            // 
-            this.lb_findInc.ColumnWidth = 3;
-            this.lb_findInc.FormattingEnabled = true;
-            this.lb_findInc.ItemHeight = 12;
-            this.lb_findInc.Items.AddRange(new object[] {
-            "degree -30",
-            "degree   0",
-            "degree   14",
-            "degree   30"});
-            this.lb_findInc.Location = new System.Drawing.Point(9, 150);
-            this.lb_findInc.Name = "lb_findInc";
-            this.lb_findInc.Size = new System.Drawing.Size(120, 76);
-            this.lb_findInc.TabIndex = 19;
-            this.lb_findInc.SelectedIndexChanged += new System.EventHandler(this.lb_findInc_SelectedIndexChanged);
-            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -546,6 +536,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Location = new System.Drawing.Point(135, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -651,15 +642,16 @@
             // 
             // tb_server_ref
             // 
-            this.tb_server_ref.Location = new System.Drawing.Point(12, 269);
+            this.tb_server_ref.Location = new System.Drawing.Point(24, 197);
             this.tb_server_ref.Name = "tb_server_ref";
-            this.tb_server_ref.Size = new System.Drawing.Size(100, 22);
+            this.tb_server_ref.Size = new System.Drawing.Size(55, 22);
             this.tb_server_ref.TabIndex = 29;
             this.tb_server_ref.Text = "0";
+            this.tb_server_ref.TextChanged += new System.EventHandler(this.tb_server_ref_TextChanged);
             // 
             // btn_output
             // 
-            this.btn_output.Location = new System.Drawing.Point(23, 297);
+            this.btn_output.Location = new System.Drawing.Point(23, 299);
             this.btn_output.Name = "btn_output";
             this.btn_output.Size = new System.Drawing.Size(75, 23);
             this.btn_output.TabIndex = 28;
@@ -671,17 +663,77 @@
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("新細明體", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label13.Location = new System.Drawing.Point(15, 239);
+            this.label13.Location = new System.Drawing.Point(19, 173);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(92, 21);
             this.label13.TabIndex = 30;
             this.label13.Text = "Reflection";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("新細明體", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label14.Location = new System.Drawing.Point(16, 235);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(95, 21);
+            this.label14.TabIndex = 32;
+            this.label14.Text = "Frequency";
+            // 
+            // tb_server_fre
+            // 
+            this.tb_server_fre.Location = new System.Drawing.Point(24, 259);
+            this.tb_server_fre.Name = "tb_server_fre";
+            this.tb_server_fre.Size = new System.Drawing.Size(55, 22);
+            this.tb_server_fre.TabIndex = 33;
+            this.tb_server_fre.Text = "0";
+            this.tb_server_fre.TextChanged += new System.EventHandler(this.tb_server_fre_TextChanged);
+            // 
+            // tb_server_inc
+            // 
+            this.tb_server_inc.Location = new System.Drawing.Point(23, 135);
+            this.tb_server_inc.Name = "tb_server_inc";
+            this.tb_server_inc.Size = new System.Drawing.Size(55, 22);
+            this.tb_server_inc.TabIndex = 34;
+            this.tb_server_inc.Text = "0";
+            this.tb_server_inc.TextChanged += new System.EventHandler(this.tb_server_inc_TextChanged);
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("新細明體", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label15.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.label15.Location = new System.Drawing.Point(86, 259);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(47, 21);
+            this.label15.TabIndex = 35;
+            this.label15.Text = "GHz";
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.textBox2);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(825, 631);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "tabPage3";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(229, 123);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(100, 22);
+            this.textBox2.TabIndex = 0;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(972, 684);
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.tb_server_inc);
+            this.Controls.Add(this.tb_server_fre);
+            this.Controls.Add(this.label14);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.tb_server_ref);
             this.Controls.Add(this.btn_output);
@@ -692,7 +744,6 @@
             this.Controls.Add(this.btn_allOn);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.lb_findInc);
             this.Controls.Add(this.label6);
             this.Name = "Form1";
             this.Text = "Arduino GUI";
@@ -708,6 +759,8 @@
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -750,7 +803,6 @@
         private System.Windows.Forms.Button btn_LogClr;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button btn_send;
-        public System.Windows.Forms.ListBox lb_findInc;
         private System.Windows.Forms.Button btn_IPrefresh;
         private System.Windows.Forms.Button btn_espIPset;
         private System.Windows.Forms.TextBox tb_EspIP;
@@ -766,6 +818,12 @@
         private System.Windows.Forms.TextBox tb_server_ref;
         private System.Windows.Forms.Button btn_output;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox tb_server_fre;
+        private System.Windows.Forms.TextBox tb_server_inc;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.TextBox textBox2;
     }
 }
 

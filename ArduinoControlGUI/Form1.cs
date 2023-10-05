@@ -31,6 +31,11 @@ using SuperSocket.SocketBase;
 using CloseReason = SuperSocket.SocketBase.CloseReason;
 using System.Runtime.CompilerServices;
 
+//輸出excel
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
+using NPOI.SS.Formula.Functions;
+
 namespace ArduinoControlGUI
 {    
     public partial class Form1 : Form
@@ -42,24 +47,16 @@ namespace ArduinoControlGUI
 
         int inc_degree;
         int ref_degree;
+        int frequency;
         bool connection = false;
+        IWorkbook workbook = new XSSFWorkbook();
+        private RISBeamFormingBath cell ;
         private Thread t;
         public Form1()
         {
             InitializeComponent();
             InitializeLog4netAppender();
             TCPCommandTable.Frm_ = this;
-        }
-
-        private void lb_refdegree_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            /*string s1 = lb_findInc.SelectedItem.ToString();
-            inc_degree = Convert.ToInt16(s1.Substring(s1.LastIndexOf(" ") + 1, s1.Length - s1.LastIndexOf(" ") - 1));
-            string s2 = lb_findRef.SelectedItem.ToString();
-            ref_degree = Convert.ToInt16(s2.Substring(s2.LastIndexOf(" ") + 1, s2.Length - s2.LastIndexOf(" ") - 1));*/
-            //ref_degree = (lb_refdegree.SelectedIndex - 5) * 10;
-            //pb_phase.Image = Image.FromFile(System.IO.Directory.GetCurrentDirectory() + "/Phase_distribution_" + ref_degree + ".png");
-            //pb_degree.Image = Image.FromFile(System.IO.Directory.GetCurrentDirectory() + "/Polar_" + ref_degree + ".png");                
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -82,93 +79,9 @@ namespace ArduinoControlGUI
             lb_refdegree.SelectedIndex = 0;
             lb_incdegree.SelectedIndex = 0;
             lb_findRef.SelectedIndex = 0;
-            lb_findInc.SelectedIndex = 0;
+            //lb_findInc.SelectedIndex = 0;
 
             TCPCommandTable.EspIP = tb_EspIP.Text;
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            string[] myPorts = SerialPort.GetPortNames(); //取得所有port的名字的方法
-
-            cb_port.DataSource = myPorts;   //直接取得所有port的名字
-        }
-
-        private void btn_Connect_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                serialPort1.PortName = cb_port.SelectedItem.ToString();
-                serialPort1.Open();
-                connection = true;
-                t = new Thread(Receive);
-                t.IsBackground = true;
-                t.Start();
-                cb_port.Enabled = false;
-            }
-            catch (Exception e1)
-            {
-                MessageBox.Show(e1.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void btn_Discon_Click(object sender, EventArgs e)
-        {
-            connection = false;
-            serialPort1.Close();
-            cb_port.Enabled = true;
-        }
-
-        private void btn_gen_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                string s1 = lb_incdegree.SelectedItem.ToString();
-                inc_degree = Convert.ToInt16(s1.Substring(s1.LastIndexOf(" ") + 1, s1.Length - s1.LastIndexOf(" ") - 1));
-                string s2 = lb_refdegree.SelectedItem.ToString();
-                ref_degree = Convert.ToInt16(s2.Substring(s2.LastIndexOf(" ") + 1, s2.Length - s2.LastIndexOf(" ") - 1));
-                string s3 = s2.Substring(0, s2.IndexOf(" "));
-                if (s3 == "w_degree")
-                {
-                    serialPort1.Write(inc_degree + "_" + ref_degree + "_w;" + tb_delayTime.Text);
-                }
-                else
-                {
-                    serialPort1.Write(inc_degree + "_" + ref_degree + "_n;" + tb_delayTime.Text);
-                }
-            }
-            catch (Exception e1)
-            {
-                MessageBox.Show(e1.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void btn_WideBeamFind_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                string s = lb_findInc.SelectedItem.ToString();
-                inc_degree = Convert.ToInt16(s.Substring(s.LastIndexOf(" ") + 1, s.Length - s.LastIndexOf(" ") - 1));
-                serialPort1.Write(inc_degree + "_0_wfind;" + tb_delayTime.Text);
-            }
-            catch (Exception e1)
-            {
-                MessageBox.Show(e1.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void btn_NarrowBeamFind_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                string s1 = lb_findInc.SelectedItem.ToString();
-                inc_degree = Convert.ToInt16(s1.Substring(s1.LastIndexOf(" ") + 1, s1.Length - s1.LastIndexOf(" ") - 1));
-                serialPort1.Write(inc_degree + "_-60_allnfind;" + tb_delayTime.Text);
-            }
-            catch (Exception e1)
-            {
-                MessageBox.Show(e1.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
         /*接收*/
@@ -196,12 +109,6 @@ namespace ArduinoControlGUI
                 }
             }
         }
-
-        private void btn_clear_Click(object sender, EventArgs e)
-        {
-            tb_com.Text = "";
-        }
-
 
 
         // 初始化 Log4net 的輸出標的 - Richbox  & 外部.txt 
@@ -328,6 +235,387 @@ namespace ArduinoControlGUI
             return true;
         }
 
+        //2023.09.23修改數學
+        private void RISBeamForming(int inc_degree,int ref_degree) { 
+            DateTime Start = DateTime.Now; //計時器          
+            //inc angle & ref angle
+            cell.incThdeg = inc_degree; cell.incTH = Deg2Rad(cell.incThdeg);
+            cell.incPhdeg = 0; cell.incPH = Deg2Rad(cell.incPhdeg);
+            cell.refThdeg = ref_degree; cell.refTH = Deg2Rad(cell.refThdeg);
+            cell.refPhdeg = 0; cell.refPH = Deg2Rad(cell.refPhdeg);
+            cell.xx = cell.Ri * Math.Sin(cell.incTH) * Math.Cos(cell.incPH);
+            cell.yy = cell.Ri * Math.Sin(cell.incTH) * Math.Cos(cell.incPH);
+            cell.zz = cell.Ri * Math.Cos(cell.incTH);
+            cell.distz = cell.zz;
+            cell.centerx = 0 - cell.xx;
+            cell.centery = 0 - cell.yy;
+            cell.centerz = 0 - cell.zz;
+            cell.vectorz = 0 * cell.d - cell.zz;
+            ISheet MPD = workbook.CreateSheet("MPD");
+            ISheet gamma = workbook.CreateSheet("gamma");
+            ISheet MPDview = workbook.CreateSheet("MPDview");
+            for (int i = 0; i < cell.numX; i++)
+            {
+                IRow MPDRow = MPD.CreateRow(i);
+                IRow gammaRow = gamma.CreateRow(i);
+                IRow MPDviewRow = MPDview.CreateRow(i);
+                for (int j = 0; j < cell.numY; j++)
+                {
+                    
+                    cell.distx[i, j] = cell.xx-cell.eleM[i,j]* cell.d;
+                    cell.disty[i, j] = cell.yy - cell.eleN[i,j]* cell.d;
+
+                    cell.Rf[i, j] = Math.Sqrt(Math.Pow(cell.distx[i, j], 2) + Math.Pow(cell.disty[i, j], 2) + Math.Pow(cell.distz, 2));
+
+                    cell.vectorx[i, j] = cell.eleM[i, j] * cell.d - cell.xx;
+                    cell.vectory[i, j] = cell.eleN[i, j] * cell.d - cell.yy;
+                    cell.feedVectorx[i, j] = cell.centerx * cell.vectorx[i, j];
+                    cell.feedVectory[i, j] = cell.centery * cell.vectory[i, j];
+                    cell.test[i, j] = cell.feedVectorx[i, j] + cell.feedVectory[i, j] + cell.feedVectorz;
+                    cell.thetaf[i, j] = Math.Acos((cell.feedVectorx[i, j] + cell.feedVectory[i, j] + cell.feedVectorz) / (cell.Rf[i, j] * cell.Ri));
+
+                    cell.amp[i, j] = Math.Pow(Math.Cos(cell.thetaf[i, j]), cell.qe) / cell.Rf[i, j];
+
+                    cell.incPD[i, j] = cell.k * Math.Sqrt(Math.Pow(cell.distx[i, j], 2)) + Math.Pow(cell.disty[i, j], 2) + Math.Pow(cell.distz, 2);
+                    cell.elePD[i, j] = cell.k * (Math.Sin(cell.refTH) * Math.Cos(cell.refPH) * cell.eleM[i, j] * cell.d + Math.Sin(cell.refTH) * Math.Sin(cell.refPH) * cell.eleN[i, j] * cell.d);
+                    cell.refPD[i, j] = (cell.incPD[i, j] - cell.elePD[i, j]) + cell.delta; //% refPD2=refPD
+                    cell.MPD[i, j] = Math.IEEERemainder(cell.refPD[i, j], 2 * Math.PI); //% MPD(((0*pi/180)<=MPD&MPD<(cut_angle*pi/180)))=pi ;
+                    cell.MPDconti[i, j] = cell.MPD[i, j];
+
+                    //% MPD(((0*pi/180)<=MPD&MPD<(cut_angle*pi/180)))=binary_on_phase ;
+                    if ((cell.binary_on_phase - cell.cut_angle / 2) <= cell.MPD[i, j] && cell.MPD[i, j] < (cell.binary_on_phase + cell.cut_angle / 2))
+                    {
+                        cell.MPD[i, j] = 0;
+                    }
+                    else
+                    {
+                        cell.MPD[i, j] = cell.binary_on_phase;
+                    }
+                    ICell MPDRowCell = MPDRow.CreateCell(j);
+                    MPDRowCell.SetCellValue(cell.MPD[i, j]);
+
+                    /*%pd=readmatrix('phase.csv') ;
+                    %MPD=pd*pi ;*/
+                    cell.gamma[i, j] = cell.MPD[i, j];
+
+                    if (cell.gamma[i, j] == cell.binary_on_phase)
+                    {
+                        cell.gamma[i, j] = cell.diodeOn;
+                    }
+                    else
+                    {
+                        cell.gamma[i, j] = cell.diodeOff;
+                    }
+                    ICell gammaRowCell = gammaRow.CreateCell(j);
+                    gammaRowCell.SetCellValue(cell.gamma[i, j]);
+
+                    cell.MPDview[i, j] = rad2Deg(cell.MPD[i, j]); // rad2deg is a function that converts radians to degrees
+                    ICell MPDviewRowCell = MPDviewRow.CreateCell(j);
+                    MPDviewRowCell.SetCellValue(cell.MPDview[i, j]);
+                }
+            }
+
+            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string filePath = Path.Combine(desktopPath, "your_file.xlsx");
+            using (FileStream stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+            {
+                workbook.Write(stream);
+            }
+            DateTime End = DateTime.Now;
+        }
+
+        private class RISBeamFormingBath
+        {
+            public double f0;
+            public double c0;
+            public double lamda;
+            public double d;
+            public double feed;
+            public double k;
+            public int delta;
+            public double cut_angle;
+            public double binary_on_phase;
+            public int numX;
+            public int numY;
+            public int[] M;
+            public int[] N;
+            public double feedR;
+            public int[] theDeg;
+            public double[] theta;
+            public int[] phiDeg;
+            public double[] phi;
+            public double[,] u;
+            public double[,] v;
+            public int incThdeg;
+            public double incTH;
+            public int incPhdeg;
+            public double incPH;
+            public int refThdeg;
+            public double refTH;
+            public int refPhdeg;
+            public double refPH;
+            public double Ri;
+            public double xx;
+            public double yy;
+            public double zz;
+            public double q;
+            public int qe;
+            public double[,] eleFactor;
+            public double[,] eleM;
+            public double[,] eleN;
+            public double[,] distx;
+            public double[,] disty;
+            public double distz;
+            public double[,] Rf;
+            public double centerx;
+            public double centery;
+            public double centerz;
+            public double[,] vectorx;
+            public double[,] vectory;
+            public double vectorz;
+            public double[,] feedVectorx;
+            public double[,] feedVectory;
+            public double feedVectorz;
+            public double[,] test;
+            public double[,] thetaf;
+            public double[,] amp;
+            public double diodeOn;
+            public double diodeOff;
+            public double[,] incPD;
+            public double[,] elePD;
+            public double[,] refPD;
+            public double[,] MPD;
+            public double[,] MPDconti;
+            public double[,] gamma;
+            public double[,] MPDview;
+            public RISBeamFormingBath(int frequency)
+            {
+                this.f0 = frequency*Math.Pow(10,9);
+                this.c0 = 3e8;
+                this.lamda = c0 / f0;
+                //double d = 0.5 * lamda; //PEI
+                this.d = 0.42 * lamda;//squarecell                           
+                //double feed = 0.35 //unit : m
+                //double feed = 1.48; //1600
+                this.feed = 1.7697;
+                this.k = 2 * Math.PI / lamda;
+                this.delta = 0;
+                this.cut_angle = Deg2Rad(180);
+                this.binary_on_phase = Deg2Rad(180);
+                this.numX = 40;
+                this.numY = 40;
+                this.M = Enumerable.Range(1, numX).ToArray();
+                this.N = Enumerable.Range(1, numY).ToArray();
+                this.feedR = numX * d * 0.5 / Math.Tan(Deg2Rad(33.71 / 2));//unit : m 
+
+                //可能不用(matlab繪圖用)
+                this.theDeg = Enumerable.Range(-180, 361).ToArray();
+                this.theta = theDeg.Select(deg => Deg2Rad(deg)).ToArray();
+                this.phiDeg = Enumerable.Range(0, 181).Select(deg => deg * 2).ToArray();
+                this.phi = phiDeg.Select(deg => Deg2Rad(deg)).ToArray();
+                this.u = new double[361, 181];
+                this.v = new double[361, 181];
+                for (int i = 0; i <= 360; i++)
+                {
+                    for (int j = 0; j <= 180; j++)
+                    {
+                        this.u[i, j] = Math.Sin(theta[i]) * Math.Cos(phi[j]);
+                        this.v[i, j] = Math.Sin(theta[i]) * Math.Sin(phi[j]);
+                    }
+                }
+
+
+                //feed horn position
+                this.Ri = feed;
+
+                // pattern power factor
+                this.q = 0.85; //element pattern factor
+                this.qe = 11; //horn pattern factor
+
+                //element factor
+                this.eleFactor = new double[361, 181];
+                for (int i = 0; i <= 360; i++)
+                {
+                    for (int j = 0; j <= 180; j++)
+                    {
+                        this.eleFactor[i, j] = Math.Pow(Math.Cos(theta[i]), q);
+                    }
+                }
+
+                this.eleM = new double[numX, numY];
+                this.eleN = new double[numX, numY];
+
+                //% calculate feed to element distance
+                this.distx = new double[numX, numY];
+                this.disty = new double[numX, numY];
+
+                this.Rf = new double[numX, numY];
+
+                this.vectorx = new double[numX, numY];
+                this.vectory = new double[numX, numY];
+
+                this.feedVectorx = new double[numX, numY];
+                this.feedVectory = new double[numX, numY];
+
+                this.test = new double[numX, numY];
+                this.thetaf = new double[numX, numY];
+                this.amp = new double[numX, numY]; //%gamma=(cos(thetap)).^q ;
+
+                //% diodeOn = 0.6367;
+                this.diodeOn = 0.93;
+                this.incPD = new double[numX, numY];
+                this.elePD = new double[numX, numY];
+                this.refPD = new double[numX, numY];
+                this.MPD = new double[numX, numY];
+                this.MPDconti = new double[numX, numY];
+                this.gamma = new double[numX, numY];
+                this.MPDview = new double[numX, numY];
+
+                this.diodeOff = 0.91;
+                for (int i = 0; i < numX; i++)
+                {
+                    for (int j = 0; j < numY; j++)
+                    {
+                        eleM[i, j] = i - (numX + 1) / 2.0;
+                        eleN[i, j] = j - (numY + 1) / 2.0;
+                    }
+                }
+
+            }
+        }
+
+        #region math
+        private static double Deg2Rad(double degrees)
+        {
+            return degrees * Math.PI / 180.0;
+        }
+
+        private static double rad2Deg(double radians)
+        {
+            return radians * (180.0 / Math.PI);
+        }
+        private Tuple<double[,], double[,]> meshgrid(double[] x, double[] y)
+        {
+            double[,] X;
+            double[,] Y;
+            X = new double[x.Length, y.Length];
+            Y = new double[x.Length, y.Length];
+            for (int i = 0; i < x.Length; i++)
+            {
+                for (int j = 0; j < y.Length; j++)
+                {
+                    X[i, j] = x[i];
+                    Y[i, j] = y[j];
+                }
+            }
+            return Tuple.Create(X,Y);
+        }
+
+
+        #endregion
+        #region GUI動作
+
+        private void lb_refdegree_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            /*string s1 = lb_findInc.SelectedItem.ToString();
+            inc_degree = Convert.ToInt16(s1.Substring(s1.LastIndexOf(" ") + 1, s1.Length - s1.LastIndexOf(" ") - 1));
+            string s2 = lb_findRef.SelectedItem.ToString();
+            ref_degree = Convert.ToInt16(s2.Substring(s2.LastIndexOf(" ") + 1, s2.Length - s2.LastIndexOf(" ") - 1));*/
+                    //ref_degree = (lb_refdegree.SelectedIndex - 5) * 10;
+                    //pb_phase.Image = Image.FromFile(System.IO.Directory.GetCurrentDirectory() + "/Phase_distribution_" + ref_degree + ".png");
+                    //pb_degree.Image = Image.FromFile(System.IO.Directory.GetCurrentDirectory() + "/Polar_" + ref_degree + ".png");                
+                }
+
+                private void button1_Click(object sender, EventArgs e)
+        {
+            string[] myPorts = SerialPort.GetPortNames(); //取得所有port的名字的方法
+
+            cb_port.DataSource = myPorts;   //直接取得所有port的名字
+        }
+
+        private void btn_Connect_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                serialPort1.PortName = cb_port.SelectedItem.ToString();
+                serialPort1.Open();
+                connection = true;
+                t = new Thread(Receive);
+                t.IsBackground = true;
+                t.Start();
+                cb_port.Enabled = false;
+            }
+            catch (Exception e1)
+            {
+                MessageBox.Show(e1.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btn_Discon_Click(object sender, EventArgs e)
+        {
+            connection = false;
+            serialPort1.Close();
+            cb_port.Enabled = true;
+        }
+
+        private void btn_gen_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string s1 = lb_incdegree.SelectedItem.ToString();
+                inc_degree = Convert.ToInt16(s1.Substring(s1.LastIndexOf(" ") + 1, s1.Length - s1.LastIndexOf(" ") - 1));
+                string s2 = lb_refdegree.SelectedItem.ToString();
+                ref_degree = Convert.ToInt16(s2.Substring(s2.LastIndexOf(" ") + 1, s2.Length - s2.LastIndexOf(" ") - 1));
+
+                string s3 = s2.Substring(0, s2.IndexOf(" "));
+                if (s3 == "w_degree")
+                {
+                    serialPort1.Write(inc_degree + "_" + ref_degree + "_w;" + tb_delayTime.Text);
+                }
+                else
+                {
+                    serialPort1.Write(inc_degree + "_" + ref_degree + "_n;" + tb_delayTime.Text);
+                }
+            }
+            catch (Exception e1)
+            {
+                MessageBox.Show(e1.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btn_WideBeamFind_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //string s = lb_findInc.SelectedItem.ToString();
+                string s = tb_server_inc.Text.ToString();
+                inc_degree = Convert.ToInt16(s.Substring(s.LastIndexOf(" ") + 1, s.Length - s.LastIndexOf(" ") - 1));
+                serialPort1.Write(inc_degree + "_0_wfind;" + tb_delayTime.Text);
+            }
+            catch (Exception e1)
+            {
+                MessageBox.Show(e1.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btn_NarrowBeamFind_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //string s1 = lb_findInc.SelectedItem.ToString();
+                string s1 = tb_server_inc.Text.ToString();
+                inc_degree = Convert.ToInt16(s1.Substring(s1.LastIndexOf(" ") + 1, s1.Length - s1.LastIndexOf(" ") - 1));
+                serialPort1.Write(inc_degree + "_-60_allnfind;" + tb_delayTime.Text);
+            }
+            catch (Exception e1)
+            {
+                MessageBox.Show(e1.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void btn_clear_Click(object sender, EventArgs e)
+        {
+            tb_com.Text = "";
+        }
         private void btnConnect_Click(object sender, EventArgs e)
         {
             IsServerStarded = ServerStart(cboAvaiableIPaddr.Text, (int)nUpDnPort.Value);
@@ -372,10 +660,10 @@ namespace ArduinoControlGUI
             TCPCommandTable.EspIP = tb_EspIP.Text;
         }
 
-        private void lb_findInc_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            TCPCommandTable.Inc_degree = lb_findInc.SelectedItem.ToString();
-        }
+        //private void lb_findInc_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    TCPCommandTable.Inc_degree = lb_findInc.SelectedItem.ToString();
+        //}
 
         private void btn_allOn_Click(object sender, EventArgs e)
         {
@@ -403,8 +691,32 @@ namespace ArduinoControlGUI
 
         private void btn_output_Click(object sender, EventArgs e)
         {
-            string inc_degree = TCPCommandTable.Inc_degree.Substring(TCPCommandTable.Inc_degree.LastIndexOf(" ") + 1, TCPCommandTable.Inc_degree.Length - TCPCommandTable.Inc_degree.LastIndexOf(" ") - 1);
-            SetInfoToClient("esp8266", inc_degree + "_" + tb_server_ref.Text + "_n;0");
+            //string inc_degree = TCPCommandTable.Inc_degree.Substring(TCPCommandTable.Inc_degree.LastIndexOf(" ") + 1, TCPCommandTable.Inc_degree.Length - TCPCommandTable.Inc_degree.LastIndexOf(" ") - 1);
+            inc_degree = Convert.ToInt16(tb_server_inc.Text);
+            ref_degree = Convert.ToInt16(tb_server_ref.Text);
+            frequency = Convert.ToInt16(tb_server_fre.Text);
+            cell =  new RISBeamFormingBath(frequency);
+            RISBeamForming(inc_degree, ref_degree);
+
+            SetInfoToClient("esp8266", tb_server_inc.Text + "_" + tb_server_ref.Text + "_n;0");
         }
+
+        private void tb_server_ref_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tb_server_fre_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tb_server_inc_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+
+        #endregion
     }
 }
