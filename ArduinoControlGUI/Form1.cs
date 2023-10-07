@@ -35,6 +35,7 @@ using System.Runtime.CompilerServices;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using NPOI.SS.Formula.Functions;
+using MathNet.Numerics.Distributions;
 
 namespace ArduinoControlGUI
 {    
@@ -236,7 +237,7 @@ namespace ArduinoControlGUI
         }
 
         //2023.09.23修改數學
-        private void RISBeamForming(int inc_degree,int ref_degree) { 
+        private void RISBeamForming(int inc_degree,int ref_degree,int frequency) { 
             DateTime Start = DateTime.Now; //計時器          
             //inc angle & ref angle
             cell.incThdeg = inc_degree; cell.incTH = Deg2Rad(cell.incThdeg);
@@ -251,35 +252,43 @@ namespace ArduinoControlGUI
             cell.centery = 0 - cell.yy;
             cell.centerz = 0 - cell.zz;
             cell.vectorz = 0 * cell.d - cell.zz;
+            cell.feedVectorz = cell.centerz * cell.vectorz;
             ISheet MPD = workbook.CreateSheet("MPD");
             ISheet gamma = workbook.CreateSheet("gamma");
             ISheet MPDview = workbook.CreateSheet("MPDview");
+
             for (int i = 0; i < cell.numX; i++)
             {
                 IRow MPDRow = MPD.CreateRow(i);
                 IRow gammaRow = gamma.CreateRow(i);
                 IRow MPDviewRow = MPDview.CreateRow(i);
+
                 for (int j = 0; j < cell.numY; j++)
                 {
-                    
-                    cell.distx[i, j] = cell.xx-cell.eleM[i,j]* cell.d;
-                    cell.disty[i, j] = cell.yy - cell.eleN[i,j]* cell.d;
+                    cell.f0 = frequency * Math.Pow(10, 9);
+                    cell.lamda = cell.c0 / cell.f0;
+                    cell.d = Math.Round(0.42 * cell.lamda,4);//squarecell  
+                    cell.k = 2 * Math.PI / cell.lamda;
+                    cell.feedR = Math.Round(cell.numX * cell.d * 0.5 / Math.Tan(Deg2Rad(33.71 / 2)),4);
 
-                    cell.Rf[i, j] = Math.Sqrt(Math.Pow(cell.distx[i, j], 2) + Math.Pow(cell.disty[i, j], 2) + Math.Pow(cell.distz, 2));
+                    cell.distx[i, j] = Math.Round(cell.xx-cell.eleM[i,j]* cell.d,4);
+                    cell.disty[i, j] = Math.Round(cell.yy - cell.eleN[i,j]* cell.d,4);
 
-                    cell.vectorx[i, j] = cell.eleM[i, j] * cell.d - cell.xx;
-                    cell.vectory[i, j] = cell.eleN[i, j] * cell.d - cell.yy;
-                    cell.feedVectorx[i, j] = cell.centerx * cell.vectorx[i, j];
-                    cell.feedVectory[i, j] = cell.centery * cell.vectory[i, j];
+                    cell.Rf[i, j] = Math.Round(Math.Sqrt(Math.Pow(cell.distx[i, j], 2) + Math.Pow(cell.disty[i, j], 2) + Math.Pow(cell.distz, 2)),4);
+
+                    cell.vectorx[i, j] = Math.Round(cell.eleM[i, j] * cell.d - cell.xx,4);
+                    cell.vectory[i, j] = Math.Round(cell.eleN[i, j] * cell.d - cell.yy,4);
+                    cell.feedVectorx[i, j] = Math.Round(cell.centerx * cell.vectorx[i, j],4);
+                    cell.feedVectory[i, j] = Math.Round(cell.centery * cell.vectory[i, j],4);
                     cell.test[i, j] = cell.feedVectorx[i, j] + cell.feedVectory[i, j] + cell.feedVectorz;
-                    cell.thetaf[i, j] = Math.Acos((cell.feedVectorx[i, j] + cell.feedVectory[i, j] + cell.feedVectorz) / (cell.Rf[i, j] * cell.Ri));
+                    cell.thetaf[i, j] = Math.Round(Math.Acos((cell.feedVectorx[i, j] + cell.feedVectory[i, j] + cell.feedVectorz) / (cell.Rf[i, j] * cell.Ri)),4);
 
-                    cell.amp[i, j] = Math.Pow(Math.Cos(cell.thetaf[i, j]), cell.qe) / cell.Rf[i, j];
+                    cell.amp[i, j] = Math.Round(Math.Pow(Math.Cos(cell.thetaf[i, j]), cell.qe) / cell.Rf[i, j],4);
 
-                    cell.incPD[i, j] = cell.k * Math.Sqrt(Math.Pow(cell.distx[i, j], 2)) + Math.Pow(cell.disty[i, j], 2) + Math.Pow(cell.distz, 2);
-                    cell.elePD[i, j] = cell.k * (Math.Sin(cell.refTH) * Math.Cos(cell.refPH) * cell.eleM[i, j] * cell.d + Math.Sin(cell.refTH) * Math.Sin(cell.refPH) * cell.eleN[i, j] * cell.d);
+                    cell.incPD[i, j] = Math.Round(cell.k * Math.Sqrt(Math.Pow(cell.distx[i, j], 2) + Math.Pow(cell.disty[i, j], 2) + Math.Pow(cell.distz, 2)),4);
+                    cell.elePD[i, j] = Math.Round(cell.k * (Math.Sin(cell.refTH) * Math.Cos(cell.refPH) * cell.eleM[i, j] * cell.d + Math.Sin(cell.refTH) * Math.Sin(cell.refPH) * cell.eleN[i, j] * cell.d),4);
                     cell.refPD[i, j] = (cell.incPD[i, j] - cell.elePD[i, j]) + cell.delta; //% refPD2=refPD
-                    cell.MPD[i, j] = Math.IEEERemainder(cell.refPD[i, j], 2 * Math.PI); //% MPD(((0*pi/180)<=MPD&MPD<(cut_angle*pi/180)))=pi ;
+                    cell.MPD[i, j] = cell.refPD[i, j] % (2 * Math.PI); //% MPD(((0*pi/180)<=MPD&MPD<(cut_angle*pi/180)))=pi ;
                     cell.MPDconti[i, j] = cell.MPD[i, j];
 
                     //% MPD(((0*pi/180)<=MPD&MPD<(cut_angle*pi/180)))=binary_on_phase ;
@@ -388,17 +397,17 @@ namespace ArduinoControlGUI
             public double[,] MPDconti;
             public double[,] gamma;
             public double[,] MPDview;
-            public RISBeamFormingBath(int frequency)
+            public RISBeamFormingBath()
             {
-                this.f0 = frequency*Math.Pow(10,9);
+                //this.f0 = frequency*Math.Pow(10,9);
                 this.c0 = 3e8;
-                this.lamda = c0 / f0;
+                //this.lamda = c0 / f0;
                 //double d = 0.5 * lamda; //PEI
-                this.d = 0.42 * lamda;//squarecell                           
+                //this.d = 0.42 * lamda;//squarecell                           
                 //double feed = 0.35 //unit : m
                 //double feed = 1.48; //1600
                 this.feed = 1.7697;
-                this.k = 2 * Math.PI / lamda;
+                //this.k = 2 * Math.PI / lamda;
                 this.delta = 0;
                 this.cut_angle = Deg2Rad(180);
                 this.binary_on_phase = Deg2Rad(180);
@@ -406,7 +415,7 @@ namespace ArduinoControlGUI
                 this.numY = 40;
                 this.M = Enumerable.Range(1, numX).ToArray();
                 this.N = Enumerable.Range(1, numY).ToArray();
-                this.feedR = numX * d * 0.5 / Math.Tan(Deg2Rad(33.71 / 2));//unit : m 
+                /*this.feedR = numX * d * 0.5 / Math.Tan(Deg2Rad(33.71 / 2));*///unit : m 
 
                 //可能不用(matlab繪圖用)
                 this.theDeg = Enumerable.Range(-180, 361).ToArray();
@@ -476,8 +485,8 @@ namespace ArduinoControlGUI
                 {
                     for (int j = 0; j < numY; j++)
                     {
-                        eleM[i, j] = i - (numX + 1) / 2.0;
-                        eleN[i, j] = j - (numY + 1) / 2.0;
+                        eleM[i, j] = M[j] - (numX + 1) / 2.0;
+                        eleN[j, i] = N[j] - (numY + 1) / 2.0;
                     }
                 }
 
@@ -695,8 +704,8 @@ namespace ArduinoControlGUI
             inc_degree = Convert.ToInt16(tb_server_inc.Text);
             ref_degree = Convert.ToInt16(tb_server_ref.Text);
             frequency = Convert.ToInt16(tb_server_fre.Text);
-            cell =  new RISBeamFormingBath(frequency);
-            RISBeamForming(inc_degree, ref_degree);
+            cell =  new RISBeamFormingBath();
+            RISBeamForming(inc_degree, ref_degree, frequency);
 
             SetInfoToClient("esp8266", tb_server_inc.Text + "_" + tb_server_ref.Text + "_n;0");
         }
