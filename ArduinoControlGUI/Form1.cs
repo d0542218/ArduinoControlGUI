@@ -49,6 +49,7 @@ namespace ArduinoControlGUI
         int inc_degree;
         int ref_degree;
         int frequency;
+        int num;
         bool connection = false;
         IWorkbook workbook = new XSSFWorkbook();
         private RISBeamFormingBath cell ;
@@ -253,15 +254,16 @@ namespace ArduinoControlGUI
             cell.centerz = 0 - cell.zz;
             cell.vectorz = 0 * cell.d - cell.zz;
             cell.feedVectorz = cell.centerz * cell.vectorz;
-            ISheet MPD = workbook.CreateSheet("MPD");
-            ISheet gamma = workbook.CreateSheet("gamma");
-            ISheet MPDview = workbook.CreateSheet("MPDview");
-
+            //ISheet MPD = workbook.CreateSheet("MPD");
+            //ISheet gamma = workbook.CreateSheet("gamma");
+            //ISheet MPDview = workbook.CreateSheet("MPDview");
+            string[,] MPDBinaryStrings = new string[5,40];
+            int[] MPDArduinoCode = new int[200];
             for (int i = 0; i < cell.numX; i++)
             {
-                IRow MPDRow = MPD.CreateRow(i);
-                IRow gammaRow = gamma.CreateRow(i);
-                IRow MPDviewRow = MPDview.CreateRow(i);
+                //IRow MPDRow = MPD.CreateRow(i);
+                //IRow gammaRow = gamma.CreateRow(i);
+                //IRow MPDviewRow = MPDview.CreateRow(i);
 
                 for (int j = 0; j < cell.numY; j++)
                 {
@@ -298,10 +300,10 @@ namespace ArduinoControlGUI
                     }
                     else
                     {
-                        cell.MPD[i, j] = cell.binary_on_phase;
+                        cell.MPD[i, j] = 1;
                     }
-                    ICell MPDRowCell = MPDRow.CreateCell(j);
-                    MPDRowCell.SetCellValue(cell.MPD[i, j]);
+                    //ICell MPDRowCell = MPDRow.CreateCell(j);
+                    //MPDRowCell.SetCellValue(cell.MPD[i, j]);
 
                     /*%pd=readmatrix('phase.csv') ;
                     %MPD=pd*pi ;*/
@@ -315,22 +317,34 @@ namespace ArduinoControlGUI
                     {
                         cell.gamma[i, j] = cell.diodeOff;
                     }
-                    ICell gammaRowCell = gammaRow.CreateCell(j);
-                    gammaRowCell.SetCellValue(cell.gamma[i, j]);
+                    //ICell gammaRowCell = gammaRow.CreateCell(j);
+                    //gammaRowCell.SetCellValue(cell.gamma[i, j]);
 
                     cell.MPDview[i, j] = rad2Deg(cell.MPD[i, j]); // rad2deg is a function that converts radians to degrees
-                    ICell MPDviewRowCell = MPDviewRow.CreateCell(j);
-                    MPDviewRowCell.SetCellValue(cell.MPDview[i, j]);
+                    //ICell MPDviewRowCell = MPDviewRow.CreateCell(j);
+                    //MPDviewRowCell.SetCellValue(cell.MPDview[i, j]);
+                    MPDBinaryStrings[i / 8, j] += cell.MPD[i, j].ToString();
+
                 }
             }
 
-            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            string filePath = Path.Combine(desktopPath, "your_file.xlsx");
-            using (FileStream stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+            //string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            //string filePath = Path.Combine(desktopPath, inc_degree.ToString() + "_" + ref_degree.ToString() + "_" + frequency.ToString() + "_" + "MPD.xlsx");
+            //using (FileStream stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+            //{
+            //    workbook.Write(stream);
+            //}
+            int count = 0;
+            for (int i = 0; i < 40; i++)
             {
-                workbook.Write(stream);
+                for (int j = 0; j < 5; j++) 
+                {
+                    MPDArduinoCode[count] = Convert.ToInt32(MPDBinaryStrings[j, i], 2);
+                    count++;
+                    cell.ArduinoCode += Convert.ToInt32(MPDBinaryStrings[j, i], 2).ToString()+",";//補三位數
+                }
             }
-            DateTime End = DateTime.Now;
+                DateTime End = DateTime.Now;
         }
 
         private class RISBeamFormingBath
@@ -397,7 +411,8 @@ namespace ArduinoControlGUI
             public double[,] MPDconti;
             public double[,] gamma;
             public double[,] MPDview;
-            public RISBeamFormingBath()
+            public string ArduinoCode;
+            public RISBeamFormingBath(int num)
             {
                 //this.f0 = frequency*Math.Pow(10,9);
                 this.c0 = 3e8;
@@ -406,16 +421,16 @@ namespace ArduinoControlGUI
                 //this.d = 0.42 * lamda;//squarecell                           
                 //double feed = 0.35 //unit : m
                 //double feed = 1.48; //1600
-                this.feed = 1.7697;
+                //this.feed = 1.7697;
                 //this.k = 2 * Math.PI / lamda;
                 this.delta = 0;
                 this.cut_angle = Deg2Rad(180);
                 this.binary_on_phase = Deg2Rad(180);
-                this.numX = 40;
-                this.numY = 40;
+                this.numX = num;
+                this.numY = num;
                 this.M = Enumerable.Range(1, numX).ToArray();
                 this.N = Enumerable.Range(1, numY).ToArray();
-                /*this.feedR = numX * d * 0.5 / Math.Tan(Deg2Rad(33.71 / 2));*///unit : m 
+                this.feedR = numX * d * 0.5 / Math.Tan(Deg2Rad(33.71 / 2));///unit : m 
 
                 //可能不用(matlab繪圖用)
                 this.theDeg = Enumerable.Range(-180, 361).ToArray();
@@ -435,7 +450,7 @@ namespace ArduinoControlGUI
 
 
                 //feed horn position
-                this.Ri = feed;
+                this.Ri = feedR;
 
                 // pattern power factor
                 this.q = 0.85; //element pattern factor
@@ -676,12 +691,12 @@ namespace ArduinoControlGUI
 
         private void btn_allOn_Click(object sender, EventArgs e)
         {
-            SetInfoToClient("esp8266", "0_0_allon;0");
+            SetInfoToClient("esp8266", "0_0_allon_0_0;0");
         }
 
         private void btn_allOff_Click(object sender, EventArgs e)
         {
-            SetInfoToClient("esp8266", "0_0_alloff;0");
+            SetInfoToClient("esp8266", "0_0_alloff_0_0;0");
         }
 
         private void btn_allFind_Click(object sender, EventArgs e)
@@ -704,28 +719,36 @@ namespace ArduinoControlGUI
             inc_degree = Convert.ToInt16(tb_server_inc.Text);
             ref_degree = Convert.ToInt16(tb_server_ref.Text);
             frequency = Convert.ToInt16(tb_server_fre.Text);
-            cell =  new RISBeamFormingBath();
+            num = Convert.ToInt16(tb_server_num.Text);//補三位數
+            cell =  new RISBeamFormingBath(num);
             RISBeamForming(inc_degree, ref_degree, frequency);
 
-            SetInfoToClient("esp8266", tb_server_inc.Text + "_" + tb_server_ref.Text + "_n;0");
+            SetInfoToClient("esp8266", tb_server_inc.Text + "_" + tb_server_ref.Text + "_n_"+tb_server_num.Text+"_"+cell.ArduinoCode+ ";0");
         }
-
+        private void tb_server_inc_TextChanged(object sender, EventArgs e)
+        {
+            //cell.incThdeg = Convert.ToInt16(tb_server_inc.Text);
+        }
         private void tb_server_ref_TextChanged(object sender, EventArgs e)
         {
 
+            //cell.refThdeg = Convert.ToInt16(tb_server_ref.Text);
         }
 
         private void tb_server_fre_TextChanged(object sender, EventArgs e)
         {
-
+            
         }
 
-        private void tb_server_inc_TextChanged(object sender, EventArgs e)
+        private void tb_server_num_TextChanged(object sender, EventArgs e)
         {
-
+            //cell.numX  = Convert.ToInt16(tb_server_num.Text);
+            //cell.numY = Convert.ToInt16(tb_server_num.Text);
         }
 
 
         #endregion
+
+
     }
 }

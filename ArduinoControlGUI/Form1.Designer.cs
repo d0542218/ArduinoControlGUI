@@ -69,9 +69,10 @@
             this.label10 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.btn_send = new System.Windows.Forms.Button();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.Phase = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.btn_allOn = new System.Windows.Forms.Button();
             this.btn_allOff = new System.Windows.Forms.Button();
             this.btn_allFind = new System.Windows.Forms.Button();
@@ -84,17 +85,16 @@
             this.tb_server_fre = new System.Windows.Forms.TextBox();
             this.tb_server_inc = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.tb_server_num = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pb_phase)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_degree)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nUpDnPort)).BeginInit();
-            this.tabControl1.SuspendLayout();
+            this.Phase.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // lb_refdegree
@@ -529,19 +529,19 @@
             this.btn_send.UseVisualStyleBackColor = true;
             this.btn_send.Click += new System.EventHandler(this.btn_send_Click);
             // 
-            // tabControl1
+            // Phase
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.Phase.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Location = new System.Drawing.Point(135, 12);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(833, 657);
-            this.tabControl1.TabIndex = 22;
+            this.Phase.Controls.Add(this.tabPage1);
+            this.Phase.Controls.Add(this.tabPage2);
+            this.Phase.Controls.Add(this.tabPage3);
+            this.Phase.Location = new System.Drawing.Point(135, 12);
+            this.Phase.Name = "Phase";
+            this.Phase.SelectedIndex = 0;
+            this.Phase.Size = new System.Drawing.Size(833, 657);
+            this.Phase.TabIndex = 22;
             // 
             // tabPage1
             // 
@@ -592,9 +592,18 @@
             this.tabPage2.Text = "Serial Port";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // tabPage3
+            // 
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(825, 631);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "tabPage3";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
             // btn_allOn
             // 
-            this.btn_allOn.Location = new System.Drawing.Point(23, 352);
+            this.btn_allOn.Location = new System.Drawing.Point(23, 406);
             this.btn_allOn.Name = "btn_allOn";
             this.btn_allOn.Size = new System.Drawing.Size(75, 23);
             this.btn_allOn.TabIndex = 23;
@@ -604,7 +613,7 @@
             // 
             // btn_allOff
             // 
-            this.btn_allOff.Location = new System.Drawing.Point(23, 381);
+            this.btn_allOff.Location = new System.Drawing.Point(23, 435);
             this.btn_allOff.Name = "btn_allOff";
             this.btn_allOff.Size = new System.Drawing.Size(75, 23);
             this.btn_allOff.TabIndex = 24;
@@ -614,7 +623,7 @@
             // 
             // btn_allFind
             // 
-            this.btn_allFind.Location = new System.Drawing.Point(23, 490);
+            this.btn_allFind.Location = new System.Drawing.Point(23, 544);
             this.btn_allFind.Name = "btn_allFind";
             this.btn_allFind.Size = new System.Drawing.Size(75, 23);
             this.btn_allFind.TabIndex = 25;
@@ -624,7 +633,7 @@
             // 
             // tb_dTime
             // 
-            this.tb_dTime.Location = new System.Drawing.Point(12, 462);
+            this.tb_dTime.Location = new System.Drawing.Point(12, 516);
             this.tb_dTime.Name = "tb_dTime";
             this.tb_dTime.Size = new System.Drawing.Size(100, 22);
             this.tb_dTime.TabIndex = 26;
@@ -634,7 +643,7 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("新細明體", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label12.Location = new System.Drawing.Point(12, 429);
+            this.label12.Location = new System.Drawing.Point(12, 483);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(103, 21);
             this.label12.TabIndex = 27;
@@ -651,7 +660,7 @@
             // 
             // btn_output
             // 
-            this.btn_output.Location = new System.Drawing.Point(23, 299);
+            this.btn_output.Location = new System.Drawing.Point(23, 353);
             this.btn_output.Name = "btn_output";
             this.btn_output.Size = new System.Drawing.Size(75, 23);
             this.btn_output.TabIndex = 28;
@@ -708,28 +717,32 @@
             this.label15.TabIndex = 35;
             this.label15.Text = "GHz";
             // 
-            // tabPage3
+            // label16
             // 
-            this.tabPage3.Controls.Add(this.textBox2);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(825, 631);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "tabPage3";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("新細明體", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label16.Location = new System.Drawing.Point(20, 297);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(49, 21);
+            this.label16.TabIndex = 36;
+            this.label16.Text = "Num";
             // 
-            // textBox2
+            // tb_server_num
             // 
-            this.textBox2.Location = new System.Drawing.Point(229, 123);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 22);
-            this.textBox2.TabIndex = 0;
+            this.tb_server_num.Location = new System.Drawing.Point(23, 321);
+            this.tb_server_num.Name = "tb_server_num";
+            this.tb_server_num.Size = new System.Drawing.Size(55, 22);
+            this.tb_server_num.TabIndex = 37;
+            this.tb_server_num.Text = "0";
+            this.tb_server_num.TextChanged += new System.EventHandler(this.tb_server_num_TextChanged);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(972, 684);
+            this.Controls.Add(this.tb_server_num);
+            this.Controls.Add(this.label16);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.tb_server_inc);
             this.Controls.Add(this.tb_server_fre);
@@ -742,7 +755,7 @@
             this.Controls.Add(this.btn_allFind);
             this.Controls.Add(this.btn_allOff);
             this.Controls.Add(this.btn_allOn);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.Phase);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label6);
             this.Name = "Form1";
@@ -754,13 +767,11 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nUpDnPort)).EndInit();
-            this.tabControl1.ResumeLayout(false);
+            this.Phase.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
-            this.tabPage3.ResumeLayout(false);
-            this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -807,7 +818,7 @@
         private System.Windows.Forms.Button btn_espIPset;
         private System.Windows.Forms.TextBox tb_EspIP;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl Phase;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Button btn_allOn;
@@ -823,7 +834,8 @@
         private System.Windows.Forms.TextBox tb_server_inc;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.TextBox tb_server_num;
     }
 }
 
