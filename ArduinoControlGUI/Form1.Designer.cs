@@ -656,7 +656,7 @@
             this.tb_server_ref.Size = new System.Drawing.Size(55, 22);
             this.tb_server_ref.TabIndex = 29;
             this.tb_server_ref.Text = "0";
-            this.tb_server_ref.TextChanged += new System.EventHandler(this.tb_server_ref_TextChanged);
+            this.tb_server_ref.Leave += new System.EventHandler(this.tb_server_ref_Leave);
             // 
             // btn_output
             // 
@@ -704,7 +704,7 @@
             this.tb_server_inc.Size = new System.Drawing.Size(55, 22);
             this.tb_server_inc.TabIndex = 34;
             this.tb_server_inc.Text = "0";
-            this.tb_server_inc.TextChanged += new System.EventHandler(this.tb_server_inc_TextChanged);
+            this.tb_server_inc.Leave += new System.EventHandler(this.tb_server_inc_Leave);
             // 
             // label15
             // 
@@ -734,7 +734,7 @@
             this.tb_server_num.Size = new System.Drawing.Size(55, 22);
             this.tb_server_num.TabIndex = 37;
             this.tb_server_num.Text = "0";
-            this.tb_server_num.TextChanged += new System.EventHandler(this.tb_server_num_TextChanged);
+            this.tb_server_num.Leave += new System.EventHandler(this.tb_server_num_Leave);
             // 
             // Form1
             // 

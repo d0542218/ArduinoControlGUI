@@ -256,9 +256,8 @@ namespace ArduinoControlGUI
             cell.feedVectorz = cell.centerz * cell.vectorz;
             //ISheet MPD = workbook.CreateSheet("MPD");
             //ISheet gamma = workbook.CreateSheet("gamma");
-            //ISheet MPDview = workbook.CreateSheet("MPDview");
-            string[,] MPDBinaryStrings = new string[5,40];
-            int[] MPDArduinoCode = new int[200];
+            //ISheet MPDview = workbook.CreateSheet("MPDview");            
+
             for (int i = 0; i < cell.numX; i++)
             {
                 //IRow MPDRow = MPD.CreateRow(i);
@@ -323,7 +322,6 @@ namespace ArduinoControlGUI
                     cell.MPDview[i, j] = rad2Deg(cell.MPD[i, j]); // rad2deg is a function that converts radians to degrees
                     //ICell MPDviewRowCell = MPDviewRow.CreateCell(j);
                     //MPDviewRowCell.SetCellValue(cell.MPDview[i, j]);
-                    MPDBinaryStrings[i / 8, j] += cell.MPD[i, j].ToString();
 
                 }
             }
@@ -335,13 +333,18 @@ namespace ArduinoControlGUI
             //    workbook.Write(stream);
             //}
             int count = 0;
-            for (int i = 0; i < 40; i++)
+            string MPDBinaryString = "";
+            for (int i = 0; i < cell.numX; i++)
             {
-                for (int j = 0; j < 5; j++) 
-                {
-                    MPDArduinoCode[count] = Convert.ToInt32(MPDBinaryStrings[j, i], 2);
+                for (int j = 0; j < cell.numY; j++) {                 
+                    MPDBinaryString += cell.MPD[j, i];
                     count++;
-                    cell.ArduinoCode += Convert.ToInt32(MPDBinaryStrings[j, i], 2).ToString()+",";//補三位數
+                    if (count % 8 == 0 && count != 0)
+                    {
+                        //cell.ArduinoCode += Convert.ToInt32(MPDBinaryString, 2).ToString()+",";//逗號
+                        cell.ArduinoCode += Convert.ToInt32(MPDBinaryString, 2).ToString().PadLeft(3, '0');
+                        MPDBinaryString = "";
+                    }
                 }
             }
                 DateTime End = DateTime.Now;
@@ -702,7 +705,7 @@ namespace ArduinoControlGUI
         private void btn_allFind_Click(object sender, EventArgs e)
         {
             string inc_degree = TCPCommandTable.Inc_degree.Substring(TCPCommandTable.Inc_degree.LastIndexOf(" ") + 1, TCPCommandTable.Inc_degree.Length - TCPCommandTable.Inc_degree.LastIndexOf(" ") - 1);
-            SetInfoToClient("esp8266", inc_degree + "_-60_allnfind;" + tb_dTime.Text);
+            SetInfoToClient("esp8266", inc_degree + "_-60_allnfind_0_0;" + tb_dTime.Text);
         }
 
         private void richTextBoxLog_TextChanged(object sender, EventArgs e)
@@ -715,24 +718,37 @@ namespace ArduinoControlGUI
 
         private void btn_output_Click(object sender, EventArgs e)
         {
-            //string inc_degree = TCPCommandTable.Inc_degree.Substring(TCPCommandTable.Inc_degree.LastIndexOf(" ") + 1, TCPCommandTable.Inc_degree.Length - TCPCommandTable.Inc_degree.LastIndexOf(" ") - 1);
-            inc_degree = Convert.ToInt16(tb_server_inc.Text);
-            ref_degree = Convert.ToInt16(tb_server_ref.Text);
+            //string inc_degree = TCPCommandTable.Inc_degree.Substring(TCPCommandTable.Inc_degree.LastIndexOf(" ") + 1, TCPCommandTable.Inc_degree.Length - TCPCommandTable.Inc_degree.LastIndexOf(" ") - 1);           
             frequency = Convert.ToInt16(tb_server_fre.Text);
-            num = Convert.ToInt16(tb_server_num.Text);//補三位數
+            num = Convert.ToInt16(tb_server_num.Text);
             cell =  new RISBeamFormingBath(num);
             RISBeamForming(inc_degree, ref_degree, frequency);
 
-            SetInfoToClient("esp8266", tb_server_inc.Text + "_" + tb_server_ref.Text + "_n_"+tb_server_num.Text+"_"+cell.ArduinoCode+ ";0");
+            SetInfoToClient("esp8266", tb_server_inc.Text + "_" + tb_server_ref.Text + "_n_"+tb_server_num.Text.PadLeft(3,'0')+"_"+cell.ArduinoCode+ ";0");
         }
-        private void tb_server_inc_TextChanged(object sender, EventArgs e)
+        
+        private void tb_server_inc_Leave(object sender, EventArgs e)
         {
-            //cell.incThdeg = Convert.ToInt16(tb_server_inc.Text);
-        }
-        private void tb_server_ref_TextChanged(object sender, EventArgs e)
-        {
+            if ((Convert.ToInt16(tb_server_inc.Text) < -90) || (Convert.ToInt16(tb_server_inc.Text) > 90))
+            {
+                tb_server_inc.Text = "0";
+            }
+            else
+            {
+                inc_degree = Convert.ToInt16(tb_server_inc.Text);
+            }
 
-            //cell.refThdeg = Convert.ToInt16(tb_server_ref.Text);
+        }
+        private void tb_server_ref_Leave(object sender, EventArgs e)
+        {
+            if ((Convert.ToInt16(tb_server_ref.Text) < -90) || (Convert.ToInt16(tb_server_ref.Text) > 90))
+            {
+                tb_server_ref.Text = "0";
+            }
+            else 
+            {
+                ref_degree = Convert.ToInt16(tb_server_ref.Text);
+            }
         }
 
         private void tb_server_fre_TextChanged(object sender, EventArgs e)
@@ -740,13 +756,13 @@ namespace ArduinoControlGUI
             
         }
 
-        private void tb_server_num_TextChanged(object sender, EventArgs e)
+        private void tb_server_num_Leave(object sender, EventArgs e)
         {
-            //cell.numX  = Convert.ToInt16(tb_server_num.Text);
-            //cell.numY = Convert.ToInt16(tb_server_num.Text);
+            if ((Convert.ToInt16(tb_server_num.Text) < 20) || (Convert.ToInt16(tb_server_ref.Text) > 100))
+            {
+                tb_server_num.Text = "20";
+            }
         }
-
-
         #endregion
 
 
