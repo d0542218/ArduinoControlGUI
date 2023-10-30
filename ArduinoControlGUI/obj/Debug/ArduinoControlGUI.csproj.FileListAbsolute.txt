@@ -270,3 +270,7 @@ C:\Users\user\Documents\GitHub\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\Sys
 C:\Users\user\Documents\GitHub\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\System.Security.Cryptography.Xml.xml
 C:\Users\user\Documents\GitHub\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\System.Security.Principal.Windows.xml
 C:\Users\user\Documents\GitHub\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\System.Text.Encoding.CodePages.xml
+C:\Users\user\Documents\GitHub\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\ArduinoControlGUI.exe.manifest
+C:\Users\user\Documents\GitHub\ArduinoControlGUI\ArduinoControlGUI\bin\Debug\ArduinoControlGUI.application
+C:\Users\user\Documents\GitHub\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.exe.manifest
+C:\Users\user\Documents\GitHub\ArduinoControlGUI\ArduinoControlGUI\obj\Debug\ArduinoControlGUI.application

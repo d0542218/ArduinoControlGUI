@@ -517,7 +517,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(387, 22);
             this.textBox1.TabIndex = 20;
-            this.textBox1.Text = "0_0_n;0";
+            this.textBox1.Text = "0_0_n_0_0;0";
             // 
             // btn_send
             // 
@@ -812,7 +812,6 @@
         public System.IO.Ports.SerialPort serialPort1;
         public System.Windows.Forms.TextBox tb_delayTime;
         private System.Windows.Forms.Button btn_LogClr;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button btn_send;
         private System.Windows.Forms.Button btn_IPrefresh;
         private System.Windows.Forms.Button btn_espIPset;
@@ -836,6 +835,7 @@
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TextBox tb_server_num;
+        protected System.Windows.Forms.TextBox textBox1;
     }
 }
 
