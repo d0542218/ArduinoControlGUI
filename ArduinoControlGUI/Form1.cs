@@ -44,13 +44,14 @@ namespace ArduinoControlGUI
         private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private static string Log4NetPath = Environment.CurrentDirectory + "\\TCPIP_Logs";
+        private static string Phase_Path = Environment.CurrentDirectory + "\\Phase";
         private RichTextBoxAppender2 rba;
 
         int inc_degree;
         int ref_degree;
         double frequency;
         int num;
-        bool connection = false;        
+        bool connection = false;
         private RISBeamFormingBath cell ;
         private Thread t;
         public Form1()
@@ -72,13 +73,9 @@ namespace ArduinoControlGUI
             //    btnConnect.Enabled = false;
             //}
 
-            pb_degree.SizeMode = PictureBoxSizeMode.Zoom;
-            pb_phase.SizeMode = PictureBoxSizeMode.Zoom;
+
             string[] myPorts = SerialPort.GetPortNames(); //取得所有port的名字的方法
 
-            cb_port.DataSource = myPorts;   //直接取得所有port的名字
-            lb_refdegree.SelectedIndex = 0;
-            lb_incdegree.SelectedIndex = 0;
             lb_findRef.SelectedIndex = 0;
             //lb_findInc.SelectedIndex = 0;
 
@@ -238,22 +235,20 @@ namespace ArduinoControlGUI
 
         //2023.09.23修改數學
         private void RISBeamForming(int inc_degree,int ref_degree,double frequency) { 
-            DateTime Start = DateTime.Now; //計時器
-            
+            DateTime Start = DateTime.Now; //計時器          
+            //inc angle & ref angle
             cell.f0 = frequency * Math.Pow(10, 9);
             cell.lamda = cell.c0 / cell.f0;
-            cell.d = Math.Round(0.42 * cell.lamda, 4);//squarecell  
-            cell.k = 2 * Math.PI / cell.lamda; 
-            cell.feedR = Math.Round(cell.numX * cell.d * 0.5 / Math.Tan(Deg2Rad(33.71 / 2)), 4);//% unit : m 
+            cell.d = 0.42 * cell.lamda;//squarecell  
+            cell.k = 2 * Math.PI / cell.lamda;
+            cell.feedR = cell.numX * cell.d * 0.5 / Math.Tan(Deg2Rad(33.71 / 2));
+            IWorkbook workbook = new XSSFWorkbook();
             //feed horn position
             cell.Ri = cell.feedR;
-
-            //inc angle & ref angle
             cell.incThdeg = inc_degree; cell.incTH = Deg2Rad(cell.incThdeg);
             cell.incPhdeg = 0; cell.incPH = Deg2Rad(cell.incPhdeg);
             cell.refThdeg = ref_degree; cell.refTH = Deg2Rad(cell.refThdeg);
             cell.refPhdeg = 0; cell.refPH = Deg2Rad(cell.refPhdeg);
-            
             cell.xx = cell.Ri * Math.Sin(cell.incTH) * Math.Cos(cell.incPH);
             cell.yy = cell.Ri * Math.Sin(cell.incTH) * Math.Cos(cell.incPH);
             cell.zz = cell.Ri * Math.Cos(cell.incTH);
@@ -263,8 +258,8 @@ namespace ArduinoControlGUI
             cell.centerz = 0 - cell.zz;
             cell.vectorz = 0 * cell.d - cell.zz;
             cell.feedVectorz = cell.centerz * cell.vectorz;
-            IWorkbook workbook = new XSSFWorkbook();
             ISheet MPD = workbook.CreateSheet("MPD");
+            ISheet MPD_rot = workbook.CreateSheet("MPD_rot");
             //ISheet gamma = workbook.CreateSheet("gamma");
             //ISheet MPDview = workbook.CreateSheet("MPDview");            
 
@@ -275,7 +270,7 @@ namespace ArduinoControlGUI
                 //IRow MPDviewRow = MPDview.CreateRow(i);
 
                 for (int j = 0; j < cell.numY; j++)
-                {                                                                            
+                {                    
                     cell.distx[i, j] = Math.Round(cell.xx-cell.eleM[i,j]* cell.d,4);
                     cell.disty[i, j] = Math.Round(cell.yy - cell.eleN[i,j]* cell.d,4);
 
@@ -294,7 +289,7 @@ namespace ArduinoControlGUI
                     cell.elePD[i, j] = Math.Round(cell.k * (Math.Sin(cell.refTH) * Math.Cos(cell.refPH) * cell.eleM[i, j] * cell.d + Math.Sin(cell.refTH) * Math.Sin(cell.refPH) * cell.eleN[i, j] * cell.d),4);
                     cell.refPD[i, j] = (cell.incPD[i, j] - cell.elePD[i, j]) + cell.delta; //% refPD2=refPD
                     cell.MPD[i, j] = cell.refPD[i, j] % (2 * Math.PI); //% MPD(((0*pi/180)<=MPD&MPD<(cut_angle*pi/180)))=pi ;
-                    cell.MPDconti[i, j] = cell.MPD[i, j];
+                    //cell.MPDconti[i, j] = cell.MPD[i, j];
 
                     //% MPD(((0*pi/180)<=MPD&MPD<(cut_angle*pi/180)))=binary_on_phase ;
                     if ((cell.binary_on_phase - cell.cut_angle / 2) <= cell.MPD[i, j] && cell.MPD[i, j] < (cell.binary_on_phase + cell.cut_angle / 2))
@@ -329,29 +324,152 @@ namespace ArduinoControlGUI
 
                 }
             }
-
-            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            string filePath = Path.Combine(desktopPath, inc_degree.ToString() + "_" + ref_degree.ToString() + "_" + frequency.ToString() + "_Time_"+ DateTime.Now.ToString("MM_dd_HH_mm_ss") +"_" + "MPD.xlsx");
+            //順轉180度(處理由後往前的順序+逆轉90度)
+            for (int i = 0; i < cell.numX; i++)
+            {
+                IRow MPDRow_rot = MPD_rot.CreateRow(i);
+                for (int j = 0; j < cell.numX; j++)
+                {
+                    cell.MPDconti[i, j] = cell.MPD[cell.numX - 1 - i, cell.numX - 1 - j];
+                    ICell MPDRowCell = MPDRow_rot.CreateCell(j);
+                    MPDRowCell.SetCellValue(cell.MPDconti[i, j]);
+                }
+            }
+            //儲存MPD
+            string filePath = Path.Combine(Phase_Path, "MPD.xlsx");
             using (FileStream stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
             {
                 workbook.Write(stream);
             }
+
+            double[] phase_arr = new double[cell.numX*cell.numY];
+            phase_arr = phase_transfer();
             int count = 0;
             string MPDBinaryString = "";
-            for (int i = 0; i < cell.numX; i++)
+            for (int i = 0; i < cell.numX * cell.numY; i++)
             {
-                for (int j = 0; j < cell.numY; j++) {                 
-                    MPDBinaryString += cell.MPD[j, i];
-                    count++;
-                    if (count % 8 == 0 && count != 0)
-                    {
-                        //cell.ArduinoCode += Convert.ToInt32(MPDBinaryString, 2).ToString()+",";//逗號
-                        cell.ArduinoCode += Convert.ToInt32(MPDBinaryString, 2).ToString().PadLeft(3, '0');
-                        MPDBinaryString = "";
-                    }
+                MPDBinaryString += phase_arr[i];
+                count++;
+                if (count % 8 == 0 && count != 0)
+                {
+                    //cell.ArduinoCode += Convert.ToInt32(MPDBinaryString, 2).ToString()+",";//逗號
+                    cell.ArduinoCode += Convert.ToInt32(MPDBinaryString, 2).ToString().PadLeft(3, '0');
+                    MPDBinaryString = "";
                 }
             }
                 DateTime End = DateTime.Now;
+        }
+
+        private double[] phase_transfer()//將相位切成對應的block並轉成一維陣列
+        {
+            int num = (cell.numX * cell.numX) / 100;
+            double[,,] phase_block = new double[num, 10, 10];
+            for (int i = 0; i < cell.numX; i++)
+            {
+                for (int j = 0; j < cell.numX; j++)
+                {
+                    if (i < 10 && j < 10)//block 1
+                    {
+                        phase_block[0, i, j] = cell.MPDconti[i, j];
+                    }
+                    else if (i < 10 && j >= 10 && j < 20)//block 2
+                    {
+                        phase_block[1, i, j - 10] = cell.MPDconti[i, j];
+                    }
+                    else if (i >= 10 && i < 20 && j < 10)//block 3
+                    {
+                        phase_block[2, i - 10, j] = cell.MPDconti[i, j];
+                    }
+                    else if (i >= 10 && i < 20 && j >= 10 && j < 20)//block 4
+                    {
+                        phase_block[3, i - 10, j - 10] = cell.MPDconti[i, j];
+                    }
+                    else if (i < 10 && j >= 20 && j < 30)//block 5
+                    {
+                        phase_block[4, i, j - 20] = cell.MPDconti[i, j];
+                    }
+                    else if (i < 10 && j >= 30 && j < 40)//block 6
+                    {
+                        phase_block[5, i, j - 30] = cell.MPDconti[i, j];
+                    }
+                    else if (i >= 10 && i < 20 && j >= 20 && j < 30)//block 7
+                    {
+                        phase_block[6, i - 10, j - 20] = cell.MPDconti[i, j];
+                    }
+                    else if (i >= 10 && i < 20 && j >= 30 && j < 40)//block 8
+                    {
+                        phase_block[7, i - 10, j - 30] = cell.MPDconti[i, j];
+                    }
+                    else if (i >= 20 && i < 30 && j < 10)//block 9
+                    {
+                        phase_block[8, i - 20, j] = cell.MPDconti[i, j];
+                    }
+                    else if (i >= 20 && i < 30 && j >= 10 && j < 20)//block 10
+                    {
+                        phase_block[9, i - 20, j - 10] = cell.MPDconti[i, j];
+                    }
+                    else if (i >= 30 && i < 40 && j < 10)//block 11
+                    {
+                        phase_block[10, i - 30, j] = cell.MPDconti[i, j];
+                    }
+                    else if (i >= 30 && i < 40 && j >= 10 && j < 20)//block 12
+                    {
+                        phase_block[11, i - 30, j - 10] = cell.MPDconti[i, j];
+                    }
+                    else if (i >= 20 && i < 30 && j >= 20 && j < 30)//block 13
+                    {
+                        phase_block[12, i - 20, j - 20] = cell.MPDconti[i, j];
+                    }
+                    else if (i >= 20 && i < 30 && j >= 30 && j < 40)//block 14
+                    {
+                        phase_block[13, i - 20, j - 30] = cell.MPDconti[i, j];
+                    }
+                    else if (i >= 30 && i < 40 && j >= 20 && j < 30)//block 15
+                    {
+                        phase_block[14, i - 30, j - 20] = cell.MPDconti[i, j];
+                    }
+                    else if (i >= 30 && i < 40 && j >= 30 && j < 40)//block 16
+                    {
+                        phase_block[15, i - 30, j - 30] = cell.MPDconti[i, j];
+                    }
+                }
+            }
+            phase_block = block_reverse(phase_block);
+            double[] phase_tmp = new double[cell.numX * cell.numY];
+            int cnt = 0;
+            for (int k = 0; k < num; k++)
+            {
+                for (int m = 0; m < 10; m++)
+                {
+                    for (int n = 0; n < 10; n++)
+                    {
+                        phase_tmp[cnt] = phase_block[k, n, m];
+                        cnt++;
+                    }
+                }
+            }
+            return phase_tmp;
+        }
+
+        private double[,,] block_reverse(double[,,] block)//將偶數行反轉0.2.4...
+        {
+            double[] tmp = new double[block.GetLength(1)];
+            for (int m = 0; m < (cell.numX * cell.numX) / 100; m++)
+            {
+                for (int k = 0; k < 10; k += 2)
+                {
+                    for (int i = 0; i < block.GetLength(1); i++)
+                    {
+                        tmp[i] = block[m, i, k];
+                    }
+                    Array.Reverse(tmp);
+                    for (int j = 0; j < block.GetLength(1); j++)
+                    {
+                        block[m, j, k] = tmp[j];
+                    }
+                }
+            }
+            return block;
         }
 
         private class RISBeamFormingBath
@@ -421,7 +539,15 @@ namespace ArduinoControlGUI
             public string ArduinoCode;
             public RISBeamFormingBath(int num)
             {
+                //this.f0 = frequency*Math.Pow(10,9);
                 this.c0 = 3e8;
+                //this.lamda = c0 / f0;
+                //double d = 0.5 * lamda; //PEI
+                //this.d = 0.42 * lamda;//squarecell                           
+                //double feed = 0.35 //unit : m
+                //double feed = 1.48; //1600
+                //this.feed = 1.7697;
+                //this.k = 2 * Math.PI / lamda;
                 this.delta = 0;
                 this.cut_angle = Deg2Rad(180);
                 this.binary_on_phase = Deg2Rad(180);
@@ -429,6 +555,8 @@ namespace ArduinoControlGUI
                 this.numY = num;
                 this.M = Enumerable.Range(1, numX).ToArray();
                 this.N = Enumerable.Range(1, numY).ToArray();
+                this.feedR = numX * d * 0.5 / Math.Tan(Deg2Rad(33.71 / 2));///unit : m 
+
                 //可能不用(matlab繪圖用)
                 this.theDeg = Enumerable.Range(-180, 361).ToArray();
                 this.theta = theDeg.Select(deg => Deg2Rad(deg)).ToArray();
@@ -444,6 +572,8 @@ namespace ArduinoControlGUI
                         this.v[i, j] = Math.Sin(theta[i]) * Math.Sin(phi[j]);
                     }
                 }
+
+
                 
 
                 // pattern power factor
@@ -505,7 +635,7 @@ namespace ArduinoControlGUI
         #region math
         private static double Deg2Rad(double degrees)
         {
-            return degrees * Math.PI / 180.0;
+            return Math.Round(degrees * Math.PI / 180.0, 4);
         }
 
         private static double rad2Deg(double radians)
@@ -533,35 +663,17 @@ namespace ArduinoControlGUI
         #endregion
         #region GUI動作
 
-        private void lb_refdegree_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            /*string s1 = lb_findInc.SelectedItem.ToString();
-            inc_degree = Convert.ToInt16(s1.Substring(s1.LastIndexOf(" ") + 1, s1.Length - s1.LastIndexOf(" ") - 1));
-            string s2 = lb_findRef.SelectedItem.ToString();
-            ref_degree = Convert.ToInt16(s2.Substring(s2.LastIndexOf(" ") + 1, s2.Length - s2.LastIndexOf(" ") - 1));*/
-                    //ref_degree = (lb_refdegree.SelectedIndex - 5) * 10;
-                    //pb_phase.Image = Image.FromFile(System.IO.Directory.GetCurrentDirectory() + "/Phase_distribution_" + ref_degree + ".png");
-                    //pb_degree.Image = Image.FromFile(System.IO.Directory.GetCurrentDirectory() + "/Polar_" + ref_degree + ".png");                
-                }
-
-                private void button1_Click(object sender, EventArgs e)
-        {
-            string[] myPorts = SerialPort.GetPortNames(); //取得所有port的名字的方法
-
-            cb_port.DataSource = myPorts;   //直接取得所有port的名字
-        }
-
         private void btn_Connect_Click(object sender, EventArgs e)
         {
             try
             {
-                serialPort1.PortName = cb_port.SelectedItem.ToString();
+                //serialPort1.PortName = cb_port.SelectedItem.ToString();
                 serialPort1.Open();
                 connection = true;
                 t = new Thread(Receive);
                 t.IsBackground = true;
                 t.Start();
-                cb_port.Enabled = false;
+                //cb_port.Enabled = false;
             }
             catch (Exception e1)
             {
@@ -573,33 +685,9 @@ namespace ArduinoControlGUI
         {
             connection = false;
             serialPort1.Close();
-            cb_port.Enabled = true;
+            //cb_port.Enabled = true;
         }
 
-        private void btn_gen_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                string s1 = lb_incdegree.SelectedItem.ToString();
-                inc_degree = Convert.ToInt16(s1.Substring(s1.LastIndexOf(" ") + 1, s1.Length - s1.LastIndexOf(" ") - 1));
-                string s2 = lb_refdegree.SelectedItem.ToString();
-                ref_degree = Convert.ToInt16(s2.Substring(s2.LastIndexOf(" ") + 1, s2.Length - s2.LastIndexOf(" ") - 1));
-
-                string s3 = s2.Substring(0, s2.IndexOf(" "));
-                if (s3 == "w_degree")
-                {
-                    serialPort1.Write(inc_degree + "_" + ref_degree + "_w;" + tb_delayTime.Text);
-                }
-                else
-                {
-                    serialPort1.Write(inc_degree + "_" + ref_degree + "_n;" + tb_delayTime.Text);
-                }
-            }
-            catch (Exception e1)
-            {
-                MessageBox.Show(e1.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
 
         private void btn_WideBeamFind_Click(object sender, EventArgs e)
         {
@@ -711,11 +799,11 @@ namespace ArduinoControlGUI
         {
             //string inc_degree = TCPCommandTable.Inc_degree.Substring(TCPCommandTable.Inc_degree.LastIndexOf(" ") + 1, TCPCommandTable.Inc_degree.Length - TCPCommandTable.Inc_degree.LastIndexOf(" ") - 1);           
             frequency = Convert.ToDouble(tb_server_fre.Text);
-            num = Convert.ToInt16(tb_server_num.Text);
+            num = Convert.ToInt16(cb_server_num.Text);
             cell =  new RISBeamFormingBath(num);
             RISBeamForming(inc_degree, ref_degree, frequency);
 
-            SetInfoToClient("esp8266", tb_server_inc.Text + "_" + tb_server_ref.Text + "_n_"+tb_server_num.Text.PadLeft(3,'0')+"_"+cell.ArduinoCode+ ";0");
+            SetInfoToClient("esp8266", tb_server_inc.Text + "_" + tb_server_ref.Text + "_n_"+cb_server_num.Text.PadLeft(3,'0')+"_"+cell.ArduinoCode+ ";0");
         }
         
         private void tb_server_inc_Leave(object sender, EventArgs e)
@@ -742,18 +830,7 @@ namespace ArduinoControlGUI
             }
         }
 
-        private void tb_server_fre_TextChanged(object sender, EventArgs e)
-        {
-            
-        }
 
-        private void tb_server_num_Leave(object sender, EventArgs e)
-        {
-            if ((Convert.ToInt16(tb_server_num.Text) < 20) || (Convert.ToInt16(tb_server_ref.Text) > 100))
-            {
-                tb_server_num.Text = "20";
-            }
-        }
 
         #endregion
 
