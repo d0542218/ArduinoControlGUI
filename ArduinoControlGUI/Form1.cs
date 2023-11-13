@@ -732,6 +732,7 @@ namespace ArduinoControlGUI
                 nUpDnPort.Enabled = false;
                 btnConnect.Enabled = false;
                 btnDisConnect.Enabled = true;
+                linkImg.Image = Properties.Resources.connect;
 
             }
         }
@@ -743,16 +744,12 @@ namespace ArduinoControlGUI
             nUpDnPort.Enabled = true;
             btnConnect.Enabled = true;
             btnDisConnect.Enabled = false;
+            linkImg.Image = Properties.Resources.disconnect;
         }
 
         private void btn_LogClr_Click(object sender, EventArgs e)
         {
             richTextBoxLog.Text = "";
-        }
-
-        private void btn_send_Click(object sender, EventArgs e)
-        {
-            SetInfoToClient("esp8266", textBox1.Text);
         }
 
         private void btn_IPrefresh_Click(object sender, EventArgs e)
@@ -832,8 +829,8 @@ namespace ArduinoControlGUI
 
 
 
+
+
         #endregion
-
-
     }
 }

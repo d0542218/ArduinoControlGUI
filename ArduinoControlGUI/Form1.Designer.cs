@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.label6 = new System.Windows.Forms.Label();
             this.btn_allOn = new System.Windows.Forms.Button();
@@ -55,36 +54,29 @@
             this.tb_com = new System.Windows.Forms.TextBox();
             this.btn_clear = new System.Windows.Forms.Button();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.cboAvaiableIPaddr = new System.Windows.Forms.ComboBox();
-            this.btnConnect = new System.Windows.Forms.Button();
-            this.nUpDnPort = new System.Windows.Forms.NumericUpDown();
-            this.btnDisConnect = new System.Windows.Forms.Button();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.tb_EspIP = new System.Windows.Forms.TextBox();
-            this.btn_send = new System.Windows.Forms.Button();
-            this.btn_LogClr = new System.Windows.Forms.Button();
-            this.btn_espIPset = new System.Windows.Forms.Button();
             this.btn_IPrefresh = new System.Windows.Forms.Button();
+            this.btn_espIPset = new System.Windows.Forms.Button();
+            this.tb_EspIP = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.btnDisConnect = new System.Windows.Forms.Button();
+            this.nUpDnPort = new System.Windows.Forms.NumericUpDown();
+            this.btnConnect = new System.Windows.Forms.Button();
+            this.cboAvaiableIPaddr = new System.Windows.Forms.ComboBox();
+            this.btn_LogClr = new System.Windows.Forms.Button();
             this.Phase = new System.Windows.Forms.TabControl();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.linkImg = new System.Windows.Forms.PictureBox();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nUpDnPort)).BeginInit();
             this.Phase.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.linkImg)).BeginInit();
             this.SuspendLayout();
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::ArduinoControlGUI.Properties.Resources.中正;
-            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(117, 77);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 4;
-            this.pictureBox1.TabStop = false;
             // 
             // serialPort1
             // 
@@ -95,7 +87,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("新細明體", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label6.Location = new System.Drawing.Point(20, 233);
+            this.label6.Location = new System.Drawing.Point(215, 90);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(88, 21);
             this.label6.TabIndex = 20;
@@ -103,7 +95,7 @@
             // 
             // btn_allOn
             // 
-            this.btn_allOn.Location = new System.Drawing.Point(23, 406);
+            this.btn_allOn.Location = new System.Drawing.Point(220, 175);
             this.btn_allOn.Name = "btn_allOn";
             this.btn_allOn.Size = new System.Drawing.Size(75, 23);
             this.btn_allOn.TabIndex = 23;
@@ -113,7 +105,7 @@
             // 
             // btn_allOff
             // 
-            this.btn_allOff.Location = new System.Drawing.Point(23, 435);
+            this.btn_allOff.Location = new System.Drawing.Point(220, 205);
             this.btn_allOff.Name = "btn_allOff";
             this.btn_allOff.Size = new System.Drawing.Size(75, 23);
             this.btn_allOff.TabIndex = 24;
@@ -123,7 +115,7 @@
             // 
             // btn_allFind
             // 
-            this.btn_allFind.Location = new System.Drawing.Point(23, 544);
+            this.btn_allFind.Location = new System.Drawing.Point(130, 205);
             this.btn_allFind.Name = "btn_allFind";
             this.btn_allFind.Size = new System.Drawing.Size(75, 23);
             this.btn_allFind.TabIndex = 25;
@@ -133,7 +125,7 @@
             // 
             // tb_dTime
             // 
-            this.tb_dTime.Location = new System.Drawing.Point(12, 516);
+            this.tb_dTime.Location = new System.Drawing.Point(25, 205);
             this.tb_dTime.Name = "tb_dTime";
             this.tb_dTime.Size = new System.Drawing.Size(100, 22);
             this.tb_dTime.TabIndex = 26;
@@ -143,7 +135,7 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("新細明體", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label12.Location = new System.Drawing.Point(12, 483);
+            this.label12.Location = new System.Drawing.Point(25, 175);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(103, 21);
             this.label12.TabIndex = 27;
@@ -151,18 +143,19 @@
             // 
             // tb_server_ref
             // 
-            this.tb_server_ref.Location = new System.Drawing.Point(25, 319);
+            this.tb_server_ref.Location = new System.Drawing.Point(315, 115);
             this.tb_server_ref.Name = "tb_server_ref";
             this.tb_server_ref.Size = new System.Drawing.Size(55, 22);
             this.tb_server_ref.TabIndex = 29;
             this.tb_server_ref.Text = "0";
+            this.tb_server_ref.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.tb_server_ref.Leave += new System.EventHandler(this.tb_server_ref_Leave);
             // 
             // btn_output
             // 
-            this.btn_output.Location = new System.Drawing.Point(23, 353);
+            this.btn_output.Location = new System.Drawing.Point(413, 92);
             this.btn_output.Name = "btn_output";
-            this.btn_output.Size = new System.Drawing.Size(75, 23);
+            this.btn_output.Size = new System.Drawing.Size(119, 45);
             this.btn_output.TabIndex = 28;
             this.btn_output.Text = "Output";
             this.btn_output.UseVisualStyleBackColor = true;
@@ -172,7 +165,7 @@
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("新細明體", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label13.Location = new System.Drawing.Point(20, 295);
+            this.label13.Location = new System.Drawing.Point(315, 90);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(92, 21);
             this.label13.TabIndex = 30;
@@ -182,7 +175,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("新細明體", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label14.Location = new System.Drawing.Point(17, 165);
+            this.label14.Location = new System.Drawing.Point(105, 90);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(95, 21);
             this.label14.TabIndex = 32;
@@ -190,19 +183,21 @@
             // 
             // tb_server_fre
             // 
-            this.tb_server_fre.Location = new System.Drawing.Point(25, 189);
+            this.tb_server_fre.Location = new System.Drawing.Point(105, 115);
             this.tb_server_fre.Name = "tb_server_fre";
             this.tb_server_fre.Size = new System.Drawing.Size(55, 22);
             this.tb_server_fre.TabIndex = 33;
             this.tb_server_fre.Text = "4.7";
+            this.tb_server_fre.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // tb_server_inc
             // 
-            this.tb_server_inc.Location = new System.Drawing.Point(24, 257);
+            this.tb_server_inc.Location = new System.Drawing.Point(215, 115);
             this.tb_server_inc.Name = "tb_server_inc";
             this.tb_server_inc.Size = new System.Drawing.Size(55, 22);
             this.tb_server_inc.TabIndex = 34;
             this.tb_server_inc.Text = "0";
+            this.tb_server_inc.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.tb_server_inc.Leave += new System.EventHandler(this.tb_server_inc_Leave);
             // 
             // label15
@@ -210,7 +205,7 @@
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("新細明體", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label15.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
-            this.label15.Location = new System.Drawing.Point(87, 189);
+            this.label15.Location = new System.Drawing.Point(166, 117);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(47, 21);
             this.label15.TabIndex = 35;
@@ -220,7 +215,7 @@
             // 
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("新細明體", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label16.Location = new System.Drawing.Point(20, 101);
+            this.label16.Location = new System.Drawing.Point(25, 90);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(49, 21);
             this.label16.TabIndex = 36;
@@ -229,10 +224,11 @@
             // cb_server_num
             // 
             this.cb_server_num.FormattingEnabled = true;
+            this.cb_server_num.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.cb_server_num.Items.AddRange(new object[] {
             "20",
             "40"});
-            this.cb_server_num.Location = new System.Drawing.Point(25, 128);
+            this.cb_server_num.Location = new System.Drawing.Point(25, 115);
             this.cb_server_num.Name = "cb_server_num";
             this.cb_server_num.Size = new System.Drawing.Size(72, 20);
             this.cb_server_num.TabIndex = 38;
@@ -321,49 +317,110 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.btn_allFind);
+            this.tabPage1.Controls.Add(this.pictureBox1);
+            this.tabPage1.Controls.Add(this.tb_dTime);
+            this.tabPage1.Controls.Add(this.label12);
+            this.tabPage1.Controls.Add(this.btn_output);
+            this.tabPage1.Controls.Add(this.tb_server_ref);
+            this.tabPage1.Controls.Add(this.tb_server_inc);
+            this.tabPage1.Controls.Add(this.btn_allOff);
+            this.tabPage1.Controls.Add(this.label15);
+            this.tabPage1.Controls.Add(this.btn_allOn);
+            this.tabPage1.Controls.Add(this.cb_server_num);
+            this.tabPage1.Controls.Add(this.linkImg);
+            this.tabPage1.Controls.Add(this.tb_server_fre);
+            this.tabPage1.Controls.Add(this.label16);
             this.tabPage1.Controls.Add(this.btn_IPrefresh);
             this.tabPage1.Controls.Add(this.btn_espIPset);
-            this.tabPage1.Controls.Add(this.btn_LogClr);
-            this.tabPage1.Controls.Add(this.btn_send);
+            this.tabPage1.Controls.Add(this.label13);
+            this.tabPage1.Controls.Add(this.label14);
             this.tabPage1.Controls.Add(this.tb_EspIP);
-            this.tabPage1.Controls.Add(this.textBox1);
-            this.tabPage1.Controls.Add(this.richTextBoxLog);
             this.tabPage1.Controls.Add(this.label11);
             this.tabPage1.Controls.Add(this.label10);
             this.tabPage1.Controls.Add(this.label9);
             this.tabPage1.Controls.Add(this.btnDisConnect);
             this.tabPage1.Controls.Add(this.nUpDnPort);
             this.tabPage1.Controls.Add(this.btnConnect);
+            this.tabPage1.Controls.Add(this.label6);
             this.tabPage1.Controls.Add(this.cboAvaiableIPaddr);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(825, 631);
+            this.tabPage1.Size = new System.Drawing.Size(724, 253);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Server";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // cboAvaiableIPaddr
+            // btn_IPrefresh
             // 
-            this.cboAvaiableIPaddr.FormattingEnabled = true;
-            this.cboAvaiableIPaddr.Location = new System.Drawing.Point(85, 35);
-            this.cboAvaiableIPaddr.Name = "cboAvaiableIPaddr";
-            this.cboAvaiableIPaddr.Size = new System.Drawing.Size(133, 20);
-            this.cboAvaiableIPaddr.TabIndex = 22;
+            this.btn_IPrefresh.Location = new System.Drawing.Point(419, 6);
+            this.btn_IPrefresh.Name = "btn_IPrefresh";
+            this.btn_IPrefresh.Size = new System.Drawing.Size(75, 23);
+            this.btn_IPrefresh.TabIndex = 34;
+            this.btn_IPrefresh.Text = "Refresh";
+            this.btn_IPrefresh.UseVisualStyleBackColor = true;
+            this.btn_IPrefresh.Click += new System.EventHandler(this.btn_IPrefresh_Click);
             // 
-            // btnConnect
+            // btn_espIPset
             // 
-            this.btnConnect.Location = new System.Drawing.Point(241, 35);
-            this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(88, 25);
-            this.btnConnect.TabIndex = 24;
-            this.btnConnect.Text = "Listen ...";
-            this.btnConnect.UseVisualStyleBackColor = true;
-            this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
+            this.btn_espIPset.Location = new System.Drawing.Point(338, 35);
+            this.btn_espIPset.Name = "btn_espIPset";
+            this.btn_espIPset.Size = new System.Drawing.Size(75, 23);
+            this.btn_espIPset.TabIndex = 33;
+            this.btn_espIPset.Text = "Set";
+            this.btn_espIPset.UseVisualStyleBackColor = true;
+            this.btn_espIPset.Click += new System.EventHandler(this.btn_espIPset_Click);
+            // 
+            // tb_EspIP
+            // 
+            this.tb_EspIP.Location = new System.Drawing.Point(244, 34);
+            this.tb_EspIP.Name = "tb_EspIP";
+            this.tb_EspIP.Size = new System.Drawing.Size(88, 22);
+            this.tb_EspIP.TabIndex = 32;
+            this.tb_EspIP.Text = "192.168.1.1";
+            this.tb_EspIP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(173, 40);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(64, 12);
+            this.label11.TabIndex = 31;
+            this.label11.Text = "ESP8266 IP:";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(25, 12);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(54, 12);
+            this.label10.TabIndex = 20;
+            this.label10.Text = "Server IP :";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(25, 40);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(27, 12);
+            this.label9.TabIndex = 21;
+            this.label9.Text = "Port:";
+            // 
+            // btnDisConnect
+            // 
+            this.btnDisConnect.Location = new System.Drawing.Point(335, 6);
+            this.btnDisConnect.Name = "btnDisConnect";
+            this.btnDisConnect.Size = new System.Drawing.Size(78, 25);
+            this.btnDisConnect.TabIndex = 25;
+            this.btnDisConnect.Text = "Shut down";
+            this.btnDisConnect.UseVisualStyleBackColor = true;
+            this.btnDisConnect.Click += new System.EventHandler(this.btnDisConnect_Click);
             // 
             // nUpDnPort
             // 
-            this.nUpDnPort.Location = new System.Drawing.Point(58, 67);
+            this.nUpDnPort.Location = new System.Drawing.Point(85, 35);
             this.nUpDnPort.Maximum = new decimal(new int[] {
             65535,
             0,
@@ -377,95 +434,34 @@
             this.nUpDnPort.Name = "nUpDnPort";
             this.nUpDnPort.Size = new System.Drawing.Size(71, 22);
             this.nUpDnPort.TabIndex = 23;
+            this.nUpDnPort.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.nUpDnPort.Value = new decimal(new int[] {
             8888,
             0,
             0,
             0});
             // 
-            // btnDisConnect
+            // btnConnect
             // 
-            this.btnDisConnect.Location = new System.Drawing.Point(335, 35);
-            this.btnDisConnect.Name = "btnDisConnect";
-            this.btnDisConnect.Size = new System.Drawing.Size(78, 25);
-            this.btnDisConnect.TabIndex = 25;
-            this.btnDisConnect.Text = "Shut down";
-            this.btnDisConnect.UseVisualStyleBackColor = true;
-            this.btnDisConnect.Click += new System.EventHandler(this.btnDisConnect_Click);
+            this.btnConnect.Location = new System.Drawing.Point(244, 6);
+            this.btnConnect.Name = "btnConnect";
+            this.btnConnect.Size = new System.Drawing.Size(88, 25);
+            this.btnConnect.TabIndex = 24;
+            this.btnConnect.Text = "Listen ...";
+            this.btnConnect.UseVisualStyleBackColor = true;
+            this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
             // 
-            // label9
+            // cboAvaiableIPaddr
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(25, 71);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(27, 12);
-            this.label9.TabIndex = 21;
-            this.label9.Text = "Port:";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(25, 37);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(54, 12);
-            this.label10.TabIndex = 20;
-            this.label10.Text = "Server IP :";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(152, 71);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(64, 12);
-            this.label11.TabIndex = 31;
-            this.label11.Text = "ESP8266 IP:";
-            // 
-            // richTextBoxLog
-            // 
-            this.richTextBoxLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextBoxLog.Location = new System.Drawing.Point(6, 94);
-            this.richTextBoxLog.Name = "richTextBoxLog";
-            this.richTextBoxLog.ReadOnly = true;
-            this.richTextBoxLog.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedBoth;
-            this.richTextBoxLog.Size = new System.Drawing.Size(813, 522);
-            this.richTextBoxLog.TabIndex = 1;
-            this.richTextBoxLog.Text = "";
-            this.richTextBoxLog.WordWrap = false;
-            this.richTextBoxLog.TextChanged += new System.EventHandler(this.richTextBoxLog_TextChanged);
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(35, 7);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(387, 22);
-            this.textBox1.TabIndex = 20;
-            this.textBox1.Text = "0_0_n_0_0;0";
-            this.textBox1.Visible = false;
-            // 
-            // tb_EspIP
-            // 
-            this.tb_EspIP.Location = new System.Drawing.Point(222, 66);
-            this.tb_EspIP.Name = "tb_EspIP";
-            this.tb_EspIP.Size = new System.Drawing.Size(176, 22);
-            this.tb_EspIP.TabIndex = 32;
-            this.tb_EspIP.Text = "192.168.1.1";
-            // 
-            // btn_send
-            // 
-            this.btn_send.Location = new System.Drawing.Point(428, 7);
-            this.btn_send.Name = "btn_send";
-            this.btn_send.Size = new System.Drawing.Size(75, 23);
-            this.btn_send.TabIndex = 21;
-            this.btn_send.Text = "Send";
-            this.btn_send.UseVisualStyleBackColor = true;
-            this.btn_send.Visible = false;
-            this.btn_send.Click += new System.EventHandler(this.btn_send_Click);
+            this.cboAvaiableIPaddr.FormattingEnabled = true;
+            this.cboAvaiableIPaddr.Location = new System.Drawing.Point(85, 9);
+            this.cboAvaiableIPaddr.Name = "cboAvaiableIPaddr";
+            this.cboAvaiableIPaddr.Size = new System.Drawing.Size(133, 20);
+            this.cboAvaiableIPaddr.TabIndex = 22;
             // 
             // btn_LogClr
             // 
-            this.btn_LogClr.Location = new System.Drawing.Point(606, 44);
+            this.btn_LogClr.Location = new System.Drawing.Point(6, 6);
             this.btn_LogClr.Name = "btn_LogClr";
             this.btn_LogClr.Size = new System.Drawing.Size(117, 44);
             this.btn_LogClr.TabIndex = 26;
@@ -473,70 +469,84 @@
             this.btn_LogClr.UseVisualStyleBackColor = true;
             this.btn_LogClr.Click += new System.EventHandler(this.btn_LogClr_Click);
             // 
-            // btn_espIPset
-            // 
-            this.btn_espIPset.Location = new System.Drawing.Point(404, 66);
-            this.btn_espIPset.Name = "btn_espIPset";
-            this.btn_espIPset.Size = new System.Drawing.Size(75, 23);
-            this.btn_espIPset.TabIndex = 33;
-            this.btn_espIPset.Text = "Set";
-            this.btn_espIPset.UseVisualStyleBackColor = true;
-            this.btn_espIPset.Click += new System.EventHandler(this.btn_espIPset_Click);
-            // 
-            // btn_IPrefresh
-            // 
-            this.btn_IPrefresh.Location = new System.Drawing.Point(419, 35);
-            this.btn_IPrefresh.Name = "btn_IPrefresh";
-            this.btn_IPrefresh.Size = new System.Drawing.Size(75, 23);
-            this.btn_IPrefresh.TabIndex = 34;
-            this.btn_IPrefresh.Text = "Refresh";
-            this.btn_IPrefresh.UseVisualStyleBackColor = true;
-            this.btn_IPrefresh.Click += new System.EventHandler(this.btn_IPrefresh_Click);
-            // 
             // Phase
             // 
             this.Phase.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Phase.Controls.Add(this.tabPage1);
-            this.Phase.Location = new System.Drawing.Point(135, 12);
+            this.Phase.Controls.Add(this.tabPage2);
+            this.Phase.Location = new System.Drawing.Point(12, 15);
             this.Phase.Name = "Phase";
             this.Phase.SelectedIndex = 0;
-            this.Phase.Size = new System.Drawing.Size(833, 657);
+            this.Phase.Size = new System.Drawing.Size(732, 279);
             this.Phase.TabIndex = 22;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.richTextBoxLog);
+            this.tabPage2.Controls.Add(this.btn_LogClr);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(724, 253);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Log";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // richTextBoxLog
+            // 
+            this.richTextBoxLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBoxLog.Location = new System.Drawing.Point(6, 55);
+            this.richTextBoxLog.Name = "richTextBoxLog";
+            this.richTextBoxLog.ReadOnly = true;
+            this.richTextBoxLog.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedBoth;
+            this.richTextBoxLog.Size = new System.Drawing.Size(712, 192);
+            this.richTextBoxLog.TabIndex = 1;
+            this.richTextBoxLog.Text = "";
+            this.richTextBoxLog.Visible = false;
+            this.richTextBoxLog.WordWrap = false;
+            this.richTextBoxLog.TextChanged += new System.EventHandler(this.richTextBoxLog_TextChanged);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::ArduinoControlGUI.Properties.Resources.中正;
+            this.pictureBox1.Location = new System.Drawing.Point(550, 9);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(168, 113);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 4;
+            this.pictureBox1.TabStop = false;
+            // 
+            // linkImg
+            // 
+            this.linkImg.Image = global::ArduinoControlGUI.Properties.Resources.disconnect;
+            this.linkImg.InitialImage = null;
+            this.linkImg.Location = new System.Drawing.Point(500, 3);
+            this.linkImg.Name = "linkImg";
+            this.linkImg.Size = new System.Drawing.Size(32, 32);
+            this.linkImg.TabIndex = 35;
+            this.linkImg.TabStop = false;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(972, 684);
-            this.Controls.Add(this.cb_server_num);
-            this.Controls.Add(this.label16);
-            this.Controls.Add(this.label15);
-            this.Controls.Add(this.tb_server_inc);
-            this.Controls.Add(this.tb_server_fre);
-            this.Controls.Add(this.label14);
-            this.Controls.Add(this.label13);
-            this.Controls.Add(this.tb_server_ref);
-            this.Controls.Add(this.btn_output);
-            this.Controls.Add(this.label12);
-            this.Controls.Add(this.tb_dTime);
-            this.Controls.Add(this.btn_allFind);
-            this.Controls.Add(this.btn_allOff);
-            this.Controls.Add(this.btn_allOn);
+            this.ClientSize = new System.Drawing.Size(756, 306);
             this.Controls.Add(this.Phase);
-            this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.label6);
             this.Name = "Form1";
             this.Text = "Arduino GUI";
             this.Load += new System.EventHandler(this.Form1_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nUpDnPort)).EndInit();
             this.Phase.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.linkImg)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -570,10 +580,7 @@
         private System.Windows.Forms.Button btn_IPrefresh;
         private System.Windows.Forms.Button btn_espIPset;
         private System.Windows.Forms.Button btn_LogClr;
-        private System.Windows.Forms.Button btn_send;
         private System.Windows.Forms.TextBox tb_EspIP;
-        protected System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.RichTextBox richTextBoxLog;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label9;
@@ -582,6 +589,9 @@
         private System.Windows.Forms.Button btnConnect;
         private System.Windows.Forms.ComboBox cboAvaiableIPaddr;
         private System.Windows.Forms.TabControl Phase;
+        private System.Windows.Forms.RichTextBox richTextBoxLog;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.PictureBox linkImg;
     }
 }
 
