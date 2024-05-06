@@ -22,7 +22,7 @@ namespace ArduinoControlGUI
         public static System.Windows.Forms.Control Frm_;
         public static bool isRxReply = false;
         public static string EspIP = "";
-        public static string Inc_degree = "degree -30";
+        public static string Inc_degree = "degree 0";
         public static MySession EspSection = new MySession();
         public static MySession RxSection = new MySession();
     }
@@ -41,7 +41,7 @@ namespace ArduinoControlGUI
             UserId = 1;
             Username = "test";
 
-            Log.InfoFormat("Welcome to CCU AILab Server! friend:'{0}'", this.RemoteEndPoint.Address.ToString());
+            //Log.InfoFormat("Welcome to CCU AILab Server! friend:'{0}'", this.RemoteEndPoint.Address.ToString());
             if (SocketSession.RemoteEndPoint.Address.ToString() != TCPCommandTable.EspIP)
                 this.Send("Welcome to CCU AILab Server!");
         }
@@ -60,11 +60,11 @@ namespace ArduinoControlGUI
             {
                 if (SocketSession.RemoteEndPoint.Address.ToString() == TCPCommandTable.EspIP) //esp8266 ip
                 {
-                    Log.InfoFormat("ESP8266: '{0}'", requestInfo.Key);
+                    //Log.InfoFormat("ESP8266: '{0}'", requestInfo.Key);
                 }
                 else
                 {
-                    Log.InfoFormat("UnknownRequest!('{0}')", requestInfo.Key);
+                    //Log.InfoFormat("UnknownRequest!('{0}')", requestInfo.Key);
                     this.Send("-1");
                 }
             }
@@ -83,7 +83,7 @@ namespace ArduinoControlGUI
         }
         protected override void OnSessionClosed(CloseReason reason)
         {
-            Log.InfoFormat("OnSessionClosed! reason: '{0}'", reason);
+            //Log.InfoFormat("OnSessionClosed! reason: '{0}'", reason);
             base.OnSessionClosed(reason);
         }
     }
@@ -108,7 +108,7 @@ namespace ArduinoControlGUI
         private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public override void ExecuteCommand(MySession session, StringRequestInfo requestInfo)
         {
-            Log.InfoFormat("(rx)TXALL: '{0}'", requestInfo.Body);
+            //Log.InfoFormat("(rx)TXALL: '{0}'", requestInfo.Body);
             TCPCommandTable.isRxReply = true;
             if (TCPCommandTable.EspSection.SessionID != null)
             {
@@ -123,7 +123,7 @@ namespace ArduinoControlGUI
         private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public override void ExecuteCommand(MySession session, StringRequestInfo requestInfo)
         {
-            Log.InfoFormat("(rx)TX: '{0}'", requestInfo.Body);
+            //Log.InfoFormat("(rx)TX: '{0}'", requestInfo.Body);
             TCPCommandTable.isRxReply = true;
             if (TCPCommandTable.EspSection.SessionID != null)
             {
@@ -138,7 +138,7 @@ namespace ArduinoControlGUI
         private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public override void ExecuteCommand(MySession session, StringRequestInfo requestInfo)
         {
-            Log.InfoFormat("(rx)RX SINR: '{0}'", requestInfo.Body);
+            //Log.InfoFormat("(rx)RX SINR: '{0}'", requestInfo.Body);
             string inc_degree = TCPCommandTable.Inc_degree.Substring(TCPCommandTable.Inc_degree.LastIndexOf(" ") + 1, TCPCommandTable.Inc_degree.Length - TCPCommandTable.Inc_degree.LastIndexOf(" ") - 1);
             int[] SINR = Array.ConvertAll(requestInfo.Parameters, int.Parse);
             int index = Array.IndexOf(SINR, SINR.Max());
@@ -160,7 +160,7 @@ namespace ArduinoControlGUI
         private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public override void ExecuteCommand(MySession session, StringRequestInfo requestInfo)
         {
-            Log.InfoFormat("(rx)RX SINR: '{0}'", requestInfo.Body);
+            //Log.InfoFormat("(rx)RX SINR: '{0}'", requestInfo.Body);
             string inc_degree = TCPCommandTable.Inc_degree.Substring(TCPCommandTable.Inc_degree.LastIndexOf(" ") + 1, TCPCommandTable.Inc_degree.Length - TCPCommandTable.Inc_degree.LastIndexOf(" ") - 1);
             int[] SINR = Array.ConvertAll(requestInfo.Parameters, int.Parse);
         }
@@ -170,7 +170,7 @@ namespace ArduinoControlGUI
         private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public override void ExecuteCommand(MySession session, StringRequestInfo requestInfo)
         {
-            Log.InfoFormat("ESP8266: '{0}'", requestInfo.Key);
+            //Log.InfoFormat("ESP8266: '{0}'", requestInfo.Key);
             if (TCPCommandTable.isRxReply)
             {
                 TCPCommandTable.RxSection.Send("1");
@@ -201,7 +201,7 @@ namespace ArduinoControlGUI
                 TCPCommandTable.RxSection.Send(msg);
             }
 
-            Log.InfoFormat("(TX)    ({0})   Reply: {1}", cmd, msg);
+            //Log.InfoFormat("(TX)    ({0})   Reply: {1}", cmd, msg);
         }
 
         // // if (appServer.Setup("127.0.0.1", 8888))  
@@ -213,7 +213,7 @@ namespace ArduinoControlGUI
         protected override void OnStarted()
         {
             //    Log.InfoFormat("Server:'{0}' OnStarted!", this.LocalEndPoint.Address.ToString());
-            Log.Info("Server OnStarted!");
+            //Log.Info("Server OnStarted!");
             base.OnStarted();
         }
         protected override void OnNewSessionConnected(MySession session)
@@ -223,7 +223,7 @@ namespace ArduinoControlGUI
             else
                 TCPCommandTable.RxSection = GetSessionByID(session.SessionID);
             base.OnNewSessionConnected(session);
-            Log.InfoFormat("RemoteEndPoint:'{0}', OnNewSessionConnected", session.RemoteEndPoint.Address.ToString());
+            //Log.InfoFormat("RemoteEndPoint:'{0}', OnNewSessionConnected", session.RemoteEndPoint.Address.ToString());
         }
 
         protected override void OnSessionClosed(MySession session, CloseReason reason)
@@ -233,12 +233,12 @@ namespace ArduinoControlGUI
             else
                 TCPCommandTable.RxSection = null;
             base.OnSessionClosed(session, reason);
-            Log.InfoFormat("RemoteEndPoint:'{0}', OnSessionClosed,reason:{1}", session.RemoteEndPoint.Address.ToString(), reason);
+            //Log.InfoFormat("RemoteEndPoint:'{0}', OnSessionClosed,reason:{1}", session.RemoteEndPoint.Address.ToString(), reason);
         }
         protected override void OnStopped()
         {
             base.OnStopped();
-            Log.InfoFormat("Servo OnStopped");
+            //Log.InfoFormat("Servo OnStopped");
         }
     }
 }

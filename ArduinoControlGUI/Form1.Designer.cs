@@ -54,6 +54,8 @@
             this.tb_com = new System.Windows.Forms.TextBox();
             this.btn_clear = new System.Windows.Forms.Button();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.linkImg = new System.Windows.Forms.PictureBox();
             this.btn_IPrefresh = new System.Windows.Forms.Button();
             this.btn_espIPset = new System.Windows.Forms.Button();
             this.tb_EspIP = new System.Windows.Forms.TextBox();
@@ -68,14 +70,12 @@
             this.Phase = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.linkImg = new System.Windows.Forms.PictureBox();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.linkImg)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUpDnPort)).BeginInit();
             this.Phase.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.linkImg)).BeginInit();
             this.SuspendLayout();
             // 
             // serialPort1
@@ -352,6 +352,26 @@
             this.tabPage1.Text = "Server";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::ArduinoControlGUI.Properties.Resources.中正;
+            this.pictureBox1.Location = new System.Drawing.Point(550, 9);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(168, 113);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 4;
+            this.pictureBox1.TabStop = false;
+            // 
+            // linkImg
+            // 
+            this.linkImg.Image = global::ArduinoControlGUI.Properties.Resources.disconnect;
+            this.linkImg.InitialImage = null;
+            this.linkImg.Location = new System.Drawing.Point(500, 3);
+            this.linkImg.Name = "linkImg";
+            this.linkImg.Size = new System.Drawing.Size(32, 32);
+            this.linkImg.TabIndex = 35;
+            this.linkImg.TabStop = false;
+            // 
             // btn_IPrefresh
             // 
             this.btn_IPrefresh.Location = new System.Drawing.Point(419, 6);
@@ -506,29 +526,8 @@
             this.richTextBoxLog.Size = new System.Drawing.Size(712, 192);
             this.richTextBoxLog.TabIndex = 1;
             this.richTextBoxLog.Text = "";
-            this.richTextBoxLog.Visible = false;
             this.richTextBoxLog.WordWrap = false;
             this.richTextBoxLog.TextChanged += new System.EventHandler(this.richTextBoxLog_TextChanged);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::ArduinoControlGUI.Properties.Resources.中正;
-            this.pictureBox1.Location = new System.Drawing.Point(550, 9);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(168, 113);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 4;
-            this.pictureBox1.TabStop = false;
-            // 
-            // linkImg
-            // 
-            this.linkImg.Image = global::ArduinoControlGUI.Properties.Resources.disconnect;
-            this.linkImg.InitialImage = null;
-            this.linkImg.Location = new System.Drawing.Point(500, 3);
-            this.linkImg.Name = "linkImg";
-            this.linkImg.Size = new System.Drawing.Size(32, 32);
-            this.linkImg.TabIndex = 35;
-            this.linkImg.TabStop = false;
             // 
             // Form1
             // 
@@ -541,11 +540,11 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.linkImg)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUpDnPort)).EndInit();
             this.Phase.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.linkImg)).EndInit();
             this.ResumeLayout(false);
 
         }

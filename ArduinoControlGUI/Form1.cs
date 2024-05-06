@@ -38,7 +38,7 @@ using NPOI.SS.Formula.Functions;
 using MathNet.Numerics.Distributions;
 
 namespace ArduinoControlGUI
-{    
+{
     public partial class Form1 : Form
     {
         private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -52,7 +52,7 @@ namespace ArduinoControlGUI
         double frequency;
         int num;
         bool connection = false;
-        private RISBeamFormingBath cell ;
+        private RISBeamFormingBath cell;
         private Thread t;
         public Form1()
         {
@@ -62,7 +62,7 @@ namespace ArduinoControlGUI
         }
 
         private void Form1_Load(object sender, EventArgs e)
-        {          
+        {
             ListLocalIPaddrs();  // 可用 本機 IP 加入 Combobox
 
             //IsServerStarded = ServerStart(cboAvaiableIPaddr.Text, (int)nUpDnPort.Value);
@@ -172,7 +172,7 @@ namespace ArduinoControlGUI
             foreach (IPAddress ipaddress in iphostentry.AddressList)
             {
                 cboAvaiableIPaddr.Items.Add(ipaddress.ToString());
-                Log.Info("List Servo IP #" + num + ": " + ipaddress.ToString());
+                //Log.Info("List Servo IP #" + num + ": " + ipaddress.ToString());
                 num = num + 1;
             }
             cboAvaiableIPaddr.SelectedIndex = 0;
@@ -189,7 +189,7 @@ namespace ArduinoControlGUI
                 appServer.Dispose();
 
                 appServer = null;
-                Log.Info("Server ShutDown !");
+                //Log.Info("Server ShutDown !");
             }
             IsServerStarded = false;
         }
@@ -205,16 +205,16 @@ namespace ArduinoControlGUI
 
             if (appServer.Setup(IPaddr, iPort))   // 127.0.0.1:8888
             {
-                Log.InfoFormat("The server setup to '{0}:{1}'", IPaddr, iPort);
+                //Log.InfoFormat("The server setup to '{0}:{1}'", IPaddr, iPort);
                 if (appServer.Start())
                 {
-                    Log.Info("The server started.");
+                    //Log.Info("The server started.");
                     bRet = true;
                 }
             }
             else
             {
-                Log.ErrorFormat("The server setup fail, '{0}:{1}'", IPaddr, iPort);
+                //Log.ErrorFormat("The server setup fail, '{0}:{1}'", IPaddr, iPort);
                 bRet = false;
             }
             return bRet;
@@ -226,7 +226,7 @@ namespace ArduinoControlGUI
         {
             if (!IsServerStarded)
             {
-                Log.InfoFormat("Server not started,Send fail msg:'{0}'", msg);
+                //Log.InfoFormat("Server not started,Send fail msg:'{0}'", msg);
                 return false;
             }
             appServer.SendMessageToLastClientSession(cmd, msg);
@@ -234,7 +234,8 @@ namespace ArduinoControlGUI
         }
 
         //2023.09.23修改數學
-        private void RISBeamForming(int inc_degree,int ref_degree,double frequency) { 
+        private void RISBeamForming(int inc_degree, int ref_degree, double frequency)
+        {
             DateTime Start = DateTime.Now; //計時器          
             //inc angle & ref angle
             cell.f0 = frequency * Math.Pow(10, 9);
@@ -270,23 +271,23 @@ namespace ArduinoControlGUI
                 //IRow MPDviewRow = MPDview.CreateRow(i);
 
                 for (int j = 0; j < cell.numY; j++)
-                {                    
-                    cell.distx[i, j] = Math.Round(cell.xx-cell.eleM[i,j]* cell.d,4);
-                    cell.disty[i, j] = Math.Round(cell.yy - cell.eleN[i,j]* cell.d,4);
+                {
+                    cell.distx[i, j] = Math.Round(cell.xx - cell.eleM[i, j] * cell.d, 4);
+                    cell.disty[i, j] = Math.Round(cell.yy - cell.eleN[i, j] * cell.d, 4);
 
-                    cell.Rf[i, j] = Math.Round(Math.Sqrt(Math.Pow(cell.distx[i, j], 2) + Math.Pow(cell.disty[i, j], 2) + Math.Pow(cell.distz, 2)),4);
+                    cell.Rf[i, j] = Math.Round(Math.Sqrt(Math.Pow(cell.distx[i, j], 2) + Math.Pow(cell.disty[i, j], 2) + Math.Pow(cell.distz, 2)), 4);
 
-                    cell.vectorx[i, j] = Math.Round(cell.eleM[i, j] * cell.d - cell.xx,4);
-                    cell.vectory[i, j] = Math.Round(cell.eleN[i, j] * cell.d - cell.yy,4);
-                    cell.feedVectorx[i, j] = Math.Round(cell.centerx * cell.vectorx[i, j],4);
-                    cell.feedVectory[i, j] = Math.Round(cell.centery * cell.vectory[i, j],4);
+                    cell.vectorx[i, j] = Math.Round(cell.eleM[i, j] * cell.d - cell.xx, 4);
+                    cell.vectory[i, j] = Math.Round(cell.eleN[i, j] * cell.d - cell.yy, 4);
+                    cell.feedVectorx[i, j] = Math.Round(cell.centerx * cell.vectorx[i, j], 4);
+                    cell.feedVectory[i, j] = Math.Round(cell.centery * cell.vectory[i, j], 4);
                     cell.test[i, j] = cell.feedVectorx[i, j] + cell.feedVectory[i, j] + cell.feedVectorz;
-                    cell.thetaf[i, j] = Math.Round(Math.Acos((cell.feedVectorx[i, j] + cell.feedVectory[i, j] + cell.feedVectorz) / (cell.Rf[i, j] * cell.Ri)),4);
+                    cell.thetaf[i, j] = Math.Round(Math.Acos((cell.feedVectorx[i, j] + cell.feedVectory[i, j] + cell.feedVectorz) / (cell.Rf[i, j] * cell.Ri)), 4);
 
-                    cell.amp[i, j] = Math.Round(Math.Pow(Math.Cos(cell.thetaf[i, j]), cell.qe) / cell.Rf[i, j],4);
+                    cell.amp[i, j] = Math.Round(Math.Pow(Math.Cos(cell.thetaf[i, j]), cell.qe) / cell.Rf[i, j], 4);
 
-                    cell.incPD[i, j] = Math.Round(cell.k * Math.Sqrt(Math.Pow(cell.distx[i, j], 2) + Math.Pow(cell.disty[i, j], 2) + Math.Pow(cell.distz, 2)),4);
-                    cell.elePD[i, j] = Math.Round(cell.k * (Math.Sin(cell.refTH) * Math.Cos(cell.refPH) * cell.eleM[i, j] * cell.d + Math.Sin(cell.refTH) * Math.Sin(cell.refPH) * cell.eleN[i, j] * cell.d),4);
+                    cell.incPD[i, j] = Math.Round(cell.k * Math.Sqrt(Math.Pow(cell.distx[i, j], 2) + Math.Pow(cell.disty[i, j], 2) + Math.Pow(cell.distz, 2)), 4);
+                    cell.elePD[i, j] = Math.Round(cell.k * (Math.Sin(cell.refTH) * Math.Cos(cell.refPH) * cell.eleM[i, j] * cell.d + Math.Sin(cell.refTH) * Math.Sin(cell.refPH) * cell.eleN[i, j] * cell.d), 4);
                     cell.refPD[i, j] = (cell.incPD[i, j] - cell.elePD[i, j]) + cell.delta; //% refPD2=refPD
                     cell.MPD[i, j] = cell.refPD[i, j] % (2 * Math.PI); //% MPD(((0*pi/180)<=MPD&MPD<(cut_angle*pi/180)))=pi ;
                     //cell.MPDconti[i, j] = cell.MPD[i, j];
@@ -342,7 +343,7 @@ namespace ArduinoControlGUI
                 workbook.Write(stream);
             }
 
-            double[] phase_arr = new double[cell.numX*cell.numY];
+            double[] phase_arr = new double[cell.numX * cell.numY];
             phase_arr = phase_transfer();
             int count = 0;
             string MPDBinaryString = "";
@@ -357,7 +358,7 @@ namespace ArduinoControlGUI
                     MPDBinaryString = "";
                 }
             }
-                DateTime End = DateTime.Now;
+            DateTime End = DateTime.Now;
         }
 
         private double[] phase_transfer()//將相位切成對應的block並轉成一維陣列
@@ -574,7 +575,7 @@ namespace ArduinoControlGUI
                 }
 
 
-                
+
 
                 // pattern power factor
                 this.q = 0.85; //element pattern factor
@@ -656,7 +657,7 @@ namespace ArduinoControlGUI
                     Y[i, j] = y[j];
                 }
             }
-            return Tuple.Create(X,Y);
+            return Tuple.Create(X, Y);
         }
 
 
@@ -727,7 +728,7 @@ namespace ArduinoControlGUI
             IsServerStarded = ServerStart(cboAvaiableIPaddr.Text, (int)nUpDnPort.Value);
             if (IsServerStarded)
             {
-                Log.InfoFormat("connect");
+                //Log.InfoFormat("connect");
                 cboAvaiableIPaddr.Enabled = false;
                 nUpDnPort.Enabled = false;
                 btnConnect.Enabled = false;
@@ -794,15 +795,23 @@ namespace ArduinoControlGUI
 
         private void btn_output_Click(object sender, EventArgs e)
         {
+            Stopwatch stopwatch = new Stopwatch();
+            //Start the stopwatch
+            stopwatch.Start();
+
             //string inc_degree = TCPCommandTable.Inc_degree.Substring(TCPCommandTable.Inc_degree.LastIndexOf(" ") + 1, TCPCommandTable.Inc_degree.Length - TCPCommandTable.Inc_degree.LastIndexOf(" ") - 1);           
             frequency = Convert.ToDouble(tb_server_fre.Text);
             num = Convert.ToInt16(cb_server_num.Text);
-            cell =  new RISBeamFormingBath(num);
+            cell = new RISBeamFormingBath(num);
             RISBeamForming(inc_degree, ref_degree, frequency);
 
-            SetInfoToClient("esp8266", tb_server_inc.Text + "_" + tb_server_ref.Text + "_n_"+cb_server_num.Text.PadLeft(3,'0')+"_"+cell.ArduinoCode+ ";0");
+            stopwatch.Stop();
+            //Get the elapsed time
+            TimeSpan elapsedTime = stopwatch.Elapsed;
+            Log.Info("Program execution time: " + elapsedTime.TotalMilliseconds + " ms");
+            SetInfoToClient("esp8266", tb_server_inc.Text + "_" + tb_server_ref.Text + "_n_" + cb_server_num.Text.PadLeft(3, '0') + "_" + cell.ArduinoCode + ";0");
         }
-        
+
         private void tb_server_inc_Leave(object sender, EventArgs e)
         {
             if ((Convert.ToInt16(tb_server_inc.Text) < -90) || (Convert.ToInt16(tb_server_inc.Text) > 90))
@@ -821,7 +830,7 @@ namespace ArduinoControlGUI
             {
                 tb_server_ref.Text = "0";
             }
-            else 
+            else
             {
                 ref_degree = Convert.ToInt16(tb_server_ref.Text);
             }
