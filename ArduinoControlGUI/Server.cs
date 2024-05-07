@@ -14,6 +14,7 @@ using SuperSocket.Common;
 
 // 版本 : 1.2.13.0
 using System.IO.Ports;
+using System.Diagnostics;
 
 namespace ArduinoControlGUI
 {
@@ -25,6 +26,7 @@ namespace ArduinoControlGUI
         public static string Inc_degree = "degree 0";
         public static MySession EspSection = new MySession();
         public static MySession RxSection = new MySession();
+        public static Stopwatch stopwatch = new Stopwatch();
     }
     internal class Server
     {
@@ -60,7 +62,14 @@ namespace ArduinoControlGUI
             {
                 if (SocketSession.RemoteEndPoint.Address.ToString() == TCPCommandTable.EspIP) //esp8266 ip
                 {
-                    //Log.InfoFormat("ESP8266: '{0}'", requestInfo.Key);
+                    Log.InfoFormat("ESP8266: '{0}'", requestInfo.Key);
+                    if (requestInfo.Key == "1")
+                    {
+                        TCPCommandTable.stopwatch.Stop();
+                        //Get the elapsed time
+                        TimeSpan elapsedTime = TCPCommandTable.stopwatch.Elapsed;
+                        Log.InfoFormat("Program execution time: " + elapsedTime.TotalMilliseconds + " ms");
+                    }
                 }
                 else
                 {
@@ -171,6 +180,7 @@ namespace ArduinoControlGUI
         public override void ExecuteCommand(MySession session, StringRequestInfo requestInfo)
         {
             //Log.InfoFormat("ESP8266: '{0}'", requestInfo.Key);
+
             if (TCPCommandTable.isRxReply)
             {
                 TCPCommandTable.RxSection.Send("1");

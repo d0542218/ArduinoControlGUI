@@ -46,7 +46,6 @@ namespace ArduinoControlGUI
         private static string Log4NetPath = Environment.CurrentDirectory + "\\TCPIP_Logs";
         private static string Phase_Path = Environment.CurrentDirectory + "\\Phase";
         private RichTextBoxAppender2 rba;
-        Stopwatch stopwatch = new Stopwatch();
         int inc_degree;
         int ref_degree;
         double frequency;
@@ -796,9 +795,9 @@ namespace ArduinoControlGUI
 
         private void btn_output_Click(object sender, EventArgs e)
         {
-            stopwatch = new Stopwatch();
+            TCPCommandTable.stopwatch.Reset();
             //Start the stopwatch
-            stopwatch.Start();
+            TCPCommandTable.stopwatch.Start();
 
             //string inc_degree = TCPCommandTable.Inc_degree.Substring(TCPCommandTable.Inc_degree.LastIndexOf(" ") + 1, TCPCommandTable.Inc_degree.Length - TCPCommandTable.Inc_degree.LastIndexOf(" ") - 1);           
             frequency = Convert.ToDouble(tb_server_fre.Text);
@@ -807,11 +806,9 @@ namespace ArduinoControlGUI
             RISBeamForming(inc_degree, ref_degree, frequency);
 
             SetInfoToClient("esp8266", tb_server_inc.Text + "_" + tb_server_ref.Text + "_n_" + cb_server_num.Text.PadLeft(3, '0') + "_" + cell.ArduinoCode + ";0");
-            stopwatch.Stop();
-
-            //Get the elapsed time
-            TimeSpan elapsedTime = stopwatch.Elapsed;
-            Log.Info("Program execution time: " + elapsedTime.TotalMilliseconds + " ms");
+            
+            TimeSpan elapsedTime = TCPCommandTable.stopwatch.Elapsed;
+            Log.InfoFormat("PC count RIS : " + elapsedTime.TotalMilliseconds + " ms");
         }
 
         private void tb_server_inc_Leave(object sender, EventArgs e)
