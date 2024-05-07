@@ -46,13 +46,13 @@ namespace ArduinoControlGUI
         private static string Log4NetPath = Environment.CurrentDirectory + "\\TCPIP_Logs";
         private static string Phase_Path = Environment.CurrentDirectory + "\\Phase";
         private RichTextBoxAppender2 rba;
-
+        Stopwatch stopwatch = new Stopwatch();
         int inc_degree;
         int ref_degree;
         double frequency;
         int num;
         bool connection = false;
-        private RISBeamFormingBath cell;
+        private RISBeamFormingBath cell ;
         private Thread t;
         public Form1()
         {
@@ -78,7 +78,9 @@ namespace ArduinoControlGUI
 
             lb_findRef.SelectedIndex = 0;
             //lb_findInc.SelectedIndex = 0;
-
+            //初始化RIS
+            cell = new RISBeamFormingBath(40);
+            RISBeamForming(0, 0, 4.7);
             TCPCommandTable.EspIP = tb_EspIP.Text;
         }
 
@@ -235,8 +237,7 @@ namespace ArduinoControlGUI
 
         //2023.09.23修改數學
         private void RISBeamForming(int inc_degree, int ref_degree, double frequency)
-        {
-            DateTime Start = DateTime.Now; //計時器          
+        {      
             //inc angle & ref angle
             cell.f0 = frequency * Math.Pow(10, 9);
             cell.lamda = cell.c0 / cell.f0;
@@ -795,7 +796,7 @@ namespace ArduinoControlGUI
 
         private void btn_output_Click(object sender, EventArgs e)
         {
-            Stopwatch stopwatch = new Stopwatch();
+            stopwatch = new Stopwatch();
             //Start the stopwatch
             stopwatch.Start();
 
@@ -805,11 +806,12 @@ namespace ArduinoControlGUI
             cell = new RISBeamFormingBath(num);
             RISBeamForming(inc_degree, ref_degree, frequency);
 
+            SetInfoToClient("esp8266", tb_server_inc.Text + "_" + tb_server_ref.Text + "_n_" + cb_server_num.Text.PadLeft(3, '0') + "_" + cell.ArduinoCode + ";0");
             stopwatch.Stop();
+
             //Get the elapsed time
             TimeSpan elapsedTime = stopwatch.Elapsed;
             Log.Info("Program execution time: " + elapsedTime.TotalMilliseconds + " ms");
-            SetInfoToClient("esp8266", tb_server_inc.Text + "_" + tb_server_ref.Text + "_n_" + cb_server_num.Text.PadLeft(3, '0') + "_" + cell.ArduinoCode + ";0");
         }
 
         private void tb_server_inc_Leave(object sender, EventArgs e)
