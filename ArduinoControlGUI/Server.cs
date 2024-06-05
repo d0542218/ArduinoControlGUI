@@ -53,7 +53,28 @@ namespace ArduinoControlGUI
         {
             //   string prefix = Username + "(" + UserId + "):";
             //   base.Send(prefix + message);
-            base.Send(message);
+            //如果null就不傳表示連接出問題
+            if (string.IsNullOrEmpty(message))
+            {
+                Log.Error("The message to send is null or empty.");
+                return;
+            }
+
+            try
+            {
+                if (SocketSession == null)
+                {
+                    Log.Error("SocketSession is not initialized.");
+                    return;
+                }
+
+                base.Send(message);
+            }
+            catch (NullReferenceException ex)
+            {
+                Log.Error("Failed to send message due to null reference.", ex);
+                throw; // rethrow the exception to see where it originates from
+            }
         }
 
         protected override void HandleUnknownRequest(StringRequestInfo requestInfo)
