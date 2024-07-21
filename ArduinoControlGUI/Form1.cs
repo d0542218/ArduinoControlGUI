@@ -49,9 +49,11 @@ namespace ArduinoControlGUI
         int inc_degree;
         int ref_degree;
         double frequency;
-        int num;
+        int numX;
+        int numY;
         bool connection = false;
-        private RISBeamFormingBath cell ;
+        private RISBeamFormingBath cell;
+        private EnhancedRISBeamFormingBath cell2;
         private Thread t;
         public Form1()
         {
@@ -78,8 +80,10 @@ namespace ArduinoControlGUI
             lb_findRef.SelectedIndex = 0;
             //lb_findInc.SelectedIndex = 0;
             //初始化RIS
-            cell = new RISBeamFormingBath(40);
+            cell = new RISBeamFormingBath(40, 40);
+            cell2 = new EnhancedRISBeamFormingBath(40, 40);
             RISBeamForming(0, 0, 4.7);
+            RISBeamForming_Ming(0, 0, 4.7);
             TCPCommandTable.EspIP = tb_EspIP.Text;
         }
 
@@ -233,12 +237,14 @@ namespace ArduinoControlGUI
             appServer.SendMessageToLastClientSession(cmd, msg);
             return true;
         }
-
+        #region RISInit
         //2023.09.23修改數學
         private void RISBeamForming(int inc_degree, int ref_degree, double frequency)
-        {      
-            //inc angle & ref angle
-            cell.f0 = frequency * Math.Pow(10, 9);
+        {
+            cell = new RISBeamFormingBath(numX, numY)
+            {
+                f0 = frequency * Math.Pow(10, 9)
+            };
             cell.lamda = cell.c0 / cell.f0;
             cell.d = 0.42 * cell.lamda;//squarecell  
             cell.k = 2 * Math.PI / cell.lamda;
@@ -246,6 +252,7 @@ namespace ArduinoControlGUI
             IWorkbook workbook = new XSSFWorkbook();
             //feed horn position
             cell.Ri = cell.feedR;
+            //inc angle & ref angle
             cell.incThdeg = inc_degree; cell.incTH = Deg2Rad(cell.incThdeg);
             cell.incPhdeg = 0; cell.incPH = Deg2Rad(cell.incPhdeg);
             cell.refThdeg = ref_degree; cell.refTH = Deg2Rad(cell.refThdeg);
@@ -361,6 +368,66 @@ namespace ArduinoControlGUI
             DateTime End = DateTime.Now;
         }
 
+        private void RISBeamForming_Ming(int inc_degree, int ref_degree, double frequency)
+        {
+            cell2.lamda = cell2.c0 / cell2.f0;
+            cell2.dx = cell2.lamda;
+            cell2.dy = 0.5 * cell2.lamda;
+            cell2.dz = double.IsNaN(0 / 8 * cell2.lamda) ? 0 : 0 / 8 * cell2.lamda;
+            cell2.feed = Convert.ToDouble(tb_server_feed.Text); // unit: m
+            cell2.k = 2 * Math.PI / cell2.lamda;
+            cell2.f0 = frequency * Math.Pow(10, 9);
+            cell2.lamda = cell2.c0 / cell2.f0;
+            cell2.k = 2 * Math.PI / cell2.lamda;
+            cell2.dx = cell2.lamda;
+            cell2.dy = 0.5 * cell2.lamda;
+
+            // 設置入射角和反射角
+            cell2.incThdeg = inc_degree; cell2.incTH = Deg2Rad(cell2.incThdeg);
+            cell2.incPhdeg = 0; cell2.incPH = Deg2Rad(cell2.incPhdeg);
+            cell2.refThdeg = ref_degree; cell2.refTH = Deg2Rad(cell2.refThdeg);
+            cell2.refPhdeg = 90; cell2.refPH = Deg2Rad(cell2.refPhdeg);
+
+            // 計算饋源位置
+            cell2.Ri = cell2.feed;
+            cell2.xx = cell2.Ri * Math.Sin(cell2.incTH) * Math.Cos(cell2.incPH);
+            cell2.yy = cell2.Ri * Math.Sin(cell2.incTH) * Math.Sin(cell2.incPH);
+            cell2.zz = cell2.Ri * Math.Cos(cell2.incTH);
+            //cell2.distz = cell2.zz;
+            // 計算距離和相位
+            for (int i = 0; i < cell2.numX; i++)
+            {
+                for (int j = 0; j < cell2.numY; j++)
+                {
+                    cell2.distx[i, j] = Math.Round(cell2.xx - cell2.eleM[i, j] * cell2.dx, 4);
+                    cell2.disty[i, j] = Math.Round(cell2.yy - cell2.eleN[i, j] * cell2.dy, 4);
+                    cell2.distZ[i, j] = Math.Round(cell2.zz - cell2.Z[i, j] * cell2.dz, 4);
+                    cell2.incPD[i, j] = Math.Round(cell2.k * Math.Sqrt(Math.Pow(cell2.distx[i, j], 2) + Math.Pow(cell2.disty[i, j], 2) + Math.Pow(cell2.distZ[i, j], 2)), 4);
+                    cell2.elePD[i, j] = Math.Round(cell2.k * (Math.Sin(cell2.refTH) * Math.Cos(cell2.refPH) * cell2.eleM[i, j] * cell2.dx + Math.Sin(cell2.refTH) * Math.Sin(cell2.refPH) * cell2.eleN[i, j] * cell2.dy), 4);
+                    cell2.refPD[i, j] = -(cell2.incPD[i, j] + cell2.elePD[i, j]);
+                    cell2.MPD[i, j] = Mod(cell2.refPD[i, j], 2 * Math.PI);
+
+                    if (cell2.MPD[i, j] >= 0 && cell2.MPD[i, j] < Math.PI)
+                    {
+                        cell2.MPD[i, j] = 0;
+                    }
+                    else
+                    {
+                        cell2.MPD[i, j] = Math.PI;
+                    }
+                }
+            }
+
+            // 生成 Arduino 代碼
+            cell2.ArduinoCode = "";
+            for (int i = 0; i < cell2.numX; i++)
+            {
+                for (int j = 0; j < cell2.numY; j++)
+                {
+                    cell2.ArduinoCode += (cell2.MPD[i, j] == 0 ? "0" : "1");
+                }
+            }
+        }
         private double[] phase_transfer()//將相位切成對應的block並轉成一維陣列
         {
             int num = (cell.numX * cell.numX) / 100;
@@ -435,7 +502,10 @@ namespace ArduinoControlGUI
                     }
                 }
             }
-            phase_block = block_reverse(phase_block);
+            if (Convert.ToDouble(tb_server_fre_combox.Text) == 4.7)
+            {
+                phase_block = block_reverse(phase_block);
+            }
             double[] phase_tmp = new double[cell.numX * cell.numY];
             int cnt = 0;
             for (int k = 0; k < num; k++)
@@ -479,6 +549,9 @@ namespace ArduinoControlGUI
             public double c0;
             public double lamda;
             public double d;
+            public double dx;
+            public double dy;
+            public double dz;
             public double feed;
             public double k;
             public int delta;
@@ -538,7 +611,7 @@ namespace ArduinoControlGUI
             public double[,] gamma;
             public double[,] MPDview;
             public string ArduinoCode;
-            public RISBeamFormingBath(int num)
+            public RISBeamFormingBath(int numX, int numY)
             {
                 //this.f0 = frequency*Math.Pow(10,9);
                 this.c0 = 3e8;
@@ -552,10 +625,12 @@ namespace ArduinoControlGUI
                 this.delta = 0;
                 this.cut_angle = Deg2Rad(180);
                 this.binary_on_phase = Deg2Rad(180);
-                this.numX = num;
-                this.numY = num;
-                this.M = Enumerable.Range(1, numX).ToArray();
-                this.N = Enumerable.Range(1, numY).ToArray();
+                this.numX = numX;
+                this.numY = numY;
+
+
+                //this.M = Enumerable.Range(1, numX).ToArray();
+                //this.N = Enumerable.Range(1, numY).ToArray();
                 this.feedR = numX * d * 0.5 / Math.Tan(Deg2Rad(33.71 / 2));///unit : m 
 
                 //可能不用(matlab繪圖用)
@@ -625,14 +700,47 @@ namespace ArduinoControlGUI
                 {
                     for (int j = 0; j < numY; j++)
                     {
-                        eleM[i, j] = M[j] - (numX + 1) / 2.0;
-                        eleN[j, i] = N[j] - (numY + 1) / 2.0;
+                        eleM[i, j] = (i + 1) - (numX + 1) / 2.0;
+                        eleN[i, j] = (j + 1) - (numY + 1) / 2.0;
                     }
                 }
 
             }
-        }
 
+
+        }
+        private class EnhancedRISBeamFormingBath : RISBeamFormingBath
+        {
+            public double[,] Z; // 新的Z矩陣
+            public double[,] distZ;
+            public EnhancedRISBeamFormingBath(int numX, int numY) : base(numX, numY)
+            {
+                // 初始化 Z 矩陣
+                Z = new double[numX, numY];
+                distZ = new double[numX, numY];
+                // 計算 rows_per_quarter 和 cols_per_quarter
+                int rows_per_quarter = numX / 2;
+                int cols_per_quarter = numY / 2;
+
+                // 設置 Z 矩陣的四分之一區域內的值為 1
+                for (int i = 0; i < rows_per_quarter; i++)
+                {
+                    for (int j = 0; j < cols_per_quarter; j++)
+                    {
+                        Z[i, j] = 1;
+                    }
+                }
+
+                for (int i = numX - rows_per_quarter; i < numX; i++)
+                {
+                    for (int j = numY - cols_per_quarter; j < numY; j++)
+                    {
+                        Z[i, j] = 1;
+                    }
+                }
+            }
+        }
+        #endregion
         #region math
         private static double Deg2Rad(double degrees)
         {
@@ -660,7 +768,10 @@ namespace ArduinoControlGUI
             return Tuple.Create(X, Y);
         }
 
-
+        private static double Mod(double a, double n)
+        {
+            return a - n * Math.Floor(a / n);
+        }
         #endregion
         #region GUI動作
 
@@ -764,11 +875,6 @@ namespace ArduinoControlGUI
             TCPCommandTable.EspIP = tb_EspIP.Text;
         }
 
-        //private void lb_findInc_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    TCPCommandTable.Inc_degree = lb_findInc.SelectedItem.ToString();
-        //}
-
         private void btn_allOn_Click(object sender, EventArgs e)
         {
             SetInfoToClient("esp8266", "0_0_allon_0_0;0");
@@ -800,13 +906,29 @@ namespace ArduinoControlGUI
             TCPCommandTable.stopwatch.Start();
 
             //string inc_degree = TCPCommandTable.Inc_degree.Substring(TCPCommandTable.Inc_degree.LastIndexOf(" ") + 1, TCPCommandTable.Inc_degree.Length - TCPCommandTable.Inc_degree.LastIndexOf(" ") - 1);           
-            frequency = Convert.ToDouble(tb_server_fre.Text);
-            num = Convert.ToInt16(cb_server_num.Text);
-            cell = new RISBeamFormingBath(num);
-            RISBeamForming(inc_degree, ref_degree, frequency);
+            frequency = Convert.ToDouble(tb_server_fre_combox.Text);
+            string[] cb_server_num_parts = cb_server_num.Text.Split('X');
+            numX = Convert.ToInt16(cb_server_num_parts[0]);
+            numY = Convert.ToInt16(cb_server_num_parts[1]);
+            if (tb_server_default.Checked)
+            {
+                SetInfoToClient("esp8266", tb_server_inc.Text + "_" + tb_server_ref.Text + "_n_" + cb_server_num_parts[0].PadLeft(3, '0') + "_" + cb_server_num_parts[1].PadLeft(3, '0') + ";0");
+            }
+            else
+            {
+                if (numX == 32 & numY == 64)
+                {
+                    cell2 = new EnhancedRISBeamFormingBath(numX, numY);
+                    RISBeamForming_Ming(inc_degree, ref_degree, frequency);
+                    SetInfoToClient("esp8266", tb_server_inc.Text + "_" + tb_server_ref.Text + "_n_" + cb_server_num_parts[0].PadLeft(3, '0') + "_" + cb_server_num_parts[1].PadLeft(3, '0') + "_" + cell2.ArduinoCode + ";0");
+                }
+                else
+                {
+                    RISBeamForming(inc_degree, ref_degree, frequency);
+                    SetInfoToClient("esp8266", tb_server_inc.Text + "_" + tb_server_ref.Text + "_n_" + cb_server_num_parts[0].PadLeft(3, '0') + "_" + cb_server_num_parts[1].PadLeft(3, '0') + "_" + cell.ArduinoCode + ";0");
+                }
 
-            SetInfoToClient("esp8266", tb_server_inc.Text + "_" + tb_server_ref.Text + "_n_" + cb_server_num.Text.PadLeft(3, '0') + "_" + cell.ArduinoCode + ";0");
-            
+            }
             TimeSpan elapsedTime = TCPCommandTable.stopwatch.Elapsed;
             Log.InfoFormat("PC count RIS : " + elapsedTime.TotalMilliseconds + " ms");
         }
@@ -834,9 +956,6 @@ namespace ArduinoControlGUI
                 ref_degree = Convert.ToInt16(tb_server_ref.Text);
             }
         }
-
-
-
 
 
         #endregion

@@ -54,6 +54,10 @@
             this.tb_com = new System.Windows.Forms.TextBox();
             this.btn_clear = new System.Windows.Forms.Button();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tb_server_feed = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.tb_server_default = new System.Windows.Forms.CheckBox();
+            this.tb_server_fre_combox = new System.Windows.Forms.ComboBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.linkImg = new System.Windows.Forms.PictureBox();
             this.btn_IPrefresh = new System.Windows.Forms.Button();
@@ -189,6 +193,7 @@
             this.tb_server_fre.TabIndex = 33;
             this.tb_server_fre.Text = "4.7";
             this.tb_server_fre.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tb_server_fre.Visible = false;
             // 
             // tb_server_inc
             // 
@@ -226,13 +231,14 @@
             this.cb_server_num.FormattingEnabled = true;
             this.cb_server_num.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.cb_server_num.Items.AddRange(new object[] {
-            "20",
-            "40"});
+            "20 X 20",
+            "40 X 40",
+            "32 X 64"});
             this.cb_server_num.Location = new System.Drawing.Point(25, 115);
             this.cb_server_num.Name = "cb_server_num";
             this.cb_server_num.Size = new System.Drawing.Size(72, 20);
             this.cb_server_num.TabIndex = 38;
-            this.cb_server_num.Text = "20";
+            this.cb_server_num.Text = "20X20";
             // 
             // lb_findRef
             // 
@@ -317,6 +323,10 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.tb_server_feed);
+            this.tabPage1.Controls.Add(this.label1);
+            this.tabPage1.Controls.Add(this.tb_server_default);
+            this.tabPage1.Controls.Add(this.tb_server_fre_combox);
             this.tabPage1.Controls.Add(this.btn_allFind);
             this.tabPage1.Controls.Add(this.pictureBox1);
             this.tabPage1.Controls.Add(this.tb_dTime);
@@ -351,6 +361,48 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Server";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tb_server_feed
+            // 
+            this.tb_server_feed.Location = new System.Drawing.Point(311, 202);
+            this.tb_server_feed.Name = "tb_server_feed";
+            this.tb_server_feed.Size = new System.Drawing.Size(55, 22);
+            this.tb_server_feed.TabIndex = 41;
+            this.tb_server_feed.Text = "0";
+            this.tb_server_feed.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("新細明體", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label1.Location = new System.Drawing.Point(311, 177);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(49, 21);
+            this.label1.TabIndex = 42;
+            this.label1.Text = "Feed";
+            // 
+            // tb_server_default
+            // 
+            this.tb_server_default.AutoSize = true;
+            this.tb_server_default.Location = new System.Drawing.Point(25, 141);
+            this.tb_server_default.Name = "tb_server_default";
+            this.tb_server_default.Size = new System.Drawing.Size(58, 16);
+            this.tb_server_default.TabIndex = 40;
+            this.tb_server_default.Text = "Default";
+            this.tb_server_default.UseVisualStyleBackColor = true;
+            // 
+            // tb_server_fre_combox
+            // 
+            this.tb_server_fre_combox.FormattingEnabled = true;
+            this.tb_server_fre_combox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.tb_server_fre_combox.Items.AddRange(new object[] {
+            "4.7",
+            "28"});
+            this.tb_server_fre_combox.Location = new System.Drawing.Point(105, 115);
+            this.tb_server_fre_combox.Name = "tb_server_fre_combox";
+            this.tb_server_fre_combox.Size = new System.Drawing.Size(55, 20);
+            this.tb_server_fre_combox.TabIndex = 39;
+            this.tb_server_fre_combox.Text = "4.7";
             // 
             // pictureBox1
             // 
@@ -591,6 +643,10 @@
         private System.Windows.Forms.RichTextBox richTextBoxLog;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.PictureBox linkImg;
+        private System.Windows.Forms.ComboBox tb_server_fre_combox;
+        private System.Windows.Forms.CheckBox tb_server_default;
+        private System.Windows.Forms.TextBox tb_server_feed;
+        private System.Windows.Forms.Label label1;
     }
 }
 
