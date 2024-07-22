@@ -456,11 +456,11 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(173, 40);
+            this.label11.Location = new System.Drawing.Point(186, 40);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(64, 12);
+            this.label11.Size = new System.Drawing.Size(52, 12);
             this.label11.TabIndex = 31;
-            this.label11.Text = "ESP8266 IP:";
+            this.label11.Text = "ESP32 IP:";
             // 
             // label10
             // 

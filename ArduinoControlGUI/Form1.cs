@@ -351,7 +351,13 @@ namespace ArduinoControlGUI
             }
 
             double[] phase_arr = new double[cell.numX * cell.numY];
-            phase_arr = phase_transfer();
+            if (frequency == 4.7)
+            {
+                phase_arr = phase_transfer_block();
+            }else if(frequency == 28)
+            {
+                phase_arr = phase_transfer(cell.MPDconti);
+            }
             int count = 0;
             string MPDBinaryString = "";
             for (int i = 0; i < cell.numX * cell.numY; i++)
@@ -413,22 +419,41 @@ namespace ArduinoControlGUI
                     }
                     else
                     {
-                        cell2.MPD[i, j] = Math.PI;
+                        //cell2.MPD[i, j] = Math.PI;
+                        cell2.MPD[i, j] = 1;
                     }
                 }
             }
 
-            // 生成 Arduino 代碼
-            cell2.ArduinoCode = "";
-            for (int i = 0; i < cell2.numX; i++)
+            cell2.phase_arr = phase_transfer(cell2.MPD);
+            int count = 0;
+            string MPDBinaryString = "";
+            for (int i = 0; i < cell2.numX * cell2.numY; i++)
             {
-                for (int j = 0; j < cell2.numY; j++)
-                {
-                    cell2.ArduinoCode += (cell2.MPD[i, j] == 0 ? "0" : "1");
-                }
+               MPDBinaryString += cell2.phase_arr[i];
+               count++;
+               if (count % 8 == 0 && count != 0)
+               {
+                   //cell.ArduinoCode += Convert.ToInt32(MPDBinaryString, 2).ToString()+",";//逗號
+                   cell2.ArduinoCode += Convert.ToInt32(MPDBinaryString, 2).ToString().PadLeft(3, '0');
+                   MPDBinaryString = "";
+               }
             }
         }
-        private double[] phase_transfer()//將相位切成對應的block並轉成一維陣列
+        private double[] phase_transfer(double[,] MPD) { //將相位轉成一維陣列
+            
+            double[] phase_tmp = new double[MPD.GetLength(0)*MPD.GetLength(1)];
+            int index = 0;
+            for (int i = 0; i < MPD.GetLength(0); i++)
+            {
+                for (int j = 0; j < MPD.GetLength(1); j++)
+                {
+                    phase_tmp[index++] = MPD[i, j];
+                }
+            }
+            return phase_tmp;
+        }
+        private double[] phase_transfer_block()//將相位切成對應的block並轉成一維陣列
         {
             int num = (cell.numX * cell.numX) / 100;
             double[,,] phase_block = new double[num, 10, 10];
@@ -502,10 +527,9 @@ namespace ArduinoControlGUI
                     }
                 }
             }
-            if (Convert.ToDouble(tb_server_fre_combox.Text) == 4.7)
-            {
-                phase_block = block_reverse(phase_block);
-            }
+            
+            
+            phase_block = block_reverse(phase_block);
             double[] phase_tmp = new double[cell.numX * cell.numY];
             int cnt = 0;
             for (int k = 0; k < num; k++)
@@ -611,6 +635,7 @@ namespace ArduinoControlGUI
             public double[,] gamma;
             public double[,] MPDview;
             public string ArduinoCode;
+            public double[] phase_arr;
             public RISBeamFormingBath(int numX, int numY)
             {
                 //this.f0 = frequency*Math.Pow(10,9);
@@ -694,6 +719,8 @@ namespace ArduinoControlGUI
                 this.MPDconti = new double[numX, numY];
                 this.gamma = new double[numX, numY];
                 this.MPDview = new double[numX, numY];
+                this.ArduinoCode = "";
+                this.phase_arr = new double[numX * numY];
 
                 this.diodeOff = 0.91;
                 for (int i = 0; i < numX; i++)
@@ -912,7 +939,7 @@ namespace ArduinoControlGUI
             numY = Convert.ToInt16(cb_server_num_parts[1]);
             if (tb_server_default.Checked)
             {
-                SetInfoToClient("esp8266", tb_server_inc.Text + "_" + tb_server_ref.Text + "_n_" + cb_server_num_parts[0].PadLeft(3, '0') + "_" + cb_server_num_parts[1].PadLeft(3, '0') + ";0");
+                SetInfoToClient("esp32", tb_server_inc.Text + "_" + tb_server_ref.Text + "_Y_" + cb_server_num_parts[0].PadLeft(3, '0') + "_" + cb_server_num_parts[1].PadLeft(3, '0') + ";0");
             }
             else
             {
@@ -920,12 +947,12 @@ namespace ArduinoControlGUI
                 {
                     cell2 = new EnhancedRISBeamFormingBath(numX, numY);
                     RISBeamForming_Ming(inc_degree, ref_degree, frequency);
-                    SetInfoToClient("esp8266", tb_server_inc.Text + "_" + tb_server_ref.Text + "_n_" + cb_server_num_parts[0].PadLeft(3, '0') + "_" + cb_server_num_parts[1].PadLeft(3, '0') + "_" + cell2.ArduinoCode + ";0");
+                    SetInfoToClient("esp32", tb_server_inc.Text + "_" + tb_server_ref.Text + "_n_" + cb_server_num_parts[0].PadLeft(3, '0') + "_" + cb_server_num_parts[1].PadLeft(3, '0') + "_" + cell2.ArduinoCode + ";0");
                 }
                 else
                 {
                     RISBeamForming(inc_degree, ref_degree, frequency);
-                    SetInfoToClient("esp8266", tb_server_inc.Text + "_" + tb_server_ref.Text + "_n_" + cb_server_num_parts[0].PadLeft(3, '0') + "_" + cb_server_num_parts[1].PadLeft(3, '0') + "_" + cell.ArduinoCode + ";0");
+                    SetInfoToClient("esp32", tb_server_inc.Text + "_" + tb_server_ref.Text + "_n_" + cb_server_num_parts[0].PadLeft(3, '0') + "_" + cb_server_num_parts[1].PadLeft(3, '0') + "_" + cell.ArduinoCode + ";0");
                 }
 
             }
