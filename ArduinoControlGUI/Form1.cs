@@ -939,7 +939,7 @@ namespace ArduinoControlGUI
             numY = Convert.ToInt16(cb_server_num_parts[1]);
             if (tb_server_default.Checked)
             {
-                SetInfoToClient("esp32", tb_server_inc.Text + "_" + tb_server_ref.Text + "_Y_" + cb_server_num_parts[0].PadLeft(3, '0') + "_" + cb_server_num_parts[1].PadLeft(3, '0') + ";0");
+                SetInfoToClient("esp32", tb_server_inc.Text + "_" + tb_server_ref.Text + "_Y_" + cb_server_num_parts[0] + "_" + cb_server_num_parts[1] + ";0");
             }
             else
             {
@@ -947,12 +947,12 @@ namespace ArduinoControlGUI
                 {
                     cell2 = new EnhancedRISBeamFormingBath(numX, numY);
                     RISBeamForming_Ming(inc_degree, ref_degree, frequency);
-                    SetInfoToClient("esp32", tb_server_inc.Text + "_" + tb_server_ref.Text + "_n_" + cb_server_num_parts[0].PadLeft(3, '0') + "_" + cb_server_num_parts[1].PadLeft(3, '0') + "_" + cell2.ArduinoCode + ";0");
+                    SetInfoToClient("esp32", tb_server_inc.Text + "_" + tb_server_ref.Text + "_n_" + cb_server_num_parts[0] + "_" + cb_server_num_parts[1] + "_" + cell2.ArduinoCode + ";0");
                 }
                 else
                 {
                     RISBeamForming(inc_degree, ref_degree, frequency);
-                    SetInfoToClient("esp32", tb_server_inc.Text + "_" + tb_server_ref.Text + "_n_" + cb_server_num_parts[0].PadLeft(3, '0') + "_" + cb_server_num_parts[1].PadLeft(3, '0') + "_" + cell.ArduinoCode + ";0");
+                    SetInfoToClient("esp32", tb_server_inc.Text + "_" + tb_server_ref.Text + "_n_" + cb_server_num_parts[0] + "_" + cb_server_num_parts[1] + "_" + cell.ArduinoCode + ";0");
                 }
 
             }

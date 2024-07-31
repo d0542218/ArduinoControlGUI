@@ -24,7 +24,7 @@ namespace ArduinoControlGUI
     {
         #region Private Instance Fields
         private RichTextBox richTextBox = null;
-        private Form containerForm = null;
+        //private Form containerForm = null;
         private LevelMapping levelMapping = new LevelMapping();
         private int maxTextLength = 100000;
         #endregion
