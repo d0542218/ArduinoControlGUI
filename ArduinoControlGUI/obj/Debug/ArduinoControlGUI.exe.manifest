@@ -49,7 +49,11 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+<<<<<<< HEAD
+        <dsig:DigestValue>4/JWTWeJXLgAamauUuQ3qLtZjttM/YhnbVVjlsIKxXY=</dsig:DigestValue>
+=======
         <dsig:DigestValue>LzcAG+EQCc7JS2NpryVi3WnZj6A2yAdc+UowTf4I6e0=</dsig:DigestValue>
+>>>>>>> parent of b8ff16b (把單元數量補0去除)
       </hash>
     </dependentAssembly>
   </dependency>
