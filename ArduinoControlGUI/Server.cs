@@ -81,9 +81,9 @@ namespace ArduinoControlGUI
         {
             if (requestInfo.Key != "")
             {
-                if (SocketSession.RemoteEndPoint.Address.ToString() == TCPCommandTable.EspIP) //esp8266 ip
+                if (SocketSession.RemoteEndPoint.Address.ToString() == TCPCommandTable.EspIP) //esp32 ip
                 {
-                    Log.InfoFormat("ESP8266: '{0}'", requestInfo.Key);
+                    Log.InfoFormat("ESP32: '{0}'", requestInfo.Key);
                     if (requestInfo.Key == "1")
                     {
                         TCPCommandTable.stopwatch.Stop();
@@ -103,7 +103,7 @@ namespace ArduinoControlGUI
         {
             if (SocketSession.RemoteEndPoint.Address.ToString() == TCPCommandTable.EspIP)
             {
-                Log.Warn("ESP8266_Exception:", e);
+                Log.Warn("ESP32_Exception:", e);
             }
             else
             {
@@ -225,7 +225,7 @@ namespace ArduinoControlGUI
                 Log.WarnFormat("Client section not connect yet!,fail to send msg:'{0}'", msg);
                 return;
             }
-            if (cmd == "esp8266")
+            if (cmd == "esp32")
                 TCPCommandTable.EspSection.Send(msg + "!");
             else
             {

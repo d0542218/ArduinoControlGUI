@@ -231,9 +231,9 @@
             this.cb_server_num.FormattingEnabled = true;
             this.cb_server_num.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.cb_server_num.Items.AddRange(new object[] {
-            "20 X 20",
-            "40 X 40",
-            "32 X 64"});
+            "20X20",
+            "40X40",
+            "32X64"});
             this.cb_server_num.Location = new System.Drawing.Point(25, 115);
             this.cb_server_num.Name = "cb_server_num";
             this.cb_server_num.Size = new System.Drawing.Size(72, 20);

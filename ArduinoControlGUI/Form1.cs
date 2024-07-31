@@ -904,18 +904,18 @@ namespace ArduinoControlGUI
 
         private void btn_allOn_Click(object sender, EventArgs e)
         {
-            SetInfoToClient("esp8266", "0_0_allon_0_0;0");
+            SetInfoToClient("esp32", "0_0_allon_0_0;0");
         }
 
         private void btn_allOff_Click(object sender, EventArgs e)
         {
-            SetInfoToClient("esp8266", "0_0_alloff_0_0;0");
+            SetInfoToClient("esp32", "0_0_alloff_0_0;0");
         }
 
         private void btn_allFind_Click(object sender, EventArgs e)
         {
             string inc_degree = TCPCommandTable.Inc_degree.Substring(TCPCommandTable.Inc_degree.LastIndexOf(" ") + 1, TCPCommandTable.Inc_degree.Length - TCPCommandTable.Inc_degree.LastIndexOf(" ") - 1);
-            SetInfoToClient("esp8266", inc_degree + "_-60_allnfind_0_0;" + tb_dTime.Text);
+            SetInfoToClient("esp32", inc_degree + "_-60_allnfind_0_0;" + tb_dTime.Text);
         }
 
         private void richTextBoxLog_TextChanged(object sender, EventArgs e)
