@@ -14,7 +14,11 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+<<<<<<< HEAD
         <dsig:DigestValue>eeuoHDLMPvoZfFLQMTu+gz60+oRCfff0XkaiyYpA1gs=</dsig:DigestValue>
+=======
+        <dsig:DigestValue>ncfCXmHVaZcG+mzvgABsGP9MDA3h3T3y5cD4A2zgqwU=</dsig:DigestValue>
+>>>>>>> parent of b8ff16b (把單元數量補0去除)
       </hash>
     </dependentAssembly>
   </dependency>
