@@ -54,6 +54,13 @@
             this.tb_com = new System.Windows.Forms.TextBox();
             this.btn_clear = new System.Windows.Forms.Button();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.phi2 = new System.Windows.Forms.Label();
+            this.tb_server_ref_phi = new System.Windows.Forms.TextBox();
+            this.phi1 = new System.Windows.Forms.Label();
+            this.tb_server_inc_phi = new System.Windows.Forms.TextBox();
+            this.theta2 = new System.Windows.Forms.Label();
+            this.theta1 = new System.Windows.Forms.Label();
+            this.tb_server_ref_combox = new System.Windows.Forms.ComboBox();
             this.tb_server_feed = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tb_server_default = new System.Windows.Forms.CheckBox();
@@ -239,6 +246,7 @@
             this.cb_server_num.Size = new System.Drawing.Size(72, 20);
             this.cb_server_num.TabIndex = 38;
             this.cb_server_num.Text = "20X20";
+            this.cb_server_num.SelectedIndexChanged += new System.EventHandler(this.cb_server_num_SelectedIndexChanged);
             // 
             // lb_findRef
             // 
@@ -323,6 +331,13 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.phi2);
+            this.tabPage1.Controls.Add(this.tb_server_ref_phi);
+            this.tabPage1.Controls.Add(this.phi1);
+            this.tabPage1.Controls.Add(this.tb_server_inc_phi);
+            this.tabPage1.Controls.Add(this.theta2);
+            this.tabPage1.Controls.Add(this.theta1);
+            this.tabPage1.Controls.Add(this.tb_server_ref_combox);
             this.tabPage1.Controls.Add(this.tb_server_feed);
             this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Controls.Add(this.tb_server_default);
@@ -362,6 +377,95 @@
             this.tabPage1.Text = "Server";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // phi2
+            // 
+            this.phi2.AutoSize = true;
+            this.phi2.Font = new System.Drawing.Font("新細明體", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.phi2.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.phi2.Location = new System.Drawing.Point(376, 141);
+            this.phi2.Name = "phi2";
+            this.phi2.Size = new System.Drawing.Size(31, 21);
+            this.phi2.TabIndex = 49;
+            this.phi2.Text = "φ";
+            // 
+            // tb_server_ref_phi
+            // 
+            this.tb_server_ref_phi.Enabled = false;
+            this.tb_server_ref_phi.Location = new System.Drawing.Point(315, 141);
+            this.tb_server_ref_phi.Name = "tb_server_ref_phi";
+            this.tb_server_ref_phi.Size = new System.Drawing.Size(55, 22);
+            this.tb_server_ref_phi.TabIndex = 48;
+            this.tb_server_ref_phi.Text = "0";
+            this.tb_server_ref_phi.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // phi1
+            // 
+            this.phi1.AutoSize = true;
+            this.phi1.Font = new System.Drawing.Font("新細明體", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.phi1.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.phi1.Location = new System.Drawing.Point(266, 139);
+            this.phi1.Name = "phi1";
+            this.phi1.Size = new System.Drawing.Size(31, 21);
+            this.phi1.TabIndex = 47;
+            this.phi1.Text = "φ";
+            // 
+            // tb_server_inc_phi
+            // 
+            this.tb_server_inc_phi.Location = new System.Drawing.Point(215, 139);
+            this.tb_server_inc_phi.Name = "tb_server_inc_phi";
+            this.tb_server_inc_phi.Size = new System.Drawing.Size(55, 22);
+            this.tb_server_inc_phi.TabIndex = 46;
+            this.tb_server_inc_phi.Text = "0";
+            this.tb_server_inc_phi.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tb_server_inc_phi.Leave += new System.EventHandler(this.tb_server_inc_phi_Leave);
+            // 
+            // theta2
+            // 
+            this.theta2.AutoSize = true;
+            this.theta2.Font = new System.Drawing.Font("新細明體", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.theta2.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.theta2.Location = new System.Drawing.Point(376, 114);
+            this.theta2.Name = "theta2";
+            this.theta2.Size = new System.Drawing.Size(31, 21);
+            this.theta2.TabIndex = 45;
+            this.theta2.Text = "θ";
+            // 
+            // theta1
+            // 
+            this.theta1.AutoSize = true;
+            this.theta1.Font = new System.Drawing.Font("新細明體", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.theta1.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.theta1.Location = new System.Drawing.Point(266, 114);
+            this.theta1.Name = "theta1";
+            this.theta1.Size = new System.Drawing.Size(31, 21);
+            this.theta1.TabIndex = 44;
+            this.theta1.Text = "θ";
+            // 
+            // tb_server_ref_combox
+            // 
+            this.tb_server_ref_combox.FormattingEnabled = true;
+            this.tb_server_ref_combox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.tb_server_ref_combox.Items.AddRange(new object[] {
+            "-60",
+            "-50",
+            "-40",
+            "-30",
+            "-20",
+            "-10",
+            "0",
+            "10",
+            "20",
+            "30",
+            "40",
+            "50",
+            "60"});
+            this.tb_server_ref_combox.Location = new System.Drawing.Point(319, 115);
+            this.tb_server_ref_combox.Name = "tb_server_ref_combox";
+            this.tb_server_ref_combox.Size = new System.Drawing.Size(55, 20);
+            this.tb_server_ref_combox.TabIndex = 43;
+            this.tb_server_ref_combox.Text = "0";
+            this.tb_server_ref_combox.Visible = false;
+            // 
             // tb_server_feed
             // 
             this.tb_server_feed.Location = new System.Drawing.Point(311, 202);
@@ -390,6 +494,7 @@
             this.tb_server_default.TabIndex = 40;
             this.tb_server_default.Text = "Default";
             this.tb_server_default.UseVisualStyleBackColor = true;
+            this.tb_server_default.CheckedChanged += new System.EventHandler(this.tb_server_default_CheckedChanged);
             // 
             // tb_server_fre_combox
             // 
@@ -647,6 +752,13 @@
         private System.Windows.Forms.CheckBox tb_server_default;
         private System.Windows.Forms.TextBox tb_server_feed;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox tb_server_ref_combox;
+        private System.Windows.Forms.Label theta1;
+        private System.Windows.Forms.Label theta2;
+        private System.Windows.Forms.Label phi2;
+        private System.Windows.Forms.TextBox tb_server_ref_phi;
+        private System.Windows.Forms.Label phi1;
+        private System.Windows.Forms.TextBox tb_server_inc_phi;
     }
 }
 

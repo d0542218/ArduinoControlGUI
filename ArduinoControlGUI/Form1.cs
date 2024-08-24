@@ -48,6 +48,7 @@ namespace ArduinoControlGUI
         private RichTextBoxAppender2 rba;
         int inc_degree;
         int ref_degree;
+        int ref_phi_degree;
         double frequency;
         int numX;
         int numY;
@@ -82,8 +83,8 @@ namespace ArduinoControlGUI
             //初始化RIS
             cell = new RISBeamFormingBath(40, 40);
             cell2 = new EnhancedRISBeamFormingBath(40, 40);
-            RISBeamForming(0, 0, 4.7);
-            RISBeamForming_Ming(0, 0, 4.7);
+            RISBeamForming(0, 0,0, 4.7);
+            RISBeamForming_Ming(0, 0,0, 4.7);
             TCPCommandTable.EspIP = tb_EspIP.Text;
         }
 
@@ -239,22 +240,23 @@ namespace ArduinoControlGUI
         }
         #region RISInit
         //2023.09.23修改數學
-        private void RISBeamForming(int inc_degree, int ref_degree, double frequency)
+        private void RISBeamForming(int inc_degree, int ref_degree,int ref_phi_degree, double frequency)
         {
-            cell = new RISBeamFormingBath(numX, numY)
-            {
-                f0 = frequency * Math.Pow(10, 9)
-            };
+            IWorkbook workbook = new XSSFWorkbook();
+            ISheet MPD = workbook.CreateSheet("MPD");
+            ISheet MPD_rot = workbook.CreateSheet("MPD_rot");
+
+            cell.f0 = frequency * Math.Pow(10, 9);
             cell.lamda = cell.c0 / cell.f0;
             cell.d = 0.42 * cell.lamda;//squarecell  
             cell.k = 2 * Math.PI / cell.lamda;
             cell.feedR = cell.numX * cell.d * 0.5 / Math.Tan(Deg2Rad(33.71 / 2));
-            IWorkbook workbook = new XSSFWorkbook();
+            
             //feed horn position
             cell.Ri = cell.feedR;
             //inc angle & ref angle
             cell.incThdeg = inc_degree; cell.incTH = Deg2Rad(cell.incThdeg);
-            cell.incPhdeg = 0; cell.incPH = Deg2Rad(cell.incPhdeg);
+            cell.incPhdeg = ref_phi_degree; cell.incPH = Deg2Rad(cell.incPhdeg);
             cell.refThdeg = ref_degree; cell.refTH = Deg2Rad(cell.refThdeg);
             cell.refPhdeg = 0; cell.refPH = Deg2Rad(cell.refPhdeg);
             cell.xx = cell.Ri * Math.Sin(cell.incTH) * Math.Cos(cell.incPH);
@@ -265,17 +267,11 @@ namespace ArduinoControlGUI
             cell.centery = 0 - cell.yy;
             cell.centerz = 0 - cell.zz;
             cell.vectorz = 0 * cell.d - cell.zz;
-            cell.feedVectorz = cell.centerz * cell.vectorz;
-            ISheet MPD = workbook.CreateSheet("MPD");
-            ISheet MPD_rot = workbook.CreateSheet("MPD_rot");
-            //ISheet gamma = workbook.CreateSheet("gamma");
-            //ISheet MPDview = workbook.CreateSheet("MPDview");            
+            cell.feedVectorz = cell.centerz * cell.vectorz;       
 
             for (int i = 0; i < cell.numX; i++)
             {
                 IRow MPDRow = MPD.CreateRow(i);
-                //IRow gammaRow = gamma.CreateRow(i);
-                //IRow MPDviewRow = MPDview.CreateRow(i);
 
                 for (int j = 0; j < cell.numY; j++)
                 {
@@ -374,8 +370,12 @@ namespace ArduinoControlGUI
             DateTime End = DateTime.Now;
         }
 
-        private void RISBeamForming_Ming(int inc_degree, int ref_degree, double frequency)
+        private void RISBeamForming_Ming(int inc_degree, int ref_degree,int ref_phi_egree, double frequency)
         {
+            IWorkbook workbook = new XSSFWorkbook();
+            ISheet MPD = workbook.CreateSheet("MPD");
+            ISheet MPD_rot = workbook.CreateSheet("MPD_rot");
+
             cell2.lamda = cell2.c0 / cell2.f0;
             cell2.dx = cell2.lamda;
             cell2.dy = 0.5 * cell2.lamda;
@@ -390,7 +390,7 @@ namespace ArduinoControlGUI
 
             // 設置入射角和反射角
             cell2.incThdeg = inc_degree; cell2.incTH = Deg2Rad(cell2.incThdeg);
-            cell2.incPhdeg = 0; cell2.incPH = Deg2Rad(cell2.incPhdeg);
+            cell2.incPhdeg = ref_phi_egree; cell2.incPH = Deg2Rad(cell2.incPhdeg);
             cell2.refThdeg = ref_degree; cell2.refTH = Deg2Rad(cell2.refThdeg);
             cell2.refPhdeg = 90; cell2.refPH = Deg2Rad(cell2.refPhdeg);
 
@@ -403,13 +403,14 @@ namespace ArduinoControlGUI
             // 計算距離和相位
             for (int i = 0; i < cell2.numX; i++)
             {
+                IRow MPDRow = MPD.CreateRow(i);
                 for (int j = 0; j < cell2.numY; j++)
                 {
-                    cell2.distx[i, j] = Math.Round(cell2.xx - cell2.eleM[i, j] * cell2.dx, 4);
-                    cell2.disty[i, j] = Math.Round(cell2.yy - cell2.eleN[i, j] * cell2.dy, 4);
-                    cell2.distZ[i, j] = Math.Round(cell2.zz - cell2.Z[i, j] * cell2.dz, 4);
-                    cell2.incPD[i, j] = Math.Round(cell2.k * Math.Sqrt(Math.Pow(cell2.distx[i, j], 2) + Math.Pow(cell2.disty[i, j], 2) + Math.Pow(cell2.distZ[i, j], 2)), 4);
-                    cell2.elePD[i, j] = Math.Round(cell2.k * (Math.Sin(cell2.refTH) * Math.Cos(cell2.refPH) * cell2.eleM[i, j] * cell2.dx + Math.Sin(cell2.refTH) * Math.Sin(cell2.refPH) * cell2.eleN[i, j] * cell2.dy), 4);
+                    cell2.distx[i, j] = cell2.xx - cell2.eleM[i, j] * cell2.dx;
+                    cell2.disty[i, j] = cell2.yy - cell2.eleN[i, j] * cell2.dy;
+                    cell2.distZ[i, j] = cell2.zz - cell2.Z[i, j] * cell2.dz;
+                    cell2.incPD[i, j] = cell2.k * Math.Sqrt(Math.Pow(cell2.distx[i, j], 2) + Math.Pow(cell2.disty[i, j], 2) + Math.Pow(cell2.distZ[i, j], 2));
+                    cell2.elePD[i, j] = cell2.k * (Math.Sin(cell2.refTH) * Math.Cos(cell2.refPH) * cell2.eleM[i, j] * cell2.dx + Math.Sin(cell2.refTH) * Math.Sin(cell2.refPH) * cell2.eleN[i, j] * cell2.dy);
                     cell2.refPD[i, j] = -(cell2.incPD[i, j] + cell2.elePD[i, j]);
                     cell2.MPD[i, j] = Mod(cell2.refPD[i, j], 2 * Math.PI);
 
@@ -422,7 +423,27 @@ namespace ArduinoControlGUI
                         //cell2.MPD[i, j] = Math.PI;
                         cell2.MPD[i, j] = 1;
                     }
+                    ICell MPDRowCell = MPDRow.CreateCell(j);
+                    MPDRowCell.SetCellValue(cell2.MPD[i, j]);
                 }
+            }
+
+            //順轉180度(處理由後往前的順序+逆轉90度)
+            for (int i = 0; i < cell2.numX; i++)
+            {
+                IRow MPDRow_rot = MPD_rot.CreateRow(i);
+                for (int j = 0; j < cell2.numX; j++)
+                {
+                    cell2.MPDconti[i, j] = cell2.MPD[cell2.numX - 1 - i, cell2.numX - 1 - j];
+                    ICell MPDRowCell = MPDRow_rot.CreateCell(j);
+                    MPDRowCell.SetCellValue(cell2.MPDconti[i, j]);
+                }
+            }
+            //儲存MPD
+            string filePath = Path.Combine(Phase_Path, "MPD_Ming.xlsx");
+            using (FileStream stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+            {
+                workbook.Write(stream);
             }
 
             cell2.phase_arr = phase_transfer(cell2.MPD);
@@ -545,7 +566,6 @@ namespace ArduinoControlGUI
             }
             return phase_tmp;
         }
-
         private double[,,] block_reverse(double[,,] block)//將偶數行反轉0.2.4...
         {
             double[] tmp = new double[block.GetLength(1)];
@@ -904,18 +924,18 @@ namespace ArduinoControlGUI
 
         private void btn_allOn_Click(object sender, EventArgs e)
         {
-            SetInfoToClient("esp32", "0_0_allon_0_0;0");
+            SetInfoToClient("esp32", "0_0_allon_0_0_0;0");
         }
 
         private void btn_allOff_Click(object sender, EventArgs e)
         {
-            SetInfoToClient("esp32", "0_0_alloff_0_0;0");
+            SetInfoToClient("esp32", "0_0_alloff_0_0_0;0");
         }
 
         private void btn_allFind_Click(object sender, EventArgs e)
         {
             string inc_degree = TCPCommandTable.Inc_degree.Substring(TCPCommandTable.Inc_degree.LastIndexOf(" ") + 1, TCPCommandTable.Inc_degree.Length - TCPCommandTable.Inc_degree.LastIndexOf(" ") - 1);
-            SetInfoToClient("esp32", inc_degree + "_-60_allnfind_0_0;" + tb_dTime.Text);
+            SetInfoToClient("esp32", inc_degree + "_-60_allnfind_0_0_0;" + tb_dTime.Text);
         }
 
         private void richTextBoxLog_TextChanged(object sender, EventArgs e)
@@ -939,19 +959,20 @@ namespace ArduinoControlGUI
             numY = Convert.ToInt16(cb_server_num_parts[1]);
             if (tb_server_default.Checked)
             {
-                SetInfoToClient("esp32", tb_server_inc.Text + "_" + tb_server_ref.Text + "_Y_" + cb_server_num_parts[0].PadLeft(3, '0') + "_" + cb_server_num_parts[1].PadLeft(3, '0') + ";0");
+                SetInfoToClient("esp32", tb_server_inc.Text + "_" + tb_server_ref.Text + "_default_" + cb_server_num_parts[0].PadLeft(3, '0') + "_" + cb_server_num_parts[1].PadLeft(3, '0') + ";0");
             }
             else
             {
                 if (numX == 32 & numY == 64)
                 {
                     cell2 = new EnhancedRISBeamFormingBath(numX, numY);
-                    RISBeamForming_Ming(inc_degree, ref_degree, frequency);
+                    RISBeamForming_Ming(inc_degree, ref_degree,ref_phi_degree, frequency);
                     SetInfoToClient("esp32", tb_server_inc.Text + "_" + tb_server_ref.Text + "_n_" + cb_server_num_parts[0].PadLeft(3, '0') + "_" + cb_server_num_parts[1].PadLeft(3, '0') + "_" + cell2.ArduinoCode + ";0");
                 }
                 else
                 {
-                    RISBeamForming(inc_degree, ref_degree, frequency);
+                    cell = new RISBeamFormingBath(numX, numY);
+                    RISBeamForming(inc_degree, ref_degree, ref_phi_degree, frequency);
                     SetInfoToClient("esp32", tb_server_inc.Text + "_" + tb_server_ref.Text + "_n_" + cb_server_num_parts[0].PadLeft(3, '0') + "_" + cb_server_num_parts[1].PadLeft(3, '0') + "_" + cell.ArduinoCode + ";0");
                 }
 
@@ -984,7 +1005,56 @@ namespace ArduinoControlGUI
             }
         }
 
-
+        private void tb_server_inc_phi_Leave(object sender, EventArgs e)
+        {
+            if ((Convert.ToInt16(tb_server_inc_phi.Text) < -90) || (Convert.ToInt16(tb_server_inc_phi.Text) > 90))
+            {
+                tb_server_inc_phi.Text = "0";
+            }
+            else
+            {
+                ref_phi_degree = Convert.ToInt16(tb_server_inc_phi.Text);
+            }
+        }
         #endregion
+
+        private void tb_server_default_CheckedChanged(object sender, EventArgs e)
+        {
+            if (tb_server_default.Checked)
+            {
+                tb_server_inc.Text = "0";
+                tb_server_inc.Enabled = false;
+                tb_server_inc_phi.Text = "0";
+                tb_server_inc_phi.Enabled = false;
+                tb_server_ref_combox.Visible = true;
+                tb_server_ref.Visible = false;
+                tb_server_fre_combox.Text = "28";
+                tb_server_fre_combox.Enabled = false;
+                cb_server_num.Items.Clear();
+                cb_server_num.Text = "40X40";
+                cb_server_num.Items.AddRange( new string[] {"40X40","32X64" });
+            }
+            else
+            {
+                tb_server_inc.Enabled = true;
+                tb_server_inc_phi.Enabled = true;
+                tb_server_ref_combox.Visible = false;
+                tb_server_ref.Visible = true;
+                tb_server_fre_combox.Enabled = true;                
+                cb_server_num.Items.Clear();
+                cb_server_num.Items.AddRange(new string[] {"20X20", "40X40", "32X64" });
+            }
+        }
+
+        private void cb_server_num_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cb_server_num.Text=="32X64") {
+                tb_server_ref_phi.Text = "90";
+            }
+            else
+            {
+                tb_server_ref_phi.Text = "0";
+            }
+        }
     }
 }
