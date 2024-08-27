@@ -248,7 +248,14 @@ namespace ArduinoControlGUI
 
             cell.f0 = frequency * Math.Pow(10, 9);
             cell.lamda = cell.c0 / cell.f0;
-            cell.d = 0.42 * cell.lamda;//squarecell  
+            if (frequency == 4.7)
+            {
+                cell.d = 0.42 * cell.lamda;//squarecell 0.42 is 4.7GHZ 0.5 is 28GHZ 
+            }
+            else
+            {
+                cell.d = 0.5 * cell.lamda;
+            }
             cell.k = 2 * Math.PI / cell.lamda;
             cell.feedR = cell.numX * cell.d * 0.5 / Math.Tan(Deg2Rad(33.71 / 2));
             
@@ -924,12 +931,14 @@ namespace ArduinoControlGUI
 
         private void btn_allOn_Click(object sender, EventArgs e)
         {
-            SetInfoToClient("esp32", "0_0_allon_0_0_0;0");
+            string[] cb_server_num_parts = cb_server_num.Text.Split('X');
+            SetInfoToClient("esp32", "0_0_allon_" + cb_server_num_parts[0].PadLeft(3, '0') + "_" + cb_server_num_parts[1].PadLeft(3, '0')+"_0;0");
         }
 
         private void btn_allOff_Click(object sender, EventArgs e)
         {
-            SetInfoToClient("esp32", "0_0_alloff_0_0_0;0");
+            string[] cb_server_num_parts = cb_server_num.Text.Split('X');
+            SetInfoToClient("esp32", "0_0_alloff_" + cb_server_num_parts[0].PadLeft(3, '0') + "_" + cb_server_num_parts[1].PadLeft(3, '0') + "_0;0");
         }
 
         private void btn_allFind_Click(object sender, EventArgs e)
@@ -1046,14 +1055,41 @@ namespace ArduinoControlGUI
             }
         }
 
-        private void cb_server_num_SelectedIndexChanged(object sender, EventArgs e)
+        private void tb_server_fre_combox_SelectedValueChanged(object sender, EventArgs e)
         {
-            if (cb_server_num.Text=="32X64") {
+            if (tb_server_fre_combox.Text == "4.7")
+            {
+                cb_server_num.Items.Clear();
+                cb_server_num.Text = "40X40";
+                cb_server_num.Items.AddRange(new string[] { "20X20","40X40" });
+                cb_server_num.Enabled = true;
+            }
+            else if (tb_server_fre_combox.Text == "28")
+            {
+                cb_server_num.Items.Clear();
+                cb_server_num.Text = "40X40";
+                cb_server_num.Items.AddRange(new string[] { "40X40", "32X64" });
+                cb_server_num.Enabled = true;
+            }
+            btn_output.Enabled = true;
+            btn_allFind.Enabled = true;
+            btn_allOff.Enabled = true;  
+            btn_allOn.Enabled = true;   
+        }
+
+        private void cb_server_num_TextChanged(object sender, EventArgs e)
+        {
+            if (cb_server_num.Text == "32X64")
+            {
                 tb_server_ref_phi.Text = "90";
+                tb_server_feed.Text = "1.5";
+                tb_server_feed.Enabled = true;
             }
             else
             {
                 tb_server_ref_phi.Text = "0";
+                tb_server_feed.Text = "0.8";
+                tb_server_feed.Enabled = false;
             }
         }
     }

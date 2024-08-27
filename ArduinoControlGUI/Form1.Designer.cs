@@ -106,6 +106,7 @@
             // 
             // btn_allOn
             // 
+            this.btn_allOn.Enabled = false;
             this.btn_allOn.Location = new System.Drawing.Point(220, 175);
             this.btn_allOn.Name = "btn_allOn";
             this.btn_allOn.Size = new System.Drawing.Size(75, 23);
@@ -116,6 +117,7 @@
             // 
             // btn_allOff
             // 
+            this.btn_allOff.Enabled = false;
             this.btn_allOff.Location = new System.Drawing.Point(220, 205);
             this.btn_allOff.Name = "btn_allOff";
             this.btn_allOff.Size = new System.Drawing.Size(75, 23);
@@ -126,6 +128,7 @@
             // 
             // btn_allFind
             // 
+            this.btn_allFind.Enabled = false;
             this.btn_allFind.Location = new System.Drawing.Point(130, 205);
             this.btn_allFind.Name = "btn_allFind";
             this.btn_allFind.Size = new System.Drawing.Size(75, 23);
@@ -164,6 +167,7 @@
             // 
             // btn_output
             // 
+            this.btn_output.Enabled = false;
             this.btn_output.Location = new System.Drawing.Point(413, 92);
             this.btn_output.Name = "btn_output";
             this.btn_output.Size = new System.Drawing.Size(119, 45);
@@ -186,7 +190,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("新細明體", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label14.Location = new System.Drawing.Point(105, 90);
+            this.label14.Location = new System.Drawing.Point(25, 90);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(95, 21);
             this.label14.TabIndex = 32;
@@ -194,7 +198,7 @@
             // 
             // tb_server_fre
             // 
-            this.tb_server_fre.Location = new System.Drawing.Point(105, 115);
+            this.tb_server_fre.Location = new System.Drawing.Point(25, 115);
             this.tb_server_fre.Name = "tb_server_fre";
             this.tb_server_fre.Size = new System.Drawing.Size(55, 22);
             this.tb_server_fre.TabIndex = 33;
@@ -217,7 +221,7 @@
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("新細明體", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label15.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
-            this.label15.Location = new System.Drawing.Point(166, 117);
+            this.label15.Location = new System.Drawing.Point(81, 115);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(47, 21);
             this.label15.TabIndex = 35;
@@ -227,7 +231,7 @@
             // 
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("新細明體", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label16.Location = new System.Drawing.Point(25, 90);
+            this.label16.Location = new System.Drawing.Point(130, 90);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(49, 21);
             this.label16.TabIndex = 36;
@@ -235,18 +239,18 @@
             // 
             // cb_server_num
             // 
+            this.cb_server_num.Enabled = false;
             this.cb_server_num.FormattingEnabled = true;
             this.cb_server_num.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.cb_server_num.Items.AddRange(new object[] {
             "20X20",
             "40X40",
             "32X64"});
-            this.cb_server_num.Location = new System.Drawing.Point(25, 115);
+            this.cb_server_num.Location = new System.Drawing.Point(130, 115);
             this.cb_server_num.Name = "cb_server_num";
             this.cb_server_num.Size = new System.Drawing.Size(72, 20);
             this.cb_server_num.TabIndex = 38;
-            this.cb_server_num.Text = "20X20";
-            this.cb_server_num.SelectedIndexChanged += new System.EventHandler(this.cb_server_num_SelectedIndexChanged);
+            this.cb_server_num.TextChanged += new System.EventHandler(this.cb_server_num_TextChanged);
             // 
             // lb_findRef
             // 
@@ -503,11 +507,11 @@
             this.tb_server_fre_combox.Items.AddRange(new object[] {
             "4.7",
             "28"});
-            this.tb_server_fre_combox.Location = new System.Drawing.Point(105, 115);
+            this.tb_server_fre_combox.Location = new System.Drawing.Point(25, 115);
             this.tb_server_fre_combox.Name = "tb_server_fre_combox";
             this.tb_server_fre_combox.Size = new System.Drawing.Size(55, 20);
             this.tb_server_fre_combox.TabIndex = 39;
-            this.tb_server_fre_combox.Text = "4.7";
+            this.tb_server_fre_combox.SelectedValueChanged += new System.EventHandler(this.tb_server_fre_combox_SelectedValueChanged);
             // 
             // pictureBox1
             // 
