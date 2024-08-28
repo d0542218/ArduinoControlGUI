@@ -248,19 +248,17 @@ namespace ArduinoControlGUI
 
             cell.f0 = frequency * Math.Pow(10, 9);
             cell.lamda = cell.c0 / cell.f0;
-            if (frequency == 4.7)
-            {
-                cell.d = 0.42 * cell.lamda;//squarecell 0.42 is 4.7GHZ 0.5 is 28GHZ
-                                           //4.7 20X20 0.88 , 40X40 1.76
-                                           //28 40X40 0.8
-            }
-            else
-            {
-                cell.d = 0.5 * cell.lamda;
-            }
+            //if (frequency == 4.7)
+            //{
+            //    cell.d = 0.42 * cell.lamda;//squarecell 0.42 is 4.7GHZ 0.5 is 28GHZ
+            //}
+            //else
+            //{
+            //    cell.d = 0.5 * cell.lamda;
+            //}
             cell.k = 2 * Math.PI / cell.lamda;
-            cell.feedR = cell.numX * cell.d * 0.5 / Math.Tan(Deg2Rad(33.71 / 2));
-            
+            //cell.feedR = cell.numX * cell.d * 0.5 / Math.Tan(Deg2Rad(33.71 / 2));
+            cell.feedR = Convert.ToDouble(tb_server_feed.Text);
             //feed horn position
             cell.Ri = cell.feedR;
             //inc angle & ref angle
@@ -685,8 +683,8 @@ namespace ArduinoControlGUI
 
                 //this.M = Enumerable.Range(1, numX).ToArray();
                 //this.N = Enumerable.Range(1, numY).ToArray();
-                this.feedR = numX * d * 0.5 / Math.Tan(Deg2Rad(33.71 / 2));///unit : m 
-
+                //this.feedR = numX * d * 0.5 / Math.Tan(Deg2Rad(33.71 / 2));///unit : m 
+                this.feedR =  0.8;  //修改成直接設定數字
                 //可能不用(matlab繪圖用)
                 this.theDeg = Enumerable.Range(-180, 361).ToArray();
                 this.theta = theDeg.Select(deg => Deg2Rad(deg)).ToArray();
@@ -1089,22 +1087,33 @@ namespace ArduinoControlGUI
             btn_allFind.Enabled = true;
             btn_allOff.Enabled = true;  
             btn_allOn.Enabled = true;
-            tb_server_feed.Enabled = true;
         }
 
         private void cb_server_num_TextChanged(object sender, EventArgs e)
         {
+            //feed 4.7 20X20 0.88 , 40X40 1.76
+            //28 40X40 0.8
             if (cb_server_num.Text == "32X64")
             {
-                tb_server_ref_phi.Text = "90";
+                tb_server_ref_phi.Text = "90"; 
                 tb_server_feed.Text = "1.5";
-                tb_server_feed.Enabled = true;
             }
-            else
+            else if (cb_server_num.Text=="40X40")
             {
                 tb_server_ref_phi.Text = "0";
-                tb_server_feed.Text = "0.8";
-                tb_server_feed.Enabled = false;
+                if (tb_server_fre_combox.Text == "28")
+                {
+                    tb_server_feed.Text = "0.8";
+                }
+                else if (tb_server_fre_combox.Text == "4.7")
+                {
+                    tb_server_feed.Text = "1.76";
+                }                
+            }
+            else if (cb_server_num.Text == "20X20")
+            {
+                tb_server_ref_phi.Text = "0";
+                tb_server_feed.Text = "0.88";
             }
         }
     }
