@@ -250,7 +250,9 @@ namespace ArduinoControlGUI
             cell.lamda = cell.c0 / cell.f0;
             if (frequency == 4.7)
             {
-                cell.d = 0.42 * cell.lamda;//squarecell 0.42 is 4.7GHZ 0.5 is 28GHZ 
+                cell.d = 0.42 * cell.lamda;//squarecell 0.42 is 4.7GHZ 0.5 is 28GHZ
+                                           //4.7 20X20 0.88 , 40X40 1.76
+                                           //28 40X40 0.8
             }
             else
             {
