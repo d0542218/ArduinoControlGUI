@@ -968,7 +968,7 @@ namespace ArduinoControlGUI
             numY = Convert.ToInt16(cb_server_num_parts[1]);
             if (tb_server_default.Checked)
             {
-                SetInfoToClient("esp32", tb_server_inc.Text + "_" + tb_server_ref_combox.Text + "_default_" + cb_server_num_parts[0].PadLeft(3, '0') + "_" + cb_server_num_parts[1].PadLeft(3, '0') + ";0");
+                SetInfoToClient("esp32", tb_server_inc.Text + "_" + tb_server_ref_combox.SelectedItem + "_default_" + cb_server_num_parts[0].PadLeft(3, '0') + "_" + cb_server_num_parts[1].PadLeft(3, '0') + ";0");
             }
             else
             {
@@ -1049,9 +1049,21 @@ namespace ArduinoControlGUI
                 tb_server_inc_phi.Enabled = true;
                 tb_server_ref_combox.Visible = false;
                 tb_server_ref.Visible = true;
-                tb_server_fre_combox.Enabled = true;                
-                cb_server_num.Items.Clear();
-                cb_server_num.Items.AddRange(new string[] {"20X20", "40X40", "32X64" });
+                tb_server_fre_combox.Enabled = true;
+                if (tb_server_fre_combox.Text == "4.7")
+                {
+                    cb_server_num.Items.Clear();
+                    cb_server_num.Text = "40X40";
+                    cb_server_num.Items.AddRange(new string[] { "20X20", "40X40" });
+                    cb_server_num.Enabled = true;
+                }
+                else if (tb_server_fre_combox.Text == "28")
+                {
+                    cb_server_num.Items.Clear();
+                    cb_server_num.Text = "40X40";
+                    cb_server_num.Items.AddRange(new string[] { "40X40", "32X64" });
+                    cb_server_num.Enabled = true;
+                }
             }
         }
 

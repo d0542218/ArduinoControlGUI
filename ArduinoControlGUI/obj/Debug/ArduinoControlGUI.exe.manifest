@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ArduinoControlGUI.exe" size="86488">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ArduinoControlGUI.exe" size="87000">
       <assemblyIdentity name="ArduinoControlGUI" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>33YpFN+sqsjJKGKx2ddeoTuK3nVjmOk/1ZmjATNkg+U=</dsig:DigestValue>
+        <dsig:DigestValue>MADi0Fg908a0QSz6YMbSUBwv7cVF+2MTjODzufzxX90=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
