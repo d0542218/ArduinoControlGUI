@@ -1086,7 +1086,8 @@ namespace ArduinoControlGUI
             btn_output.Enabled = true;
             btn_allFind.Enabled = true;
             btn_allOff.Enabled = true;  
-            btn_allOn.Enabled = true;   
+            btn_allOn.Enabled = true;
+            tb_server_feed.Enabled = true;
         }
 
         private void cb_server_num_TextChanged(object sender, EventArgs e)
