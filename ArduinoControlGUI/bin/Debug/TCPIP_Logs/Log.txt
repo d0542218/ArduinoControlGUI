@@ -353,3 +353,4 @@ System.Net.Sockets.SocketException (0x80004005): 內容中所要求的位址不正確。
 2024-08-02 17:59:41.433  INFO PC count RIS : 25.9104 ms (Form1:0)
 2024-08-27 15:07:38.106  INFO PC count RIS : 25.7457 ms (Form1:981)
 2024-08-27 19:15:07.298  INFO PC count RIS : 26.141 ms (Form1:983)
+2024-09-03 11:44:59.039  INFO PC count RIS : 50703.8497 ms (Form1:1002)

@@ -55,6 +55,10 @@ namespace ArduinoControlGUI
         bool connection = false;
         private RISBeamFormingBath cell;
         private EnhancedRISBeamFormingBath cell2;
+        String[] Ris_num4dot7 = ["20X20", "40X40"];
+        String[] Ris_num28 = ["40X40","32X64"];
+        int refPhdeg_40X40 = 0;
+        int refPhdeg_32X64 = 90;
         private Thread t;
         public Form1()
         {
@@ -238,8 +242,10 @@ namespace ArduinoControlGUI
             appServer.SendMessageToLastClientSession(cmd, msg);
             return true;
         }
+        
         #region RISInit
-        //2023.09.23修改數學
+        
+        //20X20、40X40的相位算法
         private void RISBeamForming(int inc_degree, int ref_degree,int ref_phi_degree, double frequency)
         {
             IWorkbook workbook = new XSSFWorkbook();
@@ -265,7 +271,7 @@ namespace ArduinoControlGUI
             cell.incThdeg = inc_degree; cell.incTH = Deg2Rad(cell.incThdeg);
             cell.incPhdeg = ref_phi_degree; cell.incPH = Deg2Rad(cell.incPhdeg);
             cell.refThdeg = ref_degree; cell.refTH = Deg2Rad(cell.refThdeg);
-            cell.refPhdeg = 0; cell.refPH = Deg2Rad(cell.refPhdeg);
+            cell.refPhdeg = refPhdeg_40X40; cell.refPH = Deg2Rad(cell.refPhdeg);
             cell.xx = cell.Ri * Math.Sin(cell.incTH) * Math.Cos(cell.incPH);
             cell.yy = cell.Ri * Math.Sin(cell.incTH) * Math.Cos(cell.incPH);
             cell.zz = cell.Ri * Math.Cos(cell.incTH);
@@ -370,13 +376,14 @@ namespace ArduinoControlGUI
                 if (count % 8 == 0 && count != 0)
                 {
                     //cell.ArduinoCode += Convert.ToInt32(MPDBinaryString, 2).ToString()+",";//逗號
-                    cell.ArduinoCode += Convert.ToInt32(MPDBinaryString, 2).ToString().PadLeft(3, '0');
+                    cell.ArduinoCode += Convert.ToInt32(MPDBinaryString, 2).ToString("X").PadLeft(3, '0'); //16進制
                     MPDBinaryString = "";
                 }
             }
             DateTime End = DateTime.Now;
         }
 
+        //32X64的相位算法
         private void RISBeamForming_Ming(int inc_degree, int ref_degree,int ref_phi_egree, double frequency)
         {
             IWorkbook workbook = new XSSFWorkbook();
@@ -399,7 +406,7 @@ namespace ArduinoControlGUI
             cell2.incThdeg = inc_degree; cell2.incTH = Deg2Rad(cell2.incThdeg);
             cell2.incPhdeg = ref_phi_egree; cell2.incPH = Deg2Rad(cell2.incPhdeg);
             cell2.refThdeg = ref_degree; cell2.refTH = Deg2Rad(cell2.refThdeg);
-            cell2.refPhdeg = 90; cell2.refPH = Deg2Rad(cell2.refPhdeg);
+            cell2.refPhdeg = refPhdeg_32X64; cell2.refPH = Deg2Rad(cell2.refPhdeg);
 
             // 計算饋源位置
             cell2.Ri = cell2.feed;
@@ -462,138 +469,15 @@ namespace ArduinoControlGUI
                count++;
                if (count % 8 == 0 && count != 0)
                {
-                   //cell.ArduinoCode += Convert.ToInt32(MPDBinaryString, 2).ToString()+",";//逗號
-                   cell2.ArduinoCode += Convert.ToInt32(MPDBinaryString, 2).ToString().PadLeft(3, '0');
+                    //cell.ArduinoCode += Convert.ToInt32(MPDBinaryString, 2).ToString()+",";//逗號
+                    //cell2.ArduinoCode += Convert.ToInt32(MPDBinaryString, 2).ToString().PadLeft(3, '0'); 10進制
+                    cell2.ArduinoCode += Convert.ToInt32(MPDBinaryString, 2).ToString("X").PadLeft(3, '0'); //16進制
                    MPDBinaryString = "";
                }
             }
         }
-        private double[] phase_transfer(double[,] MPD) { //將相位轉成一維陣列
-            
-            double[] phase_tmp = new double[MPD.GetLength(0)*MPD.GetLength(1)];
-            int index = 0;
-            for (int i = 0; i < MPD.GetLength(0); i++)
-            {
-                for (int j = 0; j < MPD.GetLength(1); j++)
-                {
-                    phase_tmp[index++] = MPD[i, j];
-                }
-            }
-            return phase_tmp;
-        }
-        private double[] phase_transfer_block()//將相位切成對應的block並轉成一維陣列
-        {
-            int num = (cell.numX * cell.numX) / 100;
-            double[,,] phase_block = new double[num, 10, 10];
-            for (int i = 0; i < cell.numX; i++)
-            {
-                for (int j = 0; j < cell.numX; j++)
-                {
-                    if (i < 10 && j < 10)//block 1
-                    {
-                        phase_block[0, i, j] = cell.MPDconti[i, j];
-                    }
-                    else if (i < 10 && j >= 10 && j < 20)//block 2
-                    {
-                        phase_block[1, i, j - 10] = cell.MPDconti[i, j];
-                    }
-                    else if (i >= 10 && i < 20 && j < 10)//block 3
-                    {
-                        phase_block[2, i - 10, j] = cell.MPDconti[i, j];
-                    }
-                    else if (i >= 10 && i < 20 && j >= 10 && j < 20)//block 4
-                    {
-                        phase_block[3, i - 10, j - 10] = cell.MPDconti[i, j];
-                    }
-                    else if (i < 10 && j >= 20 && j < 30)//block 5
-                    {
-                        phase_block[4, i, j - 20] = cell.MPDconti[i, j];
-                    }
-                    else if (i < 10 && j >= 30 && j < 40)//block 6
-                    {
-                        phase_block[5, i, j - 30] = cell.MPDconti[i, j];
-                    }
-                    else if (i >= 10 && i < 20 && j >= 20 && j < 30)//block 7
-                    {
-                        phase_block[6, i - 10, j - 20] = cell.MPDconti[i, j];
-                    }
-                    else if (i >= 10 && i < 20 && j >= 30 && j < 40)//block 8
-                    {
-                        phase_block[7, i - 10, j - 30] = cell.MPDconti[i, j];
-                    }
-                    else if (i >= 20 && i < 30 && j < 10)//block 9
-                    {
-                        phase_block[8, i - 20, j] = cell.MPDconti[i, j];
-                    }
-                    else if (i >= 20 && i < 30 && j >= 10 && j < 20)//block 10
-                    {
-                        phase_block[9, i - 20, j - 10] = cell.MPDconti[i, j];
-                    }
-                    else if (i >= 30 && i < 40 && j < 10)//block 11
-                    {
-                        phase_block[10, i - 30, j] = cell.MPDconti[i, j];
-                    }
-                    else if (i >= 30 && i < 40 && j >= 10 && j < 20)//block 12
-                    {
-                        phase_block[11, i - 30, j - 10] = cell.MPDconti[i, j];
-                    }
-                    else if (i >= 20 && i < 30 && j >= 20 && j < 30)//block 13
-                    {
-                        phase_block[12, i - 20, j - 20] = cell.MPDconti[i, j];
-                    }
-                    else if (i >= 20 && i < 30 && j >= 30 && j < 40)//block 14
-                    {
-                        phase_block[13, i - 20, j - 30] = cell.MPDconti[i, j];
-                    }
-                    else if (i >= 30 && i < 40 && j >= 20 && j < 30)//block 15
-                    {
-                        phase_block[14, i - 30, j - 20] = cell.MPDconti[i, j];
-                    }
-                    else if (i >= 30 && i < 40 && j >= 30 && j < 40)//block 16
-                    {
-                        phase_block[15, i - 30, j - 30] = cell.MPDconti[i, j];
-                    }
-                }
-            }
-            
-            
-            phase_block = block_reverse(phase_block);
-            double[] phase_tmp = new double[cell.numX * cell.numY];
-            int cnt = 0;
-            for (int k = 0; k < num; k++)
-            {
-                for (int m = 0; m < 10; m++)
-                {
-                    for (int n = 0; n < 10; n++)
-                    {
-                        phase_tmp[cnt] = phase_block[k, n, m];
-                        cnt++;
-                    }
-                }
-            }
-            return phase_tmp;
-        }
-        private double[,,] block_reverse(double[,,] block)//將偶數行反轉0.2.4...
-        {
-            double[] tmp = new double[block.GetLength(1)];
-            for (int m = 0; m < (cell.numX * cell.numX) / 100; m++)
-            {
-                for (int k = 0; k < 10; k += 2)
-                {
-                    for (int i = 0; i < block.GetLength(1); i++)
-                    {
-                        tmp[i] = block[m, i, k];
-                    }
-                    Array.Reverse(tmp);
-                    for (int j = 0; j < block.GetLength(1); j++)
-                    {
-                        block[m, j, k] = tmp[j];
-                    }
-                }
-            }
-            return block;
-        }
 
+        //RIS變數
         private class RISBeamFormingBath
         {
             public double f0;
@@ -763,6 +647,7 @@ namespace ArduinoControlGUI
 
 
         }
+        //RIS變數(32X64新增的變數)
         private class EnhancedRISBeamFormingBath : RISBeamFormingBath
         {
             public double[,] Z; // 新的Z矩陣
@@ -794,7 +679,137 @@ namespace ArduinoControlGUI
                 }
             }
         }
+
+        #region phase_transfer_function
+        private double[] phase_transfer(double[,] MPD)
+        { //將相位轉成一維陣列
+
+            double[] phase_tmp = new double[MPD.GetLength(0) * MPD.GetLength(1)];
+            int index = 0;
+            for (int i = 0; i < MPD.GetLength(0); i++)
+            {
+                for (int j = 0; j < MPD.GetLength(1); j++)
+                {
+                    phase_tmp[index++] = MPD[i, j];
+                }
+            }
+            return phase_tmp;
+        }
+        private double[] phase_transfer_block()//將相位切成對應的block並轉成一維陣列
+        {
+            int num = (cell.numX * cell.numX) / 100;
+            double[,,] phase_block = new double[num, 10, 10];
+            for (int i = 0; i < cell.numX; i++)
+            {
+                for (int j = 0; j < cell.numX; j++)
+                {
+                    if (i < 10 && j < 10)//block 1
+                    {
+                        phase_block[0, i, j] = cell.MPDconti[i, j];
+                    }
+                    else if (i < 10 && j >= 10 && j < 20)//block 2
+                    {
+                        phase_block[1, i, j - 10] = cell.MPDconti[i, j];
+                    }
+                    else if (i >= 10 && i < 20 && j < 10)//block 3
+                    {
+                        phase_block[2, i - 10, j] = cell.MPDconti[i, j];
+                    }
+                    else if (i >= 10 && i < 20 && j >= 10 && j < 20)//block 4
+                    {
+                        phase_block[3, i - 10, j - 10] = cell.MPDconti[i, j];
+                    }
+                    else if (i < 10 && j >= 20 && j < 30)//block 5
+                    {
+                        phase_block[4, i, j - 20] = cell.MPDconti[i, j];
+                    }
+                    else if (i < 10 && j >= 30 && j < 40)//block 6
+                    {
+                        phase_block[5, i, j - 30] = cell.MPDconti[i, j];
+                    }
+                    else if (i >= 10 && i < 20 && j >= 20 && j < 30)//block 7
+                    {
+                        phase_block[6, i - 10, j - 20] = cell.MPDconti[i, j];
+                    }
+                    else if (i >= 10 && i < 20 && j >= 30 && j < 40)//block 8
+                    {
+                        phase_block[7, i - 10, j - 30] = cell.MPDconti[i, j];
+                    }
+                    else if (i >= 20 && i < 30 && j < 10)//block 9
+                    {
+                        phase_block[8, i - 20, j] = cell.MPDconti[i, j];
+                    }
+                    else if (i >= 20 && i < 30 && j >= 10 && j < 20)//block 10
+                    {
+                        phase_block[9, i - 20, j - 10] = cell.MPDconti[i, j];
+                    }
+                    else if (i >= 30 && i < 40 && j < 10)//block 11
+                    {
+                        phase_block[10, i - 30, j] = cell.MPDconti[i, j];
+                    }
+                    else if (i >= 30 && i < 40 && j >= 10 && j < 20)//block 12
+                    {
+                        phase_block[11, i - 30, j - 10] = cell.MPDconti[i, j];
+                    }
+                    else if (i >= 20 && i < 30 && j >= 20 && j < 30)//block 13
+                    {
+                        phase_block[12, i - 20, j - 20] = cell.MPDconti[i, j];
+                    }
+                    else if (i >= 20 && i < 30 && j >= 30 && j < 40)//block 14
+                    {
+                        phase_block[13, i - 20, j - 30] = cell.MPDconti[i, j];
+                    }
+                    else if (i >= 30 && i < 40 && j >= 20 && j < 30)//block 15
+                    {
+                        phase_block[14, i - 30, j - 20] = cell.MPDconti[i, j];
+                    }
+                    else if (i >= 30 && i < 40 && j >= 30 && j < 40)//block 16
+                    {
+                        phase_block[15, i - 30, j - 30] = cell.MPDconti[i, j];
+                    }
+                }
+            }
+
+
+            phase_block = block_reverse(phase_block);
+            double[] phase_tmp = new double[cell.numX * cell.numY];
+            int cnt = 0;
+            for (int k = 0; k < num; k++)
+            {
+                for (int m = 0; m < 10; m++)
+                {
+                    for (int n = 0; n < 10; n++)
+                    {
+                        phase_tmp[cnt] = phase_block[k, n, m];
+                        cnt++;
+                    }
+                }
+            }
+            return phase_tmp;
+        }
+        private double[,,] block_reverse(double[,,] block)//將偶數行反轉0.2.4...
+        {
+            double[] tmp = new double[block.GetLength(1)];
+            for (int m = 0; m < (cell.numX * cell.numX) / 100; m++)
+            {
+                for (int k = 0; k < 10; k += 2)
+                {
+                    for (int i = 0; i < block.GetLength(1); i++)
+                    {
+                        tmp[i] = block[m, i, k];
+                    }
+                    Array.Reverse(tmp);
+                    for (int j = 0; j < block.GetLength(1); j++)
+                    {
+                        block[m, j, k] = tmp[j];
+                    }
+                }
+            }
+            return block;
+        }
         #endregion
+        #endregion
+
         #region math
         private static double Deg2Rad(double degrees)
         {
@@ -827,6 +842,7 @@ namespace ArduinoControlGUI
             return a - n * Math.Floor(a / n);
         }
         #endregion
+
         #region GUI動作
 
         private void btn_Connect_Click(object sender, EventArgs e)
@@ -1027,6 +1043,7 @@ namespace ArduinoControlGUI
         }
         #endregion
 
+        #region GUI限制
         private void tb_server_default_CheckedChanged(object sender, EventArgs e)
         {
             if (tb_server_default.Checked)
@@ -1041,7 +1058,7 @@ namespace ArduinoControlGUI
                 tb_server_fre_combox.Enabled = false;
                 cb_server_num.Items.Clear();
                 cb_server_num.Text = "40X40";
-                cb_server_num.Items.AddRange( new string[] {"40X40","32X64" });
+                cb_server_num.Items.AddRange(Ris_num28);
             }
             else
             {
@@ -1054,14 +1071,14 @@ namespace ArduinoControlGUI
                 {
                     cb_server_num.Items.Clear();
                     cb_server_num.Text = "40X40";
-                    cb_server_num.Items.AddRange(new string[] { "20X20", "40X40" });
+                    cb_server_num.Items.AddRange(Ris_num4dot7);
                     cb_server_num.Enabled = true;
                 }
                 else if (tb_server_fre_combox.Text == "28")
                 {
                     cb_server_num.Items.Clear();
                     cb_server_num.Text = "40X40";
-                    cb_server_num.Items.AddRange(new string[] { "40X40", "32X64" });
+                    cb_server_num.Items.AddRange(Ris_num28);
                     cb_server_num.Enabled = true;
                 }
             }
@@ -1073,14 +1090,14 @@ namespace ArduinoControlGUI
             {
                 cb_server_num.Items.Clear();
                 cb_server_num.Text = "40X40";
-                cb_server_num.Items.AddRange(new string[] { "20X20","40X40" });
+                cb_server_num.Items.AddRange(Ris_num4dot7);
                 cb_server_num.Enabled = true;
             }
             else if (tb_server_fre_combox.Text == "28")
             {
                 cb_server_num.Items.Clear();
                 cb_server_num.Text = "40X40";
-                cb_server_num.Items.AddRange(new string[] { "40X40", "32X64" });
+                cb_server_num.Items.AddRange(Ris_num28);
                 cb_server_num.Enabled = true;
             }
             btn_output.Enabled = true;
@@ -1095,12 +1112,12 @@ namespace ArduinoControlGUI
             //28 40X40 0.8
             if (cb_server_num.Text == "32X64")
             {
-                tb_server_ref_phi.Text = "90"; 
+                tb_server_ref_phi.Text = refPhdeg_32X64.ToString(); 
                 tb_server_feed.Text = "1.5";
             }
             else if (cb_server_num.Text=="40X40")
             {
-                tb_server_ref_phi.Text = "0";
+                tb_server_ref_phi.Text = refPhdeg_40X40.ToString();
                 if (tb_server_fre_combox.Text == "28")
                 {
                     tb_server_feed.Text = "0.8";
@@ -1112,9 +1129,10 @@ namespace ArduinoControlGUI
             }
             else if (cb_server_num.Text == "20X20")
             {
-                tb_server_ref_phi.Text = "0";
+                tb_server_ref_phi.Text = refPhdeg_40X40.ToString();
                 tb_server_feed.Text = "0.88";
             }
         }
+        #endregion
     }
 }
