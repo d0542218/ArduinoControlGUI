@@ -254,14 +254,14 @@ namespace ArduinoControlGUI
 
             cell.f0 = frequency * Math.Pow(10, 9);
             cell.lamda = cell.c0 / cell.f0;
-            //if (frequency == 4.7)
-            //{
-            //    cell.d = 0.42 * cell.lamda;//squarecell 0.42 is 4.7GHZ 0.5 is 28GHZ
-            //}
-            //else
-            //{
-            //    cell.d = 0.5 * cell.lamda;
-            //}
+            if (frequency == 4.7)
+            {
+                cell.d = 0.42 * cell.lamda;//squarecell 0.42 is 4.7GHZ 0.5 is 28GHZ
+            }
+            else
+            {
+                cell.d = 0.5 * cell.lamda;
+            }
             cell.k = 2 * Math.PI / cell.lamda;
             //cell.feedR = cell.numX * cell.d * 0.5 / Math.Tan(Deg2Rad(33.71 / 2));
             cell.feedR = Convert.ToDouble(tb_server_feed.Text);
@@ -288,20 +288,31 @@ namespace ArduinoControlGUI
 
                 for (int j = 0; j < cell.numY; j++)
                 {
+                    //cell.distx[i, j] = cell.xx - cell.eleM[i, j] * cell.d;
                     cell.distx[i, j] = Math.Round(cell.xx - cell.eleM[i, j] * cell.d, 4);
+                    //cell.disty[i, j] = cell.yy - cell.eleN[i, j] * cell.d;
                     cell.disty[i, j] = Math.Round(cell.yy - cell.eleN[i, j] * cell.d, 4);
 
+                    //cell.Rf[i, j] = Math.Sqrt(Math.Pow(cell.distx[i, j], 2) + Math.Pow(cell.disty[i, j], 2) + Math.Pow(cell.distz, 2));
                     cell.Rf[i, j] = Math.Round(Math.Sqrt(Math.Pow(cell.distx[i, j], 2) + Math.Pow(cell.disty[i, j], 2) + Math.Pow(cell.distz, 2)), 4);
 
+                    //cell.vectorx[i, j] = cell.eleM[i, j] * cell.d - cell.xx;
                     cell.vectorx[i, j] = Math.Round(cell.eleM[i, j] * cell.d - cell.xx, 4);
+                    //cell.vectory[i, j] = cell.eleN[i, j] * cell.d - cell.yy;
                     cell.vectory[i, j] = Math.Round(cell.eleN[i, j] * cell.d - cell.yy, 4);
+                    //cell.feedVectorx[i, j] = cell.centerx * cell.vectorx[i, j];
+                    //cell.feedVectory[i, j] = cell.centery * cell.vectory[i, j];
                     cell.feedVectorx[i, j] = Math.Round(cell.centerx * cell.vectorx[i, j], 4);
                     cell.feedVectory[i, j] = Math.Round(cell.centery * cell.vectory[i, j], 4);
                     cell.test[i, j] = cell.feedVectorx[i, j] + cell.feedVectory[i, j] + cell.feedVectorz;
+                    //cell.thetaf[i, j] =Math.Acos((cell.feedVectorx[i, j] + cell.feedVectory[i, j] + cell.feedVectorz) / (cell.Rf[i, j] * cell.Ri));
                     cell.thetaf[i, j] = Math.Round(Math.Acos((cell.feedVectorx[i, j] + cell.feedVectory[i, j] + cell.feedVectorz) / (cell.Rf[i, j] * cell.Ri)), 4);
 
+                    //cell.amp[i, j] = Math.Pow(Math.Cos(cell.thetaf[i, j]), cell.qe) / cell.Rf[i, j];
                     cell.amp[i, j] = Math.Round(Math.Pow(Math.Cos(cell.thetaf[i, j]), cell.qe) / cell.Rf[i, j], 4);
 
+                    //cell.incPD[i, j] = cell.k * Math.Sqrt(Math.Pow(cell.distx[i, j], 2) + Math.Pow(cell.disty[i, j], 2) + Math.Pow(cell.distz, 2));
+                    //cell.elePD[i, j] = cell.k * (Math.Sin(cell.refTH) * Math.Cos(cell.refPH) * cell.eleM[i, j] * cell.d + Math.Sin(cell.refTH) * Math.Sin(cell.refPH) * cell.eleN[i, j] * cell.d);
                     cell.incPD[i, j] = Math.Round(cell.k * Math.Sqrt(Math.Pow(cell.distx[i, j], 2) + Math.Pow(cell.disty[i, j], 2) + Math.Pow(cell.distz, 2)), 4);
                     cell.elePD[i, j] = Math.Round(cell.k * (Math.Sin(cell.refTH) * Math.Cos(cell.refPH) * cell.eleM[i, j] * cell.d + Math.Sin(cell.refTH) * Math.Sin(cell.refPH) * cell.eleN[i, j] * cell.d), 4);
                     cell.refPD[i, j] = (cell.incPD[i, j] - cell.elePD[i, j]) + cell.delta; //% refPD2=refPD
