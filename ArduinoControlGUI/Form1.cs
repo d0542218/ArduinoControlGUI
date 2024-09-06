@@ -288,31 +288,20 @@ namespace ArduinoControlGUI
 
                 for (int j = 0; j < cell.numY; j++)
                 {
-                    //cell.distx[i, j] = cell.xx - cell.eleM[i, j] * cell.d;
                     cell.distx[i, j] = Math.Round(cell.xx - cell.eleM[i, j] * cell.d, 4);
-                    //cell.disty[i, j] = cell.yy - cell.eleN[i, j] * cell.d;
                     cell.disty[i, j] = Math.Round(cell.yy - cell.eleN[i, j] * cell.d, 4);
 
-                    //cell.Rf[i, j] = Math.Sqrt(Math.Pow(cell.distx[i, j], 2) + Math.Pow(cell.disty[i, j], 2) + Math.Pow(cell.distz, 2));
                     cell.Rf[i, j] = Math.Round(Math.Sqrt(Math.Pow(cell.distx[i, j], 2) + Math.Pow(cell.disty[i, j], 2) + Math.Pow(cell.distz, 2)), 4);
 
-                    //cell.vectorx[i, j] = cell.eleM[i, j] * cell.d - cell.xx;
                     cell.vectorx[i, j] = Math.Round(cell.eleM[i, j] * cell.d - cell.xx, 4);
-                    //cell.vectory[i, j] = cell.eleN[i, j] * cell.d - cell.yy;
                     cell.vectory[i, j] = Math.Round(cell.eleN[i, j] * cell.d - cell.yy, 4);
-                    //cell.feedVectorx[i, j] = cell.centerx * cell.vectorx[i, j];
-                    //cell.feedVectory[i, j] = cell.centery * cell.vectory[i, j];
                     cell.feedVectorx[i, j] = Math.Round(cell.centerx * cell.vectorx[i, j], 4);
                     cell.feedVectory[i, j] = Math.Round(cell.centery * cell.vectory[i, j], 4);
                     cell.test[i, j] = cell.feedVectorx[i, j] + cell.feedVectory[i, j] + cell.feedVectorz;
-                    //cell.thetaf[i, j] =Math.Acos((cell.feedVectorx[i, j] + cell.feedVectory[i, j] + cell.feedVectorz) / (cell.Rf[i, j] * cell.Ri));
                     cell.thetaf[i, j] = Math.Round(Math.Acos((cell.feedVectorx[i, j] + cell.feedVectory[i, j] + cell.feedVectorz) / (cell.Rf[i, j] * cell.Ri)), 4);
 
-                    //cell.amp[i, j] = Math.Pow(Math.Cos(cell.thetaf[i, j]), cell.qe) / cell.Rf[i, j];
                     cell.amp[i, j] = Math.Round(Math.Pow(Math.Cos(cell.thetaf[i, j]), cell.qe) / cell.Rf[i, j], 4);
 
-                    //cell.incPD[i, j] = cell.k * Math.Sqrt(Math.Pow(cell.distx[i, j], 2) + Math.Pow(cell.disty[i, j], 2) + Math.Pow(cell.distz, 2));
-                    //cell.elePD[i, j] = cell.k * (Math.Sin(cell.refTH) * Math.Cos(cell.refPH) * cell.eleM[i, j] * cell.d + Math.Sin(cell.refTH) * Math.Sin(cell.refPH) * cell.eleN[i, j] * cell.d);
                     cell.incPD[i, j] = Math.Round(cell.k * Math.Sqrt(Math.Pow(cell.distx[i, j], 2) + Math.Pow(cell.disty[i, j], 2) + Math.Pow(cell.distz, 2)), 4);
                     cell.elePD[i, j] = Math.Round(cell.k * (Math.Sin(cell.refTH) * Math.Cos(cell.refPH) * cell.eleM[i, j] * cell.d + Math.Sin(cell.refTH) * Math.Sin(cell.refPH) * cell.eleN[i, j] * cell.d), 4);
                     cell.refPD[i, j] = (cell.incPD[i, j] - cell.elePD[i, j]) + cell.delta; //% refPD2=refPD
@@ -386,8 +375,8 @@ namespace ArduinoControlGUI
                 count++;
                 if (count % 8 == 0 && count != 0)
                 {
-                    //cell.ArduinoCode += Convert.ToInt32(MPDBinaryString, 2).ToString()+",";//逗號
-                    cell.ArduinoCode += Convert.ToInt32(MPDBinaryString, 2).ToString("X").PadLeft(3, '0'); //16進制
+                    cell.ArduinoCode += Convert.ToInt32(MPDBinaryString, 2).ToString().PadLeft(3, '0'); //10進制
+                    //cell.ArduinoCode += Convert.ToInt32(MPDBinaryString, 2).ToString("X"); //16進制不補三位
                     MPDBinaryString = "";
                 }
             }
@@ -480,9 +469,8 @@ namespace ArduinoControlGUI
                count++;
                if (count % 8 == 0 && count != 0)
                {
-                    //cell.ArduinoCode += Convert.ToInt32(MPDBinaryString, 2).ToString()+",";//逗號
-                    //cell2.ArduinoCode += Convert.ToInt32(MPDBinaryString, 2).ToString().PadLeft(3, '0'); 10進制
-                    cell2.ArduinoCode += Convert.ToInt32(MPDBinaryString, 2).ToString("X").PadLeft(3, '0'); //16進制
+                    cell2.ArduinoCode += Convert.ToInt32(MPDBinaryString, 2).ToString().PadLeft(3, '0'); //10進制
+                    //cell2.ArduinoCode += Convert.ToInt32(MPDBinaryString, 2).ToString("X"); //16進制不補3位
                    MPDBinaryString = "";
                }
             }
