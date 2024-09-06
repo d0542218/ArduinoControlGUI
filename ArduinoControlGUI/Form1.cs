@@ -375,8 +375,8 @@ namespace ArduinoControlGUI
                 count++;
                 if (count % 8 == 0 && count != 0)
                 {
-                    cell.ArduinoCode += Convert.ToInt32(MPDBinaryString, 2).ToString().PadLeft(3, '0'); //10進制
-                    //cell.ArduinoCode += Convert.ToInt32(MPDBinaryString, 2).ToString("X"); //16進制不補三位
+                    //cell.ArduinoCode += Convert.ToInt32(MPDBinaryString, 2).ToString().PadLeft(3, '0'); //10進制
+                    cell.ArduinoCode += Convert.ToInt32(MPDBinaryString, 2).ToString("X"); //16進制不補三位
                     MPDBinaryString = "";
                 }
             }
@@ -469,9 +469,9 @@ namespace ArduinoControlGUI
                count++;
                if (count % 8 == 0 && count != 0)
                {
-                    cell2.ArduinoCode += Convert.ToInt32(MPDBinaryString, 2).ToString().PadLeft(3, '0'); //10進制
-                    //cell2.ArduinoCode += Convert.ToInt32(MPDBinaryString, 2).ToString("X"); //16進制不補3位
-                   MPDBinaryString = "";
+                    //cell2.ArduinoCode += Convert.ToInt32(MPDBinaryString, 2).ToString().PadLeft(3, '0'); //10進制
+                    cell2.ArduinoCode += Convert.ToInt32(MPDBinaryString, 2).ToString("X"); //16進制不補3位
+                    MPDBinaryString = "";
                }
             }
         }
