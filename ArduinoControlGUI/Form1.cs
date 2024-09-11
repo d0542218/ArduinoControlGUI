@@ -958,8 +958,9 @@ namespace ArduinoControlGUI
 
         private void btn_allFind_Click(object sender, EventArgs e)
         {
-            string inc_degree = TCPCommandTable.Inc_degree.Substring(TCPCommandTable.Inc_degree.LastIndexOf(" ") + 1, TCPCommandTable.Inc_degree.Length - TCPCommandTable.Inc_degree.LastIndexOf(" ") - 1);
-            SetInfoToClient("esp32", inc_degree + "_-60_allnfind_0_0_0;" + tb_dTime.Text);
+
+            string[] cb_server_num_parts = cb_server_num.Text.Split('X');
+            SetInfoToClient("esp32", "0_0_allnfind_"+ cb_server_num_parts[0].PadLeft(3, '0') + "_" + cb_server_num_parts[1].PadLeft(3, '0') +"_0;" + tb_dTime.Text);
         }
 
         private void richTextBoxLog_TextChanged(object sender, EventArgs e)
@@ -983,7 +984,7 @@ namespace ArduinoControlGUI
             numY = Convert.ToInt16(cb_server_num_parts[1]);
             if (tb_server_default.Checked)
             {
-                SetInfoToClient("esp32", tb_server_inc.Text + "_" + tb_server_ref_combox.SelectedItem + "_default_" + cb_server_num_parts[0].PadLeft(3, '0') + "_" + cb_server_num_parts[1].PadLeft(3, '0') + ";0");
+                SetInfoToClient("esp32", tb_server_inc.Text + "_" + tb_server_ref_combox.SelectedItem + "_default_" + cb_server_num_parts[0].PadLeft(3, '0') + "_" + cb_server_num_parts[1].PadLeft(3, '0') + "_0;0");
             }
             else
             {
