@@ -167,6 +167,12 @@ void loop()
               defaultpatterns(p_40_40, inc, r, num1, num2);
             else if (num1 == 32) // 32*64
               defaultpatterns(p_32_64, inc, r, num1, num2);
+            else if (num1 == 20) // 20*20
+            {
+              // defaultpatterns(p_20_20, inc, r, num1, num2);
+              Serial.println("No such pattern!");
+              break;
+            }
 
             if (r < 60)
               delay(delayTime);
